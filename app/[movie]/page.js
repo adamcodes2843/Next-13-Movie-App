@@ -1,4 +1,7 @@
 import Image from "next/image"
+import {faArrowLeft} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import Link from "next/link" 
 
 export async function generateStaticParams(){
     const data= await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`)
@@ -14,14 +17,21 @@ export default async function MovieDetail({params}) {
     const data= await fetch(`https://api.themoviedb.org/3/movie/${movie}?api_key=${process.env.API_KEY}`)
     const res = await data.json()
     return (
-        <div>
-            <div>
-                <h2 className="text-2xl">{res.title}</h2>
+        <div className="2xl:grid 2xl:grid-cols-4">
+            <div className="2xl:col-start-2 2xl:col-end-4">
+                <div className="flex justify-between items-center">
+                <Link href="/">
+                    <FontAwesomeIcon icon={faArrowLeft} className="h-12 w-12 border-2 p-2 rounded-full hover:p-1 active:p-2 ml-8" />
+                </Link>
+                <div className="flex flex-col items-end">
+                <h2 className="text:xl md:text-2xl">{res.title}</h2>
                 <h2>{res.release_date}</h2>
                 <h2>Runtime: {res.runtime} minutes</h2>
                 <h2 className="text-sm bg-green-600 inline-block my-2 py-2 px-4 rounded">{res.status}</h2>
+                </div>
+                </div>
                 <Image className="my-4 w-full" src={imagePath + res.backdrop_path} width={1000} height={1000} alt={res.title} priority/>
-                <p className="px-4">{res.overview}</p>
+                <p className="p-4 bg-gray-800">{res.overview}</p>
             </div>
         </div>
     )
