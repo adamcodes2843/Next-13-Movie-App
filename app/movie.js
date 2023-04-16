@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link" 
 import Image from "next/image"
 import {faEye} from '@fortawesome/free-solid-svg-icons'
@@ -27,8 +29,8 @@ export default function Movie({title, id, poster_path, release_date, vote_averag
                     alt={title} 
                 />
                 </Link>
-                <button type="checkbox" className="absolute bottom-2 right-2 w-8 h-8 border-hidden clip-style bg-transparent">
-                    <FontAwesomeIcon icon={faEye} className="text-white active:text-black hover:text-green-600" />
+                <button type="checkbox" className="absolute bottom-2 right-2 w-10 h-10 border-hidden clip-style bg-transparent">
+                    <FontAwesomeIcon icon={faEye} className="text-white active:text-black hover:text-green-600 text-3xl" />
                 </button>
             </div>
         </div>
