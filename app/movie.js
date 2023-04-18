@@ -1,14 +1,11 @@
-'use client'
-
 import Link from "next/link" 
 import Image from "next/image"
-import {faEye} from '@fortawesome/free-solid-svg-icons'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import SeenIt from './SeenIt'
 
 export default function Movie({title, id, poster_path, release_date, vote_average}) {
     const imagePath = 'https://image.tmdb.org/t/p/original'
     return(
-        <div className="hover:p-1">
+        <div className="hover:brightness-125 hover:p-1">
             <div className="flex justify-between items-center px-2 py-2 h-20 bg-gray-800">
             <Link href={`/${id}`}>
             <div>
@@ -29,9 +26,7 @@ export default function Movie({title, id, poster_path, release_date, vote_averag
                     alt={title} 
                 />
                 </Link>
-                <button type="checkbox" className="absolute bottom-2 right-2 w-10 h-10 border-hidden clip-style bg-transparent">
-                    <FontAwesomeIcon icon={faEye} className="text-white active:text-black hover:text-green-600 text-3xl" />
-                </button>
+                <SeenIt />
             </div>
         </div>
     )

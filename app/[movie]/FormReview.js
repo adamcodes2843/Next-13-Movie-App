@@ -12,6 +12,7 @@ const FormReview = ({res}) => {
     const handleSubmit = (event) => {
         event.preventDefault()
         setSubmitted(!submitted)
+        
     }
     
   return (
@@ -33,7 +34,7 @@ const FormReview = ({res}) => {
             return (<button type="button" key={options} className="border-2 rounded-full w-8 h-8 hover:border-green-200" onClick={() => {setRating(options)}}>{options}</button>)
             })
         :
-            <div className="border-2 border-green-200 rounded-full w-12 h-12 flex justify-center items-center">{rating}</div>
+            <button type="button" onClick={() => setRating('')} className="border-2 border-green-200 rounded-full w-12 h-12 flex justify-center items-center">{rating}</button>
         }
         </div>
         <textarea 
@@ -55,12 +56,13 @@ const FormReview = ({res}) => {
     </form>
   :
   <div className="border-8 border-gray-600 mt-16 flex flex-col justify-center items-center text-center py-4 md:w-1/2 w-5/6 m-auto">
-    <h2 className="text-2xl">Review</h2>
-    <h3>{res.title}</h3>
+    <h1 className="text-green-200">Review</h1>
+    <h2 className="text-2xl">{res.title}</h2>
+    <h3>{title}</h3>
     <div className="border-2 bg-green-900 border-green-200 rounded-full w-12 h-12 flex justify-center items-center m-4">{rating}</div>
-    <button onClick={handleSubmit} >Edit</button>
-    <div className="flex justify-between text-sm w-60">
-        <span>Review Board</span><span>Your Reviews</span>
+    <p className="mb-4 mx-4">{review}</p>
+    <div className="flex justify-around text-sm w-full text-green-200">
+    <span>Review Board</span><button onClick={handleSubmit} >Edit</button><span>Your Reviews</span>
     </div>
   </div>
     }

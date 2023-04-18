@@ -2,8 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
 @layer utilities {
     .clip-style {
         clip-path: circle(50% at 50% 50%);
     }
 }
+*/
