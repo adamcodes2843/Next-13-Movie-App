@@ -1,19 +1,21 @@
 import Movie from "./movie"
-import SearchAndFilter from "./SearchAndFilter"
+import Footer from "./components/Footer"
+import SearchAndFilter from "./components/SearchAndFilter"
+
 
 
 export default async function Home() {
   const data= await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`)
   const res = await data.json()
-  console.log(res)
 
   return (
-    <main>
-      <h1 className="text-6xl text-center mt-14 mb-6 font-bold">Popular Movies</h1>
+    <main className="max-w-[1600px] mx-auto">
+      <h1 className="text-6xl text-center mt-20 font-bold text-green-200">Pizza Night</h1>
+      <h2 className="text-4xl text-center mb-6 ">Popular Movie Reviews</h2>
       <SearchAndFilter />
       
-      <div className="grid gap-16 grid-cols-fluid">
-      {res.results.map((movie) => (
+      <div className="grid gap-12 grid-cols-fluid">
+      {res.results.map((movie:any) => (
         <Movie 
           key={movie.id}
           id={movie.id}
@@ -24,6 +26,7 @@ export default async function Home() {
         />
       ))}
       </div>
+      <Footer />
     </main>
   )
 }
