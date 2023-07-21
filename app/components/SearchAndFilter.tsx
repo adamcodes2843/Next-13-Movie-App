@@ -8,7 +8,7 @@ import { AppContext } from '../Context-Provider'
 const SearchAndFilter = () => {
   const {popup}:any = useContext(AppContext)
   return (
-    <div className={`sticky top-2 z-30 mb-12 lg:mx-auto ml-12 mr-11 rounded-lg flex items-center lg:max-w-3xl xl:max-w-4xl border-2 ${popup && 'z-0'}`}>
+    <div className={`sticky top-2 z-30 mb-12 lg:mx-auto ml-12 mr-11 rounded-lg flex items-center lg:max-w-3xl xl:max-w-4xl border-2 ${popup && 'opacity-30'}`}>
           <input 
           placeholder="Search top 20 movies..."
           className="border-white w-full h-8 rounded-l-lg pl-4 focus:outline-none bg-black cursor-pointer"

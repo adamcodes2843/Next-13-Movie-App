@@ -18,7 +18,7 @@ const FormReview = ({res}) => {
   return (
     <>
     { !submitted ?
-    <form className="bg-gray-900 border-8 border-green-600 md:mt-16 mt-4 flex flex-col justify-center items-center text-center py-4">
+    <form className="bg-gray-900 border-8 border-green-600 md:mt-8 mt-4 flex flex-col justify-center items-center text-center py-4">
         <h3 className="md:text-lg px-4">What did you think about <span className="text-green-200">{res.title}</span>?</h3>
         <input
             type="text"

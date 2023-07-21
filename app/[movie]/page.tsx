@@ -28,7 +28,7 @@ export default async function MovieDetail({params}) {
                 </div>
                 </div>
                 <Image className="mt-4 mb-2 w-full" src={imagePath + res.backdrop_path} width={1000} height={1000} alt={res.title} priority/>
-                <p className="p-4 bg-gray-800 text-sm md:text-base">{res.overview}</p>
+                <p className="p-4 bg-gray-900 text-sm md:text-base">{res.overview}</p>
                 <FormReview res={res} />
         </div>
     )
