@@ -14,7 +14,7 @@ export default async function Home() {
       <h2 className="text-4xl text-center mb-6 ">Popular Movie Reviews</h2>
       <SearchAndFilter />
       
-      <div className="grid gap-12 grid-cols-fluid">
+      <div className="grid gap-6 lg:gap-12 grid-cols-fluid">
       {res.results.map((movie:any) => (
         <Movie 
           key={movie.id}

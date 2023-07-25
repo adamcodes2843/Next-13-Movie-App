@@ -18,7 +18,7 @@ const FormReview = ({res}) => {
   return (
     <>
     { !submitted ?
-    <form className="bg-gray-900 border-8 border-green-600 md:mt-8 mt-4 flex flex-col justify-center items-center text-center py-4">
+    <form className="bg-gray-900 border-8 border-green-800 md:mt-8 mt-4 flex flex-col justify-center items-center text-center py-4">
         <h3 className="md:text-lg px-4">What did you think about <span className="text-green-200">{res.title}</span>?</h3>
         <input
             type="text"
@@ -46,7 +46,7 @@ const FormReview = ({res}) => {
         />
         <button 
             type="submit" 
-            className="border-2 border-gray-600 md:w-64 w-44 my-2 shadow-md hover:border-green-200 hover:shadown-none active:bg-green-600 shadow-gray-600 cursor-pointer" 
+            className="border-2 border-gray-600 md:w-64 w-44 my-2 hover:border-green-200 active:bg-green-600  cursor-pointer" 
             disabled={!rating}
             onClick={handleSubmit}>Submit</button>
         <div className="text-sm flex gap-8">

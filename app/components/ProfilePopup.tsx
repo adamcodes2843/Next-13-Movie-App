@@ -1,6 +1,6 @@
 'use client'
 
-import { faUser, faStar, faGear, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faStar, faGear, faRightFromBracket, faComment } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -19,15 +19,21 @@ const ProfilePopup = ({popup, setPopup, signedIn, setSignedIn}:any) => {
       </div>
       <ul className={`border-b-[1px] py-4 ${!signedIn && 'hidden'}`}>
         <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-        <Link href="/" className="p-2 inline-block w-full h-full">
+        <Link href="/profile" onClick={()=>setPopup(undefined)} className="p-2 inline-block w-full h-full">
         <FontAwesomeIcon icon={faUser} className="mr-6 w-5" />
           Your Profile
         </Link>
         </li>
         <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-        <Link href="/" className="p-2 inline-block w-full h-full">
+        <Link href="/reviews/review-history" onClick={()=>setPopup(undefined)} className="p-2 inline-block w-full h-full">
         <FontAwesomeIcon icon={faStar} className="mr-6 w-5" />
           Your Reviews
+        </Link>
+        </li>
+        <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
+        <Link href="/reviews/comment-history" onClick={() => setPopup(undefined)} className="p-2 inline-block w-full h-full">
+        <FontAwesomeIcon icon={faComment} className="mr-6 w-5" />
+          Your Comments
         </Link>
         </li>
       </ul>
@@ -37,10 +43,10 @@ const ProfilePopup = ({popup, setPopup, signedIn, setSignedIn}:any) => {
       </div>
       {showStats && <ul className={`py-4 pl-4 text-sm flex flex-col gap-3 ${!signedIn && 'hidden'}`}>
         <li>
-          Reviewed
+          Reviews
         </li>
         <li>
-          Watched
+          Comments
         </li>
         <li>
           Average Rating
@@ -52,10 +58,9 @@ const ProfilePopup = ({popup, setPopup, signedIn, setSignedIn}:any) => {
           Downvotes
         </li>
         <li>
-          Highlighted
+          Highlights
         </li>
       </ul>
-      
       }
       
         <button type="button" className={` hover:bg-gray-600 rounded-lg hover:bg-opacity-40 p-2 text-left mt-auto ${!signedIn && 'hidden'} w-full`} >

@@ -10,7 +10,7 @@ const SearchAndFilter = () => {
   return (
     <div className={`sticky top-2 z-30 mb-12 lg:mx-auto ml-12 mr-11 rounded-lg flex items-center lg:max-w-3xl xl:max-w-4xl border-2 ${popup && 'opacity-30'}`}>
           <input 
-          placeholder="Search top 20 movies..."
+          placeholder="Search highlighted movies..."
           className="border-white w-full h-8 rounded-l-lg pl-4 focus:outline-none bg-black cursor-pointer"
           />
           <button className="h-8 w-8 bg-black rounded-r-lg border-white">

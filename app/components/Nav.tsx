@@ -8,7 +8,7 @@ import HamburgerPopup from './HamburgerPopup'
 import ProfilePopup from './ProfilePopup'
 
 const Nav = () => {
-  const {setPopup, popup, signedIn, setSignedIn}:any = useContext(AppContext)
+  const {setPopup, popup, signedIn, setSignedIn, darkMode, setDarkMode, view, setView}:any = useContext(AppContext)
   let profileClick = () => {
     if (popup !== 'profilePopup') {
       setPopup('profilePopup')
@@ -35,7 +35,7 @@ const Nav = () => {
         <FontAwesomeIcon icon={faUser} className="border-2 w-4 h-4 rounded-full right-6 p-2 md:right-12 top-2 fixed z-50 bg-black hover:border-green-600 border-green-800 active:border-green-200 transition duration-600" />
       </button>
     </nav>
-    <HamburgerPopup popup={popup} setPopup={setPopup} signedIn={signedIn} />
+    <HamburgerPopup popup={popup} setPopup={setPopup} signedIn={signedIn} darkMode={darkMode} setDarkMode={setDarkMode} view={view} setView={setView} />
     <ProfilePopup popup={popup} setPopup={setPopup} signedIn={signedIn} setSignedIn={setSignedIn} />
     </>
   )
