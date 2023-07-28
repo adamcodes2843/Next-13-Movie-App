@@ -12,18 +12,36 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@next-auth/prisma-adapter": "^1.0.7",
     "@next/font": "13.1.6",
+    "@prisma/client": "^5.0.0",
     "@tailwindcss/forms": "^0.5.3",
     "next": "13.1.6",
+    "next-auth": "^4.22.3",
+    "prisma": "^5.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@types/node": "20.4.2",
+    "@types/node": "^20.4.2",
     "@types/react": "18.2.14",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7",
-    "typescript": "5.1.6"
-  }
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  },
+  "description": "## Practicing new features in Next.js 13",
+  "main": "next.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adamcodes2843/Next-13-Movie-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adamcodes2843/Next-13-Movie-App/issues"
+  },
+  "homepage": "https://github.com/adamcodes2843/Next-13-Movie-App#readme"
 }
