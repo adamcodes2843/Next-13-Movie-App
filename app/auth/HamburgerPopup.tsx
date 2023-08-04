@@ -5,8 +5,10 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import Image from 'next/image'
 import pizzaSlice from '../../public/assets/pizza-icon-18.png'
-
-const HamburgerPopup = ({popup, setPopup, darkMode, setDarkMode, view, setView}:any) => {
+import { AppContext } from '../Context-Provider'
+import { useContext } from 'react'
+const HamburgerPopup = () => {
+  const {setPopup, popup, darkMode, setDarkMode, view, setView}:any = useContext(AppContext)
 
   const darkLightMode = () => {
     if (darkMode)  {

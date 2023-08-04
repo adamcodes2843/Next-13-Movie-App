@@ -1,6 +1,6 @@
-import Movie from "./movie"
-import Footer from "./components/Footer"
-import SearchAndFilter from "./components/SearchAndFilter"
+import Movie from "./auth/movie"
+import Footer from "./auth/Footer"
+import SearchAndFilter from "./auth/SearchAndFilter"
 
 
 

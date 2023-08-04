@@ -24,6 +24,7 @@ model Review {
   title             String
   rating            Int
   review            String
+  voteCount         Int @default(0)
   dateTimePosted    DateTime @default(now())
   comments          Comment[]
   userId            String
@@ -35,6 +36,7 @@ model Comment {
   comment           String
   userId            String
   reviewId          String
+  voteCount         Int @default(0)
   dateTimePosted    DateTime @default(now())
   parentCommentId   String?
   parentComment     Comment? @relation("CommentBranch",fields: [parentCommentId], references: [id])

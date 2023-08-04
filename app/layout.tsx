@@ -1,6 +1,6 @@
 import './globals.css'
 import { Montserrat } from "@next/font/google"
-import Nav from './components/Nav'
+import Nav from './auth/Nav'
 import ContextProvider from './Context-Provider'
 
 const montserrat = Montserrat({
@@ -20,6 +20,7 @@ export default function RootLayout({ children }) {
       
       <body className={`${montserrat.className} mx-6 md:mx-12 my-12 bg-black text-white`}>
         <ContextProvider>
+          {/* @ts-expect-error Async Server Component */}
         <Nav />
         {children}
         </ContextProvider>

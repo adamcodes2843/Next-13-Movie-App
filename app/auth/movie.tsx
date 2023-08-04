@@ -1,6 +1,6 @@
 import Link from "next/link" 
 import Image from "next/image"
-import SeenIt from './components/SeenIt'
+import SeenIt from './SeenIt'
 
 export default function Movie({title, id, poster_path, release_date, vote_average}) {
     const imagePath = 'https://image.tmdb.org/t/p/original'

@@ -1,16 +1,13 @@
 import Image from "next/image"
-import {faArrowLeft} from '@fortawesome/free-solid-svg-icons'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import Link from "next/link" 
-import FormReview from './FormReview'
+import FormReview from '../auth/FormReview'
 
-export async function generateStaticParams(){
-    const data= await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`)
-    const res = await data.json()
-    return res.results.map((movie:any) => ({
-        movie: String(movie.id)
-    }))
-}
+// export async function generateStaticParams(){
+//     const data= await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`)
+//     const res = await data.json()
+//     return res.results.map((movie:any) => ({
+//         movie: String(movie.id)
+//     }))
+// }
 
 export default async function MovieDetail({params}) {
     const { movie } = params

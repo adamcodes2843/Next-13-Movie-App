@@ -3,10 +3,13 @@
 import { faUser, faStar, faGear, faRightFromBracket, faComment } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
-import { useState } from 'react'
-const ProfilePopup = ({popup, setPopup, signedIn, setSignedIn}:any) => {
+import { signIn } from "next-auth/react"
+import { useState, useContext } from 'react'
+import { AppContext } from '../Context-Provider'
+
+const ProfilePopup = () => {
   const [showStats, setShowStats] = useState<boolean>(true)
-    
+  const {popup, setPopup, signedIn}:any = useContext(AppContext)  
   return (
     <div className={`fixed flex flex-col border-l-[1px] border-white right-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 bg-black bg-opacity-95 rounded-l-lg px-12 pt-3 pb-3 ${popup !== 'profilePopup' && 'hidden'}`}>
       <div className='flex justify-between items-center'>
@@ -67,7 +70,7 @@ const ProfilePopup = ({popup, setPopup, signedIn, setSignedIn}:any) => {
         <FontAwesomeIcon icon={faGear} className="mr-6 w-5" />
         Settings
         </button>
-        <button type='button' onClick={() => setSignedIn(!signedIn)} className={`hover:bg-gray-600 rounded-lg hover:bg-opacity-40 p-2 ${signedIn ? 'h-auto text-left' : 'mt-4 text-3xl h-full text-center'} w-full`}>
+        <button type='button' onClick={() => signIn()} className={`hover:bg-gray-600 rounded-lg hover:bg-opacity-40 p-2 ${signedIn ? 'h-auto text-left' : 'mt-4 text-3xl h-full text-center'} w-full`}>
         
         {signedIn ? <><FontAwesomeIcon icon={faRightFromBracket} className="mr-6 w-5" />Sign Out</> : 'Sign In'}
         </button>
