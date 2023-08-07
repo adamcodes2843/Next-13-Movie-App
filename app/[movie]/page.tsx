@@ -1,6 +1,10 @@
 import Image from "next/image"
 import FormReview from '../auth/FormReview'
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from '../../pages/api/auth/[...nextauth]'
+import prisma from "@/prisma/client"
 
+// causes static to dynamic error 
 // export async function generateStaticParams(){
 //     const data= await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`)
 //     const res = await data.json()
@@ -10,7 +14,15 @@ import FormReview from '../auth/FormReview'
 // }
 
 export default async function MovieDetail({params}) {
+    const session:any = await getServerSession(authOptions)
     const { movie } = params
+    const user = await prisma.user.findUnique({
+        where: {
+            email: session.user.email
+        }
+    })
+    console.log(user)
+
     const imagePath = "https://image.tmdb.org/t/p/original"
     const data= await fetch(`https://api.themoviedb.org/3/movie/${movie}?api_key=${process.env.API_KEY}`)
     const res = await data.json()
@@ -26,7 +38,7 @@ export default async function MovieDetail({params}) {
                 </div>
                 <Image className="mt-4 mb-2 w-full" src={imagePath + res.backdrop_path} width={1000} height={1000} alt={res.title} priority/>
                 <p className="p-4 bg-gray-900 text-sm md:text-base">{res.overview}</p>
-                <FormReview res={res} />
+                <FormReview res={res} session={session} userId={user.id}/>
         </div>
     )
 }

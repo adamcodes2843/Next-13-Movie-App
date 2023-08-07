@@ -21,14 +21,15 @@ model Settings {
 
 model Review {
   id                String @id @default(cuid())
-  title             String
+  movie             String
+  title             String @db.VarChar(100)
   rating            Int
-  review            String
+  review            String @db.VarChar(800)
   voteCount         Int @default(0)
   dateTimePosted    DateTime @default(now())
   comments          Comment[]
   userId            String
-  user User @relation(fields: [userId], references: [id])
+  user              User @relation(fields: [userId], references: [id])
 }
 
 model Comment {
@@ -41,8 +42,8 @@ model Comment {
   parentCommentId   String?
   parentComment     Comment? @relation("CommentBranch",fields: [parentCommentId], references: [id])
   childComments     Comment[] @relation("CommentBranch")
-  review Review @relation(fields: [reviewId], references: [id])
-  user User @relation(fields: [userId], references: [id])
+  review            Review @relation(fields: [reviewId], references: [id])
+  user              User @relation(fields: [userId], references: [id])
 }
 
 model Account {
