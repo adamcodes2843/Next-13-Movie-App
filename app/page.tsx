@@ -1,13 +1,36 @@
 import Movie from "./auth/movie"
 import Footer from "./auth/Footer"
 import SearchAndFilter from "./auth/SearchAndFilter"
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from '../pages/api/auth/[...nextauth]'
+import prisma from "@/prisma/client"
 
 
 
 export default async function Home() {
+  const session:any = await getServerSession(authOptions)
   const data= await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`)
   const res = await data.json()
+  let user 
+  if (session) {
+    try {
+      user = await prisma.user.findUnique({
+        where: {
+            email: session.user.email
+        },
+        include: {
+            reviews: true,
+        }
+    })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
+  const reviews = user?.reviews.map((review):any => {return review.movie})
+  const movieList = res.results.map((movie):any=> {return movie.original_title})
+  const highlightedReviews = reviews?.filter((review):any=> {return movieList.indexOf(review) >= 0}).length
+  
   return (
     <main className="max-w-[1600px] mx-auto">
       <h1 className="text-6xl text-center mt-20 font-bold text-green-200">Pizza Night</h1>
@@ -23,10 +46,11 @@ export default async function Home() {
           poster_path={movie.poster_path}
           release_date={movie.release_date}
           vote_average={movie.vote_average}
+          reviews={reviews}
         />
       ))}
       </div>
-      <Footer />
+      <Footer reviewed={highlightedReviews} />
     </main>
   )
 }

@@ -2,8 +2,9 @@ import Link from "next/link"
 import Image from "next/image"
 import SeenIt from './SeenIt'
 
-export default function Movie({title, id, poster_path, release_date, vote_average}) {
+export default function Movie({title, id, poster_path, release_date, vote_average, reviews}) {
     const imagePath = 'https://image.tmdb.org/t/p/original'
+    
     return(
         <div className="hover:brightness-125">
             <div className="flex justify-between items-center px-2 py-2 h-24 bg-gray-800">
@@ -25,8 +26,9 @@ export default function Movie({title, id, poster_path, release_date, vote_averag
                     height={1000} 
                     alt={title} 
                 />
+                <div className={`absolute bottom-2 right-2 w-6 h-6 ${reviews && reviews.indexOf(title) >= 0 ? 'bg-green-600 border-green-200' : 'bg-green-200 border-green-600'} rounded-full hover:bg-green-600 hover:border-green-200 border-2`} />
                 </Link>
-                <SeenIt />
+                {/*<SeenIt />*/}
             </div>
         </div>
     )

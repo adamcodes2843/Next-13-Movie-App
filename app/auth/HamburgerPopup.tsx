@@ -6,9 +6,36 @@ import Link from 'next/link'
 import Image from 'next/image'
 import pizzaSlice from '../../public/assets/pizza-icon-18.png'
 import { AppContext } from '../Context-Provider'
-import { useContext } from 'react'
-const HamburgerPopup = () => {
+import { useContext, useEffect, useState } from 'react'
+
+const HamburgerPopup = ({session}:any) => {
   const {setPopup, popup, darkMode, setDarkMode, view, setView}:any = useContext(AppContext)
+  const [visibleReviews, setVisibleReviews] = useState<any>('')
+  const [numberOfReviews, setNumberOfReviews] = useState<number>(3)
+  const [userData, setUserData] = useState<any>()
+
+
+  let userEmail = session?.user.email
+
+  useEffect(() => {
+    try{
+      fetch(`/api/getUser/${userEmail}`, {
+        headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'GET'
+      })
+      .then((response) => response.json())
+      .then(data => setUserData(data))
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
+  useEffect(() => {
+    if (userData){
+      setVisibleReviews(userData.reviews)
+    }
+  }, [userData])
 
   const darkLightMode = () => {
     if (darkMode)  {
@@ -50,10 +77,20 @@ const HamburgerPopup = () => {
             </li>
         </ul>
         <h2 className="text-sm opacity-50 py-4">Recent Reviews</h2>
-        <button type="button" className="text-sm opacity-50">Show More</button>
-        <div className="h-[1px] w-full bg-white mt-4" />
-        <h2 className="text-sm opacity-50 py-4">Recent Comments</h2>
-        <button type="button" className="text-sm opacity-50">Show More</button>
+        <ul className="mb-4">
+        {visibleReviews && visibleReviews.sort((date1,date2):any => (date1.dateTimePosted - date2.dateTimePosted)).map((review):any => (
+          <li key={Math.random()} className="py-2 hover:border-green-600 border-l-2 border-l-black">
+            <Link href='/'>
+              <div className="flex gap-2 ml-2 justify-between items-center">
+              <p className="text-sm">{review.movie}</p>
+              <p className="border-2 rounded-full h-8 w-8 text-center text-green-200 flex justify-center items-center">{review.rating}</p>
+              </div>
+            </Link>
+          </li>
+        )).slice(0,numberOfReviews)}
+        </ul>
+        <button type="button" className={`text-sm opacity-50 ${numberOfReviews < 9 && numberOfReviews < visibleReviews.length && 'hover:opacity-100'}`} disabled={numberOfReviews >= 9 || numberOfReviews > visibleReviews.length} onClick={() => setNumberOfReviews(numberOfReviews + 3)}>Show More</button>
+        
         </div>
         <ul className="py-4 mb-3">
           <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
