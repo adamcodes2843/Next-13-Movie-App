@@ -7,10 +7,27 @@ import { signIn, signOut } from "next-auth/react"
 import { useState, useContext } from 'react'
 import { AppContext } from '../Context-Provider'
 
-const ProfilePopup = ({session}) => {
-  const [showStats, setShowStats] = useState<boolean>(true)
-  const {popup, setPopup, highlightedPercent}:any = useContext(AppContext)
+const ProfilePopup = ({session, reviews, comments, settings, xp}) => {
+  const [showStats, setShowStats] = useState<boolean>(false)
+  const {popup, setPopup }:any = useContext(AppContext)
+  console.log(reviews)
 
+  const karmaCounter = () => {
+    if (session) {
+        let reviewVotes = 0
+        let commentVotes = 0
+        if (reviews) {
+            reviewVotes = reviews.reduce((acc:number, curr:any) => acc + curr.voteCount, 0)
+        }
+        if (comments) {
+            commentVotes = comments.reduce((acc:number, curr:any) => acc + curr.voteCount, 0)
+        }
+        return reviewVotes + commentVotes
+    } else {
+        return 0
+    }
+}
+  
   return (
     <div className={`fixed flex flex-col border-l-[1px] border-white right-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 bg-black bg-opacity-95 rounded-l-lg px-12 pt-3 pb-3 ${popup !== 'profilePopup' && 'hidden'}`}>
       <div className='flex justify-between items-center'>
@@ -45,26 +62,34 @@ const ProfilePopup = ({session}) => {
       <h2 className={`text-sm opacity-50 ${!session?.user && 'hidden'}`}>Pizza Night Stats</h2>
       <button type="button" onClick={() => setShowStats(!showStats)}  className={`text-lg py-1 px-3 rounded-lg hover:bg-gray-600 hover:bg-opacity-40 ${!session?.user && 'hidden'}`}>{showStats ? '-' : '+'}</button>
       </div>
-      {showStats && <ul className={`py-4 pl-4 text-sm flex flex-col gap-3 ${!session?.user && 'hidden'}`}>
-        <li>
+      {showStats && 
+      <div>
+        <div className="text-sm text-center my-4 py-1 rounded-full bg-gray-600 bg-opacity-20 border-[1px]">
+          <h2>Level <span className={`text-green-200`}>1</span> Pizza Homie</h2>
+          <p>{xp ? xp : 0} xp</p>
+        </div>
+        <ul className={`px-[0.65rem] text-sm flex flex-col ${!session?.user && 'hidden'}`}>
+        <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
           <p>Reviews</p>
+          <p>{reviews ?  reviews.length : '0'}</p>
         </li>
-        <li>
+        <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
           <p>Comments</p>
+          <p>{comments ? comments.length : '0'}</p>
         </li>
-        <li>
+        <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
           <p>Average Rating</p>
+          <p>{reviews ? reviews.reduce((acc:number, curr:any) => acc + curr.rating, 0) / reviews.length : '0'}</p>
         </li>
-        <li>
-          <p>Highlights</p>
-        </li>
-        <li>
+        <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
           <p>Karma</p>
+          <p>{karmaCounter()}</p>
         </li>
       </ul>
+      </div>
       }
       
-        <button type="button" className={` hover:bg-gray-600 rounded-lg hover:bg-opacity-40 p-2 text-left mt-auto ${!session?.user && 'hidden'} w-full`} >
+        <button type="button" onClick={() => setPopup('settingsPopup')} className={` hover:bg-gray-600 rounded-lg hover:bg-opacity-40 p-2 text-left mt-auto ${!session?.user && 'hidden'} w-full`} >
         <FontAwesomeIcon icon={faGear} className="mr-6 w-5" />
         Settings
         </button>

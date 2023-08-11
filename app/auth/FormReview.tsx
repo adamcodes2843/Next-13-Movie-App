@@ -68,8 +68,6 @@ const FormReview = ({res, session, userId, checkForReview}) => {
         console.log(error)
       }
     }
-    
-    console.log(formData)
 
     const handleEdit = () => {
       setChangeReview(true)
@@ -77,12 +75,11 @@ const FormReview = ({res, session, userId, checkForReview}) => {
     }
 
     let reviewId = checkForReview[0]?.id
-    console.log(reviewId)
 
   return (
     <>
     { !reviewId || changeReview ?
-    <form onSubmit={(e) => handleSubmit(e, formData, reviewId)} className="bg-gray-900 bg-opacity-60 border-4 border-green-600 md:mt-8 mt-4 2xl:mt-10 flex flex-col justify-center items-center text-center py-4 md:min-w-[38rem] md:w-full md:mx-auto">
+    <form onSubmit={(e) => handleSubmit(e, formData, reviewId)} className="bg-gray-900 bg-opacity-60 border-4 border-green-600 md:mt-8 mt-4 2xl:mb-8 flex flex-col justify-center items-center text-center py-4 md:min-w-[38rem] md:w-full md:mx-auto">
         <h3 className="md:text-lg px-4">What did you think about <span className="text-green-200">{res.title}</span>?</h3>
         <input
             type="text"

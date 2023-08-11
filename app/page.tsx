@@ -50,6 +50,7 @@ export default async function Home() {
         />
       ))}
       </div>
+      {/* @ts-expect-error Async Server Component */}
       <Footer reviewed={highlightedReviews} />
     </main>
   )
