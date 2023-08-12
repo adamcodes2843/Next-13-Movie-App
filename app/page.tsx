@@ -26,6 +26,7 @@ export default async function Home() {
       console.log(error)
     }
   }
+  console.log(user)
 
   const reviews = user?.reviews.map((review):any => {return review.movie})
   const movieList = res.results.map((movie):any=> {return movie.original_title})

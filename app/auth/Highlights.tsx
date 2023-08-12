@@ -6,7 +6,7 @@ const Highlights = ({reviews}:any) => {
   const highest = 'highest'
   const lowest = 'lowest'
   const off = 'off'
-  console.log(reviews)
+  
   return (
     <section className="w-full gap-2 lg:self-start">
             <div className="flex items-center gap-3 opacity-50 w-full"><h2 className="">Highlights</h2><div className="h-[1px] bg-white flex-grow" /></div>

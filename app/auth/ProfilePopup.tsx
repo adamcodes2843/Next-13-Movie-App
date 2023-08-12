@@ -7,10 +7,9 @@ import { signIn, signOut } from "next-auth/react"
 import { useState, useContext } from 'react'
 import { AppContext } from '../Context-Provider'
 
-const ProfilePopup = ({session, reviews, comments, settings, xp}) => {
+const ProfilePopup = ({session, reviews, comments, id, xp, name}) => {
   const [showStats, setShowStats] = useState<boolean>(false)
   const {popup, setPopup }:any = useContext(AppContext)
-  console.log(reviews)
 
   const karmaCounter = () => {
     if (session) {
@@ -27,12 +26,13 @@ const ProfilePopup = ({session, reviews, comments, settings, xp}) => {
         return 0
     }
 }
+  let queryId = id?.slice(0, 11)
   
   return (
     <div className={`fixed flex flex-col border-l-[1px] border-white right-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 bg-black bg-opacity-95 rounded-l-lg px-12 pt-3 pb-3 ${popup !== 'profilePopup' && 'hidden'}`}>
       <div className='flex justify-between items-center'>
       <div className={`border-2 rounded-lg px-3 py-1 border-green-200 ${!session?.user && 'opacity-0'}`}>
-      {session?.user?.name}
+      {name ? name : ''}
       </div>
       <button type='button' onClick={()=>setPopup(undefined)} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 px-3 py-1">
         x
@@ -40,7 +40,7 @@ const ProfilePopup = ({session, reviews, comments, settings, xp}) => {
       </div>
       <ul className={`border-b-[1px] py-4 ${!session?.user && 'hidden'}`}>
         <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-        <Link href="/profile" onClick={()=>setPopup(undefined)} className="p-2 inline-block w-full h-full">
+        <Link href={`/profile/${queryId}`} onClick={()=>setPopup(undefined)} className="p-2 inline-block w-full h-full">
         <FontAwesomeIcon icon={faUser} className="mr-6 w-5" />
           Your Profile
         </Link>
@@ -64,11 +64,11 @@ const ProfilePopup = ({session, reviews, comments, settings, xp}) => {
       </div>
       {showStats && 
       <div>
-        <div className="text-sm text-center my-4 py-1 rounded-full bg-gray-600 bg-opacity-20 border-[1px]">
-          <h2>Level <span className={`text-green-200`}>1</span> Pizza Homie</h2>
-          <p>{xp ? xp : 0} xp</p>
+        <div className="text-sm text-center my-4 flex justify-between pr-[0.65rem] ">
+          <h2 className="border-b-[1px]">Level <span className={`text-green-200`}>1</span> Pizza Homie</h2>
+          <p className="border-b-[1px]">{xp ? xp : 0} xp</p>
         </div>
-        <ul className={`px-[0.65rem] text-sm flex flex-col ${!session?.user && 'hidden'}`}>
+        <ul className={`pr-[0.65rem] text-sm flex flex-col ${!session?.user && 'hidden'}`}>
         <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
           <p>Reviews</p>
           <p>{reviews ?  reviews.length : '0'}</p>
@@ -78,12 +78,12 @@ const ProfilePopup = ({session, reviews, comments, settings, xp}) => {
           <p>{comments ? comments.length : '0'}</p>
         </li>
         <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
-          <p>Average Rating</p>
-          <p>{reviews ? reviews.reduce((acc:number, curr:any) => acc + curr.rating, 0) / reviews.length : '0'}</p>
-        </li>
-        <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
           <p>Karma</p>
           <p>{karmaCounter()}</p>
+        </li>
+        <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
+          <p>Average Rating</p>
+          <p>{reviews ? reviews.reduce((acc:number, curr:any) => acc + curr.rating, 0) / reviews.length : '0'}</p>
         </li>
       </ul>
       </div>

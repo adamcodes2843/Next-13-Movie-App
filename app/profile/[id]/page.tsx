@@ -1,9 +1,9 @@
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Bio from '../auth/Bio'
-import Highlights from '../auth/Highlights'
+import Bio from '../../auth/Bio'
+import Highlights from '../../auth/Highlights'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '../../pages/api/auth/[...nextauth]'
+import { authOptions } from '../../../pages/api/auth/[...nextauth]'
 import prisma from "@/prisma/client"
 import Image from 'next/image'
 

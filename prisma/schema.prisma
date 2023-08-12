@@ -16,7 +16,7 @@ model Settings {
   darkMode         Boolean @default(true)
   view             String @default("grid")
   userId           String @unique
-  blockComments    Boolean @default(false)
+  allowComments    Boolean @default(true)
   user             User @relation(fields: [userId], references: [id])
 }
 

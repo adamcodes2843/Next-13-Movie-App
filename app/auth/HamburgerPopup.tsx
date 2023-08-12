@@ -15,7 +15,6 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
   const [userData, setUserData] = useState<any>()
 
   let userEmail = session?.user.email
-  console.log(reviews)
 
   // useEffect(() => {
   //   try{
