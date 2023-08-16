@@ -34,7 +34,7 @@ export default async function Home() {
   
   return (
     <main className="max-w-[1600px] mx-auto">
-      <h1 className="text-6xl text-center mt-20 font-bold text-green-200">Pizza Night</h1>
+      <h1 className="text-6xl text-center mt-20 font-bold text-skin-light">Pizza Night</h1>
       <h2 className="text-4xl text-center mb-6 ">Popular Movie Reviews</h2>
       <SearchAndFilter />
       

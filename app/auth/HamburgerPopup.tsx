@@ -6,66 +6,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 import pizzaSlice from '../../public/assets/pizza-icon-18.png'
 import { AppContext } from '../Context-Provider'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 
 const HamburgerPopup = ({session, reviews, settings}:any) => {
-  const {setPopup, popup, darkMode, setDarkMode, view, setView, colorTheme, setColorTheme}:any = useContext(AppContext)
-  const [visibleReviews, setVisibleReviews] = useState<any>('')
+  const {setPopup, popup, view, setView}:any = useContext(AppContext)
   const [numberOfReviews, setNumberOfReviews] = useState<number>(3)
-  const [userData, setUserData] = useState<any>()
-
-  let userEmail = session?.user.email
-
-  // useEffect(() => {
-  //   try{
-  //     fetch(`/api/getUser/${userEmail}`, {
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //     },
-  //     method: 'GET'
-  //     })
-  //     .then((response) => response.json())
-  //     .then(data => setUserData(data))
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }, [darkMode, view, popup, setColorTheme])
-
-  // useEffect(() => {
-  //   if (userData){
-  //     setVisibleReviews(userData.reviews)
-  //   }
-  // }, [userData])
-
-  // const darkLightMode = () => {
-  //   if (session.user && !userData.settings){
-  //     createSettings()
-  //     setDarkMode(!darkMode)
-  //   }
-  //   if (session.user && userData.settings) {
-  //     updateSettings()
-  //     setDarkMode(!darkMode)
-  //   }
-  //   if (!session.user) {
-  //     if (darkMode)  {
-  //       setDarkMode(false)
-  //     } else if (!darkMode) {
-  //       setDarkMode(true)
-  //     }
-  //   }
-  // }
-
-  // async function createSettings() {
-  //   try {
-  //     fetch(`/api/addSettings`)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  // async function updateSettings () {
-
-  // }
 
   const gridListMode = () => {
     if (view === "grid")  {
@@ -100,19 +45,19 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
             </li>
         </ul>
         <h2 className="text-sm opacity-50 py-4">Recent Reviews</h2>
-        <ul className="mb-4">
+        <ul className="mb-4 cursor-pointer">
           { reviews && reviews.sort((date1,date2):any => (date1.dateTimePosted - date2.dateTimePosted)).map((review):any => (
-          <li key={Math.random()} className="py-2 hover:border-green-600 border-l-2 border-l-black">
+          <li key={Math.random()} className={`py-2 hover:border-skin-base border-l-2 border-l-black`}>
             <Link href='/'>
               <div className="flex gap-2 ml-2 justify-between items-center">
               <p className="text-sm">{review.movie}</p>
-              <p className="border-2 rounded-full h-8 w-8 text-center text-green-200 flex justify-center items-center">{review.rating}</p>
+              <p className={`border-2 rounded-full h-8 w-8 text-center text-skin-light flex justify-center items-center`}>{review.rating}</p>
               </div>
             </Link>
           </li>
         )).slice(0,numberOfReviews)}
         </ul>
-        <button type="button" className={`text-sm opacity-50 ${numberOfReviews < 9 && numberOfReviews < visibleReviews.length && 'hover:opacity-100'}`} disabled={numberOfReviews >= 9 || numberOfReviews > visibleReviews.length} onClick={() => setNumberOfReviews(numberOfReviews + 3)}>Show More</button>
+        <button type="button" className={`text-sm opacity-50 ${numberOfReviews < 9 && numberOfReviews < reviews?.length && 'hover:opacity-100'}`} disabled={numberOfReviews >= 9 || numberOfReviews > reviews?.length} onClick={() => setNumberOfReviews(numberOfReviews + 3)}>Show More</button>
         
         </div>
         <ul className="py-4 mb-3">
@@ -129,26 +74,6 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
             </button>
           </li>
           <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-            <button type='button' className="p-2 inline-block w-full h-full text-left">
-            <FontAwesomeIcon icon={faPalette} className="pr-6 w-5" />
-              Color Theme
-            </button>
-          </li>
-          <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-              {
-                darkMode ? 
-                  <button type="button" /*onClick={() => darkLightMode()}*/ className="p-2 inline-block w-full h-full text-left">
-                  <FontAwesomeIcon icon={faMoon} className="pr-6 w-5" />
-                  Dark Mode
-                  </button>
-                  :
-                  <button type="button" /*onClick={() => darkLightMode()}*/ className="p-2 inline-block w-full h-full text-left">
-                  <FontAwesomeIcon icon={faSun} className="pr-6 w-5" />
-                  Light Mode
-                  </button>
-              }   
-          </li>
-          <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
             { view === "grid" ?
               <button type="button" onClick={() => gridListMode()} className="p-2 inline-block w-full h-full text-left">
               <FontAwesomeIcon icon={faTableCells} className="pr-6 w-5" />
@@ -160,7 +85,23 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
               List View
               </button>
             }
-            
+          </li>
+          <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
+            <button type='button' className="p-2 inline-block w-full h-full text-left relative" disabled={!settings}>
+            <FontAwesomeIcon icon={faPalette} className={`pr-6 w-5 ${!session?.user && 'opacity-40'}`} />
+              <span className={`${!session?.user && 'opacity-40'}`}>Color Theme</span> <span className="text-red-600 absolute right-4">{!session?.user && 'Sign In'}</span>
+            </button>
+          </li>
+          <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
+              <button type="button" /*onClick={() => darkLightMode()}*/ className={`p-2 inline-block w-full h-full text-left relative`} disabled={!settings}>
+                  <FontAwesomeIcon icon={faMoon} className={`pr-6 w-5 ${!session?.user && 'opacity-40'}`} />
+                  <span className={`${!session?.user && 'opacity-40'}`}>Dark Mode</span> <span className="text-red-600 absolute right-4">{!session?.user && 'Sign In'}</span>
+                  </button>
+                  
+                  {/* <button type="button" onClick={() => darkLightMode()} className="p-2 inline-block w-full h-full text-left">
+                  <FontAwesomeIcon icon={faSun} className="pr-6 w-5" />
+                  Light Mode
+                  </button>   */}
           </li>
         </ul>
         </div>

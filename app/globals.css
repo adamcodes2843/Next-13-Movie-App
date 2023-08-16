@@ -2,10 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-@layer utilities {
-    .clip-style {
-        clip-path: circle(50% at 50% 50%);
+@layer base {
+    :root{
+        --medium-color: rgb(22 163 74);
+        --light-color: rgb(187 247 208);
+        --dark-color: rgb(22 101 52);
+    }
+    .theme-red{
+        --medium-color: rgb(220 38 38);
+        --light-color: rgb(254 202 202);
+        --dark-color: rgb(153 27 27);
+    }
+    .theme-orange{
+        --medium-color: rgb(234 88 12);
+        --light-color: rgb(254 215 170);
+        --dark-color: rgb(154 52 18);
+    }
+    .theme-amber{
+        --medium-color: rgb(217 119 6);
+        --light-color: rgb(253 230 138);
+        --dark-color: rgb(146 64 14);
+    }
+    .theme-yellow{
+        --medium-color: rgb(202 138 4);
+        --light-color: rgb(254 240 138);
+        --dark-color: rgb(133 77 14);
+    }
+    .theme-lime{
+        --medium-color: rgb(101 163 13);
+        --light-color: rgb(217 249 157);
+        --dark-color: rgb(63 98 18);
+    }
+    .theme-green{
+        --medium-color: rgb(22 163 74);
+        --light-color: rgb(187 247 208);
+        --dark-color: rgb(22 101 52);
+    }
+    .theme-emerald{
+        --medium-color: rgb(5 150 105);
+        --light-color: rgb(167 243 208);
+        --dark-color: rgb(6 95 70);
+    }
+    .theme-teal{
+        --medium-color: rgb(13 148 136);
+        --light-color: rgb(153 246 228);
+        --dark-color: rgb(17 94 89);
+    }
+    .theme-cyan{
+        --medium-color: rgb(8 145 178);
+        --light-color: rgb(165 243 252);
+        --dark-color: rgb(21 94 117);
+    }
+    .theme-sky{
+        --medium-color: rgb(2 132 199);
+        --light-color: rgb(186 230 253);
+        --dark-Color: rgb(7 89 133);
+    }
+    .theme-blue{
+        --medium-color: rgb(37 99 235);
+        --light-color: rgb(191 219 254);
+        --dark-color: rgb(30 64 175);
+    }
+    .theme-indigo{
+        --medium-color: rgb(79 70 229);
+        --light-color: rgb(199 210 254);
+        --dark-color: rgb(55 48 163);
+    }
+    .theme-violet{
+        --medium-color: rgb(124 58 237);
+        --light-color: rgb(221 214 254);
+        --dark-color: rgb(91 33 182);
+    }
+    .theme-purple{
+        --medium-color: rgb(147 51 234);
+        --light-color: rgb(233 213 255);
+        --dark-color: rgb(107 33 168);
+    }
+    .theme-fuchsia{
+        --medium-color: rgb(192 38 211);
+        --light-color: rgb(245 208 254);
+        --dark-color: rgb(134 25 143);
+    }
+    .theme-pink{
+        --medium-color: rgb(219 39 119);
+        --light-color: rgb(251 207 232);
+        --dark-color: rgb(157 23 77);
+    }
+    .theme-rose{
+        --medium-color: rgb(225 29 72);
+        --light-color: rgb(254 205 211);
+        --dark-color: rgb(159 18 57);
     }
 }
-*/

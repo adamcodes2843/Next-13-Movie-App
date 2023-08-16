@@ -10,6 +10,37 @@ module.exports = {
   ],
   theme: {
     extend: {
+      outlineColor: {
+        skin: {
+          light: 'var(--light-color)'
+        }
+      },
+      borderColor: {
+        skin: {
+          base: 'var(--medium-color)',
+          light: 'var(--light-color)',
+          dark: 'var(--dark-color)'
+        }
+      },
+      ringColor:{
+        skin: {
+          light: 'var(--light-color)'
+        }
+      },
+      textColor:{
+        skin: {
+          base: 'var(--medium-color)',
+          light: 'var(--light-color)',
+          dark: 'var(--dark-color)'
+        }
+      },
+      backgroundColor: {
+        skin: {
+          base: 'var(--medium-color)',
+          light: 'var(--light-color)',
+          dark: 'var(--dark-color)'
+        }
+      },
       fontFamily: {
         montserrat: ['var(--font-montserrat)'],
       },

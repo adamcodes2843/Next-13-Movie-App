@@ -7,7 +7,7 @@ import { signIn, signOut } from "next-auth/react"
 import { useState, useContext } from 'react'
 import { AppContext } from '../Context-Provider'
 
-const ProfilePopup = ({session, reviews, comments, id, xp, name}) => {
+const ProfilePopup = ({session, reviews, comments, id, name, colorTheme}) => {
   const [showStats, setShowStats] = useState<boolean>(false)
   const {popup, setPopup }:any = useContext(AppContext)
 
@@ -31,7 +31,7 @@ const ProfilePopup = ({session, reviews, comments, id, xp, name}) => {
   return (
     <div className={`fixed flex flex-col border-l-[1px] border-white right-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 bg-black bg-opacity-95 rounded-l-lg px-12 pt-3 pb-3 ${popup !== 'profilePopup' && 'hidden'}`}>
       <div className='flex justify-between items-center'>
-      <div className={`border-2 rounded-lg px-3 py-1 border-green-200 ${!session?.user && 'opacity-0'}`}>
+      <div className={`border-2 rounded-lg px-3 py-1 border-skin-light ${!session?.user && 'opacity-0'}`}>
       {name ? name : ''}
       </div>
       <button type='button' onClick={()=>setPopup(undefined)} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 px-3 py-1">
@@ -63,11 +63,8 @@ const ProfilePopup = ({session, reviews, comments, id, xp, name}) => {
       <button type="button" onClick={() => setShowStats(!showStats)}  className={`text-lg py-1 px-3 rounded-lg hover:bg-gray-600 hover:bg-opacity-40 ${!session?.user && 'hidden'}`}>{showStats ? '-' : '+'}</button>
       </div>
       {showStats && 
-      <div>
-        <div className="text-sm text-center my-4 flex justify-between pr-[0.65rem] ">
-          <h2 className="border-b-[1px]">Level <span className={`text-green-200`}>1</span> Pizza Homie</h2>
-          <p className="border-b-[1px]">{xp ? xp : 0} xp</p>
-        </div>
+      <div className="pt-4 pl-1">
+        <h2 className="text-sm text-center mb-2 flex justify-between pr-[0.65rem]">Level <span>1</span></h2>
         <ul className={`pr-[0.65rem] text-sm flex flex-col ${!session?.user && 'hidden'}`}>
         <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
           <p>Reviews</p>

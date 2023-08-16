@@ -19,7 +19,7 @@ const HamburgerButton = () => {
 
   return (
     <button type="button" onClick={() => hamburgerClick()} className="">
-        <FontAwesomeIcon icon={faBars} className={`border-2 w-4 h-4 rounded p-2 md:left-12 left-6 fixed top-2 z-50 bg-black hover:border-green-600 border-green-800 active:border-green-200 transition duration-600`}/>
+        <FontAwesomeIcon icon={faBars} className={`border-2 w-4 h-4 rounded p-2 md:left-12 left-6 fixed top-2 z-50 bg-black hover:border-skin-base border-skin-dark active:border-skin-light`}/>
     </button>
   )
 }

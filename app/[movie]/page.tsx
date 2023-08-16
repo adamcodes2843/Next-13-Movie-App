@@ -48,10 +48,10 @@ export default async function MovieDetail({params}) {
             <div className="2xl:bg-opacity-30 2xl:rounded-lg 2xl:bg-gray-600 2xl:p-8 2xl:pb-20">
                 <div className="flex justify-end 2xl:justify-start items-center">
                 <div className="flex flex-col items-end 2xl:items-start text-right 2xl:text-left">
-                <h1 className="text:xl md:text-2xl 2xl:text-3xl text-green-200">{res.title}</h1>
+                <h1 className="text:xl md:text-2xl 2xl:text-3xl text-skin-light">{res.title}</h1>
                 <h2 className="2xl:text-lg">{res.release_date}</h2>
                 <h2 className="2xl:text-lg">Runtime: {res.runtime} minutes</h2>
-                <h2 className="text-sm bg-green-600 inline-block my-2 py-2 px-4 rounded">{res.status}</h2>
+                <h2 className="text-sm bg-skin-base inline-block my-2 py-2 px-4 rounded">{res.status}</h2>
                 </div>
                 </div>
                 <Image className="mt-4 mb-2 w-full" src={imagePath + res.backdrop_path} width={1000} height={1000} alt={res.title} priority/>

@@ -69,7 +69,7 @@ export default async function Profile() {
                 Comments <span className="absolute right-0 text-green-600 mr-2">{user ? user.comments.length : '0'}</span>
             </li>
             <li className="w-full relative border-l-2 border-transparent hover:border-green-600 pl-2 hover:bg-gray-600 hover:bg-opacity-20">
-                Average Rating <span className="absolute right-0 text-green-600 mr-2">{user ? user.reviews.reduce((acc:number, curr:any) => acc + curr.rating, 0) / user.reviews.length : '0'}</span>
+                Average Rating <span className="absolute right-0 text-green-600 mr-2">{user?.reviews.length > 0 ? user.reviews.reduce((acc:number, curr:any) => acc + curr.rating, 0) / user.reviews.length : '0'}</span>
             </li>
             <li className="w-full relative border-l-2 border-transparent hover:border-green-600 pl-2 hover:bg-gray-600 hover:bg-opacity-20">
                 Karma <span className="absolute right-0 text-green-600 mr-2">{karmaCounter()}</span>
