@@ -42,7 +42,7 @@ export default async function RootLayout({ children }) {
       */}
       <head />
       
-      <body className={`${montserrat.className} ${savedColorTheme && savedColorTheme} mx-6 md:mx-12 my-12 ${savedDarkMode ? 'bg-black' : 'bg-gray-300'} text-white`}>
+      <body className={`${montserrat.className} ${savedColorTheme && savedColorTheme} mx-6 md:mx-12 my-12 ${savedDarkMode || !user?.settings ? 'bg-black' : 'bg-gray-300'} text-white`}>
         <ContextProvider>
           {/* @ts-expect-error Async Server Component */}
         <Nav />

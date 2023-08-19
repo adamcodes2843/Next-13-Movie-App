@@ -1,11 +1,11 @@
 import Link from "next/link" 
 import Image from "next/image"
 
-export default function Movie({title, id, poster_path, release_date, vote_average, reviews}) {
+export default function Movie({title, id, poster_path, release_date, vote_average, reviews, view}) {
     const imagePath = 'https://image.tmdb.org/t/p/original'
-    
+
     return(
-        <div className={`hover:brightness-125 ${reviews &&  reviews.indexOf(title) >= 0 && 'brightness-125 hover:brightness-100'}`}>
+        <div className={`${view === 'card' && 'w-full'} hover:brightness-125 ${reviews &&  reviews.indexOf(title) >= 0 && 'brightness-125 hover:brightness-100'}`}>
             <div className={`flex justify-between items-center px-2 py-2 h-24 bg-gray-800 ${reviews &&  reviews.indexOf(title) >= 0 && 'border-l-2 border-t-2 border-r-2 border-skin-base'}`}>
             <Link href={`/${id}`}>
             <div>
@@ -24,8 +24,9 @@ export default function Movie({title, id, poster_path, release_date, vote_averag
                     width={1000} 
                     height={1000} 
                     alt={title}
+                    className={`${view === 'card' && 'w-full'}`}
                 />
-                <div className={`absolute bottom-2 right-2 w-6 h-6 ${reviews && reviews.indexOf(title) >= 0 ? 'bg-skin-base border-skin-light hover:bg-skin-light hover:border-skin-base' : 'bg-skin-light border-skin-base hover:bg-skin-base hover:border-skin-light'} rounded-full border-2`} />
+                <div className={`absolute bottom-2 right-2 w-6 h-6 ${reviews && reviews.indexOf(title) >= 0 ? 'bg-skin-base border-skin-light hover:border-skin-dark' : 'bg-skin-light border-skin-base hover:bg-skin-base hover:border-skin-light'} rounded-full border-2`} />
                 </Link>
             </div>
         </div>

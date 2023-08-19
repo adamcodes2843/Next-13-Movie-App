@@ -1,8 +1,10 @@
 'use client'
-import {useState} from 'react'
+import {useState, useContext} from 'react'
+import { AppContext } from '../Context-Provider'
 import { useRouter } from 'next/navigation'
 
-const ColorSelection = ({showColors, id, setShowColors}:any) => {
+const ColorSelection = ({showColors, id, setShowColors, setShowSaving}:any) => {
+    const {setDisableButton, disableButton}:any = useContext(AppContext)
     const [colorIndicator, setColorIndicator] = useState<string>('')
     //const colorSelection = [ 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] (mapping colors into bg className didn't work)
     const router = useRouter()
@@ -11,6 +13,12 @@ const ColorSelection = ({showColors, id, setShowColors}:any) => {
     updateColor(id, color)
     router.refresh()
     setShowColors(false)
+    setShowSaving(true)
+    setDisableButton(true)
+    setTimeout(() => {
+      setShowSaving(false)
+      setDisableButton(false)
+    }, 1500)
   }
 
   async function updateColor(id:string, data:string) {

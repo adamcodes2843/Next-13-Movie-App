@@ -5,15 +5,15 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
 import { AppContext } from '../Context-Provider'
 
-const SearchAndFilter = () => {
+const SearchAndFilter = ({darkMode}) => {
   const {popup}:any = useContext(AppContext)
   return (
-    <div className={`sticky top-2 z-30 mb-12 lg:mx-auto ml-12 mr-11 rounded-lg flex items-center lg:max-w-3xl xl:max-w-4xl border-2 ${popup && 'opacity-30'}`}>
+    <div className={`sticky top-2 z-30 mb-12 lg:mx-auto ml-12 mr-11 rounded-lg flex items-center lg:max-w-3xl xl:max-w-4xl ${popup && 'opacity-30'}`}>
           <input 
           placeholder="Search highlighted movies..."
-          className="border-white w-full h-8 rounded-l-lg pl-4 focus:outline-none bg-black cursor-pointer"
+          className={`${darkMode === false ? 'bg-gray-400' : 'bg-black'} border-white border-l-2 border-b-2 border-t-2 w-full h-8 rounded-l-lg pl-4 focus:outline-none  cursor-pointer`}
           />
-          <button className="h-8 w-8 bg-black rounded-r-lg border-white">
+          <button className={`h-8 w-8 ${darkMode === false ? 'bg-gray-400' : 'bg-black'} rounded-r-lg border-white border-r-2 border-b-2 border-t-2`}>
             <FontAwesomeIcon icon={faMagnifyingGlass} className="text-white"/>
           </button>
       </div>

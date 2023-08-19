@@ -8,8 +8,7 @@ export default function ContextProvider({ children }:any) {
     const [watchedMovies, setWatchedMovies] = useState<number>(0)
     const [popup, setPopup] = useState<string | undefined>(undefined) //profilePopup, hamburgerPopup, footerPopup, settingsPopup
     const [colorTheme, setColorTheme] = useState<string>('green')
-    const [darkMode, setDarkMode] = useState<boolean>(true)
-    const [view, setView] = useState<string>('grid') //grid, line, slide
+    const [disableButton, setDisableButton] = useState<boolean>(false)
 
-    return <AppContext.Provider value={{setWatchedMovies, watchedMovies, setPopup, popup, darkMode, setDarkMode, setView, view, colorTheme, setColorTheme}}>{children}</AppContext.Provider>
+    return <AppContext.Provider value={{disableButton, setDisableButton, setWatchedMovies, watchedMovies, setPopup, popup, colorTheme, setColorTheme}}>{children}</AppContext.Provider>
 }

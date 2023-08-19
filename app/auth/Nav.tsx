@@ -35,16 +35,15 @@ export default async function Nav() {
         }
         let colorTheme = user?.settings?.colorTheme
         
-        
   return (
     <>
-    <nav className="fixed bg-gradient-to-r from-black to-gray-600 w-full h-[3.25rem] flex justify-between items-center text-xl z-20 text-white top-0 bg-opacity-90">
+    <nav className="fixed bg-gradient-to-r from-black to-gray-600 w-full h-[3.25rem] flex justify-between items-center text-xl z-20 text-white top-0 left-0 bg-opacity-90">
       <HamburgerButton />
       <ProfileButton session={session} colorTheme={user?.settings?.colorTheme} />
     </nav>
     <HamburgerPopup session={session} reviews={user?.reviews} settings={user?.settings}/>
     <ProfilePopup session={session} colorTheme={user?.settings?.colorTheme} reviews={user?.reviews} id={user?.id} comments={user?.comments} name={user?.name}/>
-    <SettingsPopup settings={user?.settings} name={user?.name} favoriteMovie={user?.favoriteMovie} favoritePizza={user?.favoritePizza} id={user?.settings?.userId}/>
+    <SettingsPopup settings={user?.settings} name={user?.name} favoriteMovie={user?.favoriteMovie} favoritePizza={user?.favoritePizza} id={user?.settings?.userId} displayName={user?.displayName}/>
     </>
   )
 }

@@ -10,6 +10,13 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        skin: {
+          base: 'var(--medium-color)',
+          light: 'var(--light-color)',
+          dark: 'var(--dark-color)'
+        }
+      },
       outlineColor: {
         skin: {
           light: 'var(--light-color)'
@@ -58,20 +65,22 @@ module.exports = {
             opacity: '0'
           }
         },
-        openFooter: {
+        saving: {
           '0': {
-            transform: 'translateY(100%)',
-            opacity: '0'
+            opacity: '100%'
+          },
+          '80%': {
+            opacity: '100%'
           },
           '100%': {
-            transform: 'translateY(0)',
-            opacity: '100'
+            opacity: '0%',
+            display: 'none'
           }
         }
       },
       animation: {
-         closeFooter: 'closeFooter 4.5s ease-in 1 forwards',
-         openFooter: 'openFooter 4.5s ease-out 1 forwards'
+        closeFooter: 'closeFooter 4.5s ease-in 1 forwards',
+        saving: 'saving 2.5s ease-in-out 1 forwards'
       }
     },
   },

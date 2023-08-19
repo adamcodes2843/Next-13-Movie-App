@@ -20,13 +20,13 @@ export default async function Home() {
         },
         include: {
             reviews: true,
+            settings: true
         }
     })
     } catch (error) {
       console.log(error)
     }
   }
-  console.log(user)
 
   const reviews = user?.reviews.map((review):any => {return review.movie})
   const movieList = res.results.map((movie):any=> {return movie.original_title})
@@ -34,11 +34,11 @@ export default async function Home() {
   
   return (
     <main className="max-w-[1600px] mx-auto">
-      <h1 className="text-6xl text-center mt-20 font-bold text-skin-light">Pizza Night</h1>
-      <h2 className="text-4xl text-center mb-6 ">Popular Movie Reviews</h2>
-      <SearchAndFilter />
+      <h1 className={`text-6xl text-center mt-20 font-bold ${!user?.settings?.darkMode && user?.settings ? 'text-skin-base': 'text-skin-light'}`}>Pizza Night</h1>
+      <h2 className={`text-4xl text-center mb-6 ${!user?.settings?.darkMode && user?.settings && 'text-gray-600'}`}>Popular Movie Reviews</h2>
+      <SearchAndFilter darkMode={user?.settings?.darkMode}/>
       
-      <div className="grid gap-6 lg:gap-12 grid-cols-fluid">
+      <div className={`${!user?.settings?.view || user?.settings?.view === 'grid' ? 'grid grid-cols-fluid' : user?.settings?.view === 'list' ? 'flex flex-col' : 'flex'} gap-6 lg:gap-12`}>
       {res.results.map((movie:any) => (
         <Movie 
           key={movie.id}
@@ -48,6 +48,7 @@ export default async function Home() {
           release_date={movie.release_date}
           vote_average={movie.vote_average}
           reviews={reviews}
+          view={user?.settings?.view}
         />
       ))}
       </div>
