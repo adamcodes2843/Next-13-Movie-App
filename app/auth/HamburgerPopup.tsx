@@ -69,12 +69,11 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
       console.log(error)
     }
   }
-  console.log(disableButton)
   return (
     <div className={`fixed border-r-[1px] border-white left-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 bg-black bg-opacity-95 rounded-r-lg px-12 pt-3 pb-6 ${popup !== 'hamburgerPopup' && 'hidden'}`}>
       <div className='flex justify-between items-center'>
       <Image src={pizzaSlice} className="bg-white rounded-full border-2" alt="pizza icon" width={32} height={32} />
-      <button type='button' onClick={()=>setPopup(undefined)} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 px-3 py-1">
+      <button type='button' onClick={()=>setPopup(false)} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 px-3 py-1">
         x
       </button>
       </div>
@@ -82,13 +81,13 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
         <div>
         <ul className="border-b-[1px] py-4">
             <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-                <Link href="/" onClick={() => setPopup(undefined)} className="p-2 inline-block w-full h-full">
+                <Link href="/" onClick={() => setPopup(false)} className="p-2 inline-block w-full h-full">
                 <FontAwesomeIcon icon={faHouse} className="pr-6 w-5" /> 
                 Home
                 </Link>
             </li>
             <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-                <Link href="/reviews/review-board" onClick={()=>setPopup(undefined)} className="p-2 inline-block w-full h-full">
+                <Link href="/reviews/review-board" onClick={()=>setPopup(false)} className="p-2 inline-block w-full h-full">
                 <FontAwesomeIcon icon={faComments} className="pr-6 w-5" /> 
                 Review Board
                 </Link>
@@ -154,14 +153,8 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
                   <FontAwesomeIcon icon={faSun} className="pr-6 w-5" />
                   <span>Light Mode</span><span className="absolute right-4">{showSaving === 'dark' && <LoadingSVG />}</span>
                 </>
-              }
-              
+              }  
             </button>
-                  
-                  {/* <button type="button" onClick={() => darkLightMode()} className="p-2 inline-block w-full h-full text-left">
-                  <FontAwesomeIcon icon={faSun} className="pr-6 w-5" />
-                  Light Mode
-                  </button>   */}
           </li>
         </ul>
         </div>

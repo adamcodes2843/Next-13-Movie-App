@@ -6,7 +6,7 @@ import { AppContext } from '../Context-Provider'
 import { useContext } from 'react'
 import Image from 'next/image'
 
-const ProfileButton = ({session, colorTheme}) => {
+const ProfileButton = ({session}) => {
     const {popup, setPopup}:any = useContext(AppContext)
     
     let profileClick = () => {
@@ -14,7 +14,7 @@ const ProfileButton = ({session, colorTheme}) => {
           setPopup('profilePopup')
         }
         else if (popup == 'profilePopup') {
-          setPopup(undefined)
+          setPopup(false)
         }
       }
 

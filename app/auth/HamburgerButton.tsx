@@ -13,7 +13,7 @@ const HamburgerButton = () => {
       setPopup('hamburgerPopup')
     }
     else if (popup == 'hamburgerPopup') {
-      setPopup(undefined)
+      setPopup(false)
     }
   }
 

@@ -6,7 +6,7 @@ export const AppContext = createContext({})
 
 export default function ContextProvider({ children }:any) {
     const [watchedMovies, setWatchedMovies] = useState<number>(0)
-    const [popup, setPopup] = useState<string | undefined>(undefined) //profilePopup, hamburgerPopup, footerPopup, settingsPopup
+    const [popup, setPopup] = useState<string | boolean>(false) //profilePopup, hamburgerPopup, footerPopup, settingsPopup, deletePopup
     const [colorTheme, setColorTheme] = useState<string>('green')
     const [disableButton, setDisableButton] = useState<boolean>(false)
 

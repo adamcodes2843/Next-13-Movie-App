@@ -7,7 +7,7 @@ import { signIn, signOut } from "next-auth/react"
 import { useState, useContext } from 'react'
 import { AppContext } from '../Context-Provider'
 
-const ProfilePopup = ({session, reviews, comments, id, name, colorTheme}) => {
+const ProfilePopup = ({session, reviews, comments, id, name, displayName}) => {
   const [showStats, setShowStats] = useState<boolean>(false)
   const {popup, setPopup }:any = useContext(AppContext)
 
@@ -32,27 +32,27 @@ const ProfilePopup = ({session, reviews, comments, id, name, colorTheme}) => {
     <div className={`fixed flex flex-col border-l-[1px] border-white right-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 bg-black bg-opacity-95 rounded-l-lg px-12 pt-3 pb-3 ${popup !== 'profilePopup' && 'hidden'}`}>
       <div className='flex justify-between items-center'>
       <div className={`border-2 rounded-lg px-3 py-1 border-skin-light ${!session?.user && 'opacity-0'}`}>
-      {name ? name : ''}
+      {displayName ? displayName : name ? name : ''}
       </div>
-      <button type='button' onClick={()=>setPopup(undefined)} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 px-3 py-1">
+      <button type='button' onClick={()=>setPopup(false)} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 px-3 py-1">
         x
       </button>
       </div>
       <ul className={`border-b-[1px] py-4 ${!session?.user && 'hidden'}`}>
         <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-        <Link href={`/profile/${queryId}`} onClick={()=>setPopup(undefined)} className="p-2 inline-block w-full h-full">
+        <Link href={`/profile/${queryId}`} onClick={()=>setPopup(false)} className="p-2 inline-block w-full h-full">
         <FontAwesomeIcon icon={faUser} className="mr-6 w-5" />
           Your Profile
         </Link>
         </li>
         <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-        <Link href="/reviews/review-history" onClick={()=>setPopup(undefined)} className="p-2 inline-block w-full h-full">
+        <Link href="/reviews/review-history" onClick={()=>setPopup(false)} className="p-2 inline-block w-full h-full">
         <FontAwesomeIcon icon={faStar} className="mr-6 w-5" />
           Your Reviews
         </Link>
         </li>
         <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-        <Link href="/reviews/comment-history" onClick={() => setPopup(undefined)} className="p-2 inline-block w-full h-full">
+        <Link href="/reviews/comment-history" onClick={() => setPopup(false)} className="p-2 inline-block w-full h-full">
         <FontAwesomeIcon icon={faComment} className="mr-6 w-5" />
           Your Comments
         </Link>
