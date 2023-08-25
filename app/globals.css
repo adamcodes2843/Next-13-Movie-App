@@ -56,7 +56,7 @@
     .theme-sky{
         --medium-color: rgb(2 132 199);
         --light-color: rgb(186 230 253);
-        --dark-Color: rgb(7 89 133);
+        --dark-color: rgb(7 89 133);
     }
     .theme-blue{
         --medium-color: rgb(37 99 235);
@@ -93,4 +93,23 @@
         --light-color: rgb(254 205 211);
         --dark-color: rgb(159 18 57);
     }
+}
+
+@layer utilities {
+    .scrollbar::-webkit-scrollbar {
+        width: 20px;
+        height: 20px;
+      }
+    
+      .scrollbar::-webkit-scrollbar-track {
+        border-radius: 100vh;
+        border: 2px solid white;
+      }
+    
+      .scrollbar::-webkit-scrollbar-thumb {
+        background-color: rgb(75 85 99);
+        border-radius: 100vh;
+        border: 3px solid white;
+        min-width: 50px;
+      }
 }

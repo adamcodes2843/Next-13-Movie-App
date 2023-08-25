@@ -26,7 +26,6 @@ const ProfilePopup = ({session, reviews, comments, id, name, displayName}) => {
         return 0
     }
 }
-  let queryId = id?.slice(0, 11)
   
   return (
     <div className={`fixed flex flex-col border-l-[1px] border-white right-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 bg-black bg-opacity-95 rounded-l-lg px-12 pt-3 pb-3 ${popup !== 'profilePopup' && 'hidden'}`}>
@@ -40,7 +39,7 @@ const ProfilePopup = ({session, reviews, comments, id, name, displayName}) => {
       </div>
       <ul className={`border-b-[1px] py-4 ${!session?.user && 'hidden'}`}>
         <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-        <Link href={`/profile/${queryId}`} onClick={()=>setPopup(false)} className="p-2 inline-block w-full h-full">
+        <Link href={`/profile`} onClick={()=>setPopup(false)} className="p-2 inline-block w-full h-full">
         <FontAwesomeIcon icon={faUser} className="mr-6 w-5" />
           Your Profile
         </Link>

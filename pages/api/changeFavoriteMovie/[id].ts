@@ -17,7 +17,7 @@ export default async function handler(
                 favoriteMovie
             }
         })
-        res.status(200).json({message: `Allow comments switched`})
+        res.status(200).json({message: `Movie switched`})
     } catch (error) {
         console.log(error)
     }

@@ -4,15 +4,6 @@ import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../../pages/api/auth/[...nextauth]'
 import prisma from "@/prisma/client"
 
-// causes static to dynamic error 
-// export async function generateStaticParams(){
-//     const data= await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`)
-//     const res = await data.json()
-//     return res.results.map((movie:any) => ({
-//         movie: String(movie.id)
-//     }))
-// }
-
 export default async function MovieDetail({params}) {
     const session:any = await getServerSession(authOptions)
     const { movie } = params

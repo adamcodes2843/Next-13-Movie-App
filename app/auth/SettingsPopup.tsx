@@ -40,6 +40,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
     if (func === 'view') {
       updateView(id, String(data))
       setShowViewOptions(false)
+      router.push('/')
     }
     if (func === 'allowComments') {
       updateAllowComments(id, Boolean(data))
@@ -108,7 +109,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateDarkMode(id:string, data:boolean) {
     try{
-      fetch(`api/darkModeSwitch/${id}`, {
+      fetch(`http://localhost:3000/api/darkModeSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -124,13 +125,15 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateView(id:string, data:string) {
     try{
-      fetch(`api/viewSwitch/${id}`, {
+      fetch(`http://localhost:3000/api/viewSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
         },
         method: 'PATCH'
       })
+      .then((response) => response.json())
+      .then((json) => console.log(json))
     } catch (error) {
       console.log(error)
     }
@@ -138,7 +141,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateAllowComments(id:string, data:boolean) {
     try{
-      fetch(`api/allowCommentsSwitch/${id}`, {
+      fetch(`http://localhost:3000/api/allowCommentsSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -154,7 +157,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateDisplayName(id:string, data:string) {
     try{
-      fetch(`api/changeDisplayName/${id}`, {
+      fetch(`http://localhost:3000/api/changeDisplayName/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -170,7 +173,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateFavoriteMovie(id:string, data:string) {
     try{
-      fetch(`api/changeFavoriteMovie/${id}`, {
+      fetch(`http://localhost:3000/api/changeFavoriteMovie/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -186,7 +189,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateFavoritePizza(id:string, data:string) {
     try{
-      fetch(`api/changeFavoritePizza/${id}`, {
+      fetch(`http://localhost:3000/api/changeFavoritePizza/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -245,14 +248,14 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
           <ColorSelection showColors={showColors} id={id} setShowColors={setShowColors} setShowSaving={setShowSaving} />
           <h2 className="border-b-2 opacity-60">Layout Options</h2>
           <div className="flex justify-between items-center mb-1 mt-2">
-            <div className="flex flex-col">
+            <div className={`${showViewOptions && 'hidden md:block'} flex flex-col`}>
             <h3>Template</h3>
             <p className="text-sm opacity-60">{settings?.view && settings?.view.charAt(0).toUpperCase() + settings?.view.slice(1)} View</p>
             </div>
             {
               !showViewOptions ?
               <button type="button" onClick={() => handleChangeButton('view')} disabled={disableButton} className="rounded-full hover:bg-gray-600 hover:bg-opacity-40 border-2 px-2 py-1">Change</button> :
-              <div className='w-full flex justify-around'>
+              <div className='w-full flex justify-around gap-6'>
                 <button type="button" onClick={() => settingsHandler(settings?.userId, 'grid', 'view')} className={`border-2 rounded-full px-2 py-1 hover:bg-gray-600 hover:bg-opacity-40`}>Grid View</button>
                 <button type="button" onClick={() => settingsHandler(settings?.userId, 'list', 'view')} className={`border-2 rounded-full px-2 py-1 hover:bg-gray-600 hover:bg-opacity-40`}>List View</button>
                 <button type="button" onClick={() => settingsHandler(settings?.userId, 'card', 'view')} className={`border-2 rounded-full px-2 py-1 hover:bg-gray-600 hover:bg-opacity-40`}>Card View</button>
@@ -268,7 +271,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
         <section className={`${settingsPage !== 'account' && 'hidden'} px-6 mt-4 flex flex-col gap-2`}>
           <h2 className="border-b-2 opacity-60">Account Info</h2>
           <div className="flex justify-between items-center mb-1 mt-2">
-            <div className="flex flex-col">
+            <div className={`flex flex-col ${changeName && 'hidden md:block'}`}>
             <h3>Display Name</h3>
             <p className="text-sm opacity-60">{displayName ? displayName : name}</p>
             </div>
@@ -276,7 +279,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
             {
               !changeName ?
               <button onClick={() => handleChangeButton('name')} disabled={disableButton} className="rounded-full hover:bg-gray-600 hover:bg-opacity-40 border-2 px-2 py-1">Change</button> :
-              <div className={`flex gap-6 w-3/4 justify-between items-center`}>
+              <div className={`flex gap-2 md:gap-6 w-full md:w-3/4 justify-between items-center`}>
                 <input type="text" value={newDisplayName} onChange={(e) => setNewDisplayName(e.target.value) } maxLength={30} placeholder="Change Name" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light hover:border-skin-base focus:outline-skin-dark mr-auto`}/>
               <button type="button" disabled={newDisplayName.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newDisplayName,'name')} className={`rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10`}>
                 <FontAwesomeIcon icon={faAngleRight} className={`w-4 h-4 text-white `} />
@@ -289,7 +292,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
           </div>
           <h2 className="border-b-2 opacity-60">Bio</h2>
           <div className="flex justify-between items-center mb-1 mt-2">
-            <div className="flex flex-col">
+            <div className={`${changeMovie && 'hidden md:block'} flex flex-col`}>
             <h3>Favorite Movie</h3>
             <p className="text-sm opacity-60">{favoriteMovie}</p>
             </div>
@@ -297,8 +300,8 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
             {
               !changeMovie ?
               <button onClick={() => handleChangeButton('favoriteMovie')} disabled={disableButton} className="rounded-full hover:bg-gray-600 hover:bg-opacity-40 border-2 px-2 py-1">Change</button> :
-              <div className={`flex gap-6 w-3/4 justify-between items-center`}>
-                <input type="text" value={newFavoriteMovie} onChange={(e) => setNewFavoriteMovie(e.target.value) } maxLength={30} placeholder="Change Name" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light hover:border-skin-base focus:outline-skin-dark mr-auto`}/>
+              <div className={`flex gap-2 md:gap-6 w-full md:w-3/4 justify-between items-center`}>
+                <input type="text" value={newFavoriteMovie} onChange={(e) => setNewFavoriteMovie(e.target.value) } maxLength={30} placeholder="Change Movie" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light hover:border-skin-base focus:outline-skin-dark mr-auto`}/>
               <button type="button" disabled={newFavoriteMovie.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newFavoriteMovie ,'favoriteMovie')} className={`rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10`}>
                 <FontAwesomeIcon icon={faAngleRight} className={`w-4 h-4 text-white `} />
               </button>
@@ -309,7 +312,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
             }
           </div>
           <div className="flex justify-between items-center mb-1 mt-2">
-            <div className="flex flex-col">
+            <div className={`${changePizza && 'hidden md:block'} flex flex-col`}>
             <h3>Favorite Pizza</h3>
             <p className="text-sm opacity-60">{favoritePizza}</p>
             </div>
@@ -317,9 +320,9 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
             {
               !changePizza ?
               <button onClick={() => handleChangeButton('favoritePizza')} disabled={disableButton} className="rounded-full hover:bg-gray-600 hover:bg-opacity-40 border-2 px-2 py-1">Change</button> :
-              <div className={`flex gap-6 w-3/4 justify-between items-center`}>
-                <input type="text" value={newFavoritePizza} onChange={(e) => setNewFavoritePizza(e.target.value) } maxLength={30} placeholder="Change Name" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light hover:border-skin-base focus:outline-skin-dark mr-auto`}/>
-              <button type="button" disabled={newFavoriteMovie.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newFavoritePizza ,'favoritePizza')} className={`rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10`}>
+              <div className={`flex gap-2 md:gap-6 w-full md:w-3/4 justify-between items-center`}>
+                <input type="text" value={newFavoritePizza} onChange={(e) => setNewFavoritePizza(e.target.value) } maxLength={30} placeholder="Change Pizza" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light hover:border-skin-base focus:outline-skin-dark mr-auto`}/>
+              <button type="button" disabled={newFavoritePizza.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newFavoritePizza ,'favoritePizza')} className={`rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10`}>
                 <FontAwesomeIcon icon={faAngleRight} className={`w-4 h-4 text-white `} />
               </button>
               <button type='button' onClick={()=>handleXButton('favoritePizza')} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10">

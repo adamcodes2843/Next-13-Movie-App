@@ -7,7 +7,7 @@ export default function Movie({title, id, poster_path, release_date, vote_averag
     return(
         <div className={`group hover:brightness-125 ${reviews &&  reviews.indexOf(title) >= 0 && 'brightness-125 hover:brightness-100'}`}>
             <Link href={`/${id}`}>
-            <div className={`flex justify-between items-center   ${view === 'list' ? 'px-6 py-3 group' : view === 'grid' ? 'h-24 w-auto px-2 py-2' : 'hidden'} bg-gray-800 ${reviews &&  reviews.indexOf(title) >= 0 && 'border-l-2 border-t-2 border-r-2 border-skin-base'}`}>
+            <div className={`flex justify-between items-center ${view === 'list' ? 'px-6 py-3 group' : view === 'grid' ? 'h-24 w-auto px-2 py-2' : 'hidden'} bg-gray-800 ${reviews && reviews.indexOf(title) >= 0 && 'border-l-2 border-t-2 border-r-2 border-skin-base'}`}>
             {view === 'list' && 
                 <div className="flex items-center">
                 <div className={`mr-6 w-5 h-5 ${reviews && reviews.indexOf(title) >= 0 ? 'bg-skin-base border-skin-light hover:border-skin-dark' : 'bg-skin-light border-skin-base hover:bg-skin-base hover:border-skin-light'} rounded-full border-2 ${view === 'list' && 'hidden md:block group-hover:bg-skin-base group-hover:border-skin-light'}`} />
@@ -29,8 +29,8 @@ export default function Movie({title, id, poster_path, release_date, vote_averag
                 {vote_average * 10}%
             </div>
             </div>
-            <div className={`relative block ${reviews &&  reviews.indexOf(title) >= 0 && 'border-b-2 border-skin-base border-r-2 border-l-2'}`}>
-                <div className={`${view === 'list' && 'hidden'} ${view === 'card' && 'w-full h-full'}`}>
+            <div className={`relative block ${reviews && reviews.indexOf(title) >= 0 && view !== 'card' && 'border-b-2 border-skin-base border-r-2 border-l-2'}`}>
+                <div className={`${view === 'list' && 'hidden'} ${view === 'card' && 'md:w-96 w-80 my-12 h-auto md:hover:scale-110 ease-in-out duration-300'}`}>
                 <Image 
                     src={imagePath + poster_path} 
                     width={1000} 

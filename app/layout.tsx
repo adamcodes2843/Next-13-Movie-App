@@ -1,17 +1,10 @@
 import './globals.css'
-import { Montserrat } from "@next/font/google"
 import Nav from './auth/Nav'
 import ContextProvider from './Context-Provider'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../pages/api/auth/[...nextauth]'
 import prisma from '@/prisma/client'
-
-
-const montserrat = Montserrat({
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  variable: '--font-montserrat',
-})
+import { montserrat } from './auth/fonts'
 
 export default async function RootLayout({ children }) {
   const session:any = await getServerSession(authOptions)

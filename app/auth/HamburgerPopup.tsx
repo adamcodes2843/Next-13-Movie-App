@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import pizzaSlice from '../../public/assets/pizza-icon-18.png'
 import { AppContext } from '../Context-Provider'
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import LoadingSVG from './LoadingSVG'
 
@@ -14,12 +14,25 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
   const {setPopup, popup, setDisableButton, disableButton}:any = useContext(AppContext)
   const [numberOfReviews, setNumberOfReviews] = useState<number>(3)
   const [showSaving, setShowSaving] = useState<boolean | string>(false)
+  const [darkMode, setDarkMode] = useState<boolean>(true)
+  const [viewMode, setViewMode] = useState<string>('')
+  const [showFilter, setShowFilter] = useState<boolean>(false)
+  const [showSort, setShowSort] = useState<boolean>(false)
   const router = useRouter()
 
+  useEffect(() => {
+    setDarkMode(settings?.darkMode)
+    if (settings?.view) {
+      setViewMode(settings?.view)
+    } else {
+      setViewMode('grid')
+    }
+  }, [popup])
   const handleDarkMode = (id:string, data:boolean) => {
     updateDarkMode(id, data)
     router.refresh()
     setShowSaving('dark')
+    setDarkMode(!darkMode)
     setDisableButton(true)
     setTimeout(() => {
       setShowSaving(false)
@@ -29,18 +42,36 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
 
   const gridListMode = (id: string, data:string) => {
     updateView(id, data)
-    router.refresh()
+    router.push('/')
     setShowSaving('view')
     setDisableButton(true)
+    if (data === 'grid') {
+      setViewMode('grid')
+    } else if (data === 'list') {
+      setViewMode('list')
+    } else if (data === 'card') {
+      setViewMode('card')
+    }
+    router.refresh()
     setTimeout(() => {
       setShowSaving(false)
       setDisableButton(false)
     }, 1500)
   }
+  
+  const handleFilter = () => {
+    if (showFilter) {
+      setShowFilter(false)
+      setNumberOfReviews(3)
+    } else if (!showFilter) {
+      setShowFilter(true)
+      setNumberOfReviews(0)
+    }
+  }
 
   async function updateDarkMode(id:string, data:boolean) {
     try{
-      fetch(`api/darkModeSwitch/${id}`, {
+      fetch(`http://localhost:3000/api/darkModeSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -56,7 +87,7 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
 
   async function updateView(id:string, data:string) {
     try{
-      fetch(`api/viewSwitch/${id}`, {
+      fetch(`http://localhost:3000/api/viewSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -69,6 +100,7 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
       console.log(error)
     }
   }
+  
   return (
     <div className={`fixed border-r-[1px] border-white left-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 bg-black bg-opacity-95 rounded-r-lg px-12 pt-3 pb-6 ${popup !== 'hamburgerPopup' && 'hidden'}`}>
       <div className='flex justify-between items-center'>
@@ -77,7 +109,7 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
         x
       </button>
       </div>
-      <div className="flex flex-col justify-between h-full">
+      <div className={`flex flex-col justify-between h-full`}>
         <div>
         <ul className="border-b-[1px] py-4">
             <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
@@ -106,12 +138,12 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
           </li>
         )).slice(0,numberOfReviews)}
         </ul>
-        <button type="button" className={`text-sm opacity-50 ${numberOfReviews < 9 && numberOfReviews < reviews?.length && 'hover:opacity-100'}`} disabled={numberOfReviews >= 9 || numberOfReviews > reviews?.length} onClick={() => setNumberOfReviews(numberOfReviews + 3)}>Show More</button>
+        <button type="button" className={`text-sm opacity-50 ${numberOfReviews < 9 && numberOfReviews < reviews?.length && 'hover:opacity-100'}`} disabled={numberOfReviews >= 9 || numberOfReviews > reviews?.length || showFilter || showSort} onClick={() => setNumberOfReviews(numberOfReviews + 3)}>Show More</button>
         
         </div>
-        <ul className="py-4 mb-3">
-          <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-            <button type='button' className="p-2 inline-block w-full h-full text-left">
+        <ul className={`py-4 mb-3`}>
+          <li className={`hover:bg-gray-600 rounded-lg hover:bg-opacity-40`}>
+            <button type='button' onClick={() => handleFilter()} className="p-2 inline-block w-full h-full text-left">
             <FontAwesomeIcon icon={faFilter} className="pr-6 w-5" />
               Filter
             </button>
@@ -123,12 +155,12 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
             </button>
           </li>
           <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-            { settings?.view === "grid" || !session?.user ?
+            { viewMode === "grid" || !session?.user ?
               <button type="button" disabled={!settings || disableButton} onClick={() => gridListMode(settings?.userId, 'list')} className="p-2 inline-block w-full h-full text-left relative">
               <FontAwesomeIcon icon={faTableCells} className={`pr-6 w-5 ${!session?.user && 'opacity-40'}`} />
               <span className={`${!session?.user && 'opacity-40'}`}>Grid View</span> <span className="text-red-600 absolute right-4">{!session?.user && 'Sign In'}{showSaving === 'view' && <LoadingSVG />}</span>
               </button>
-              : settings?.view === 'list' ?
+              : viewMode === 'list' ?
               <button type="button" disabled={disableButton} onClick={() => gridListMode(settings?.userId, 'card')} className="p-2 inline-block w-full h-full text-left relative">
               <FontAwesomeIcon icon={faList} className="pr-6 w-5" />
               <span>List View</span><span className='absolute right-4'>{showSaving === 'view' && <LoadingSVG />}</span>
@@ -143,7 +175,7 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
           <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
             <button type="button" onClick={() => handleDarkMode(settings?.userId, !settings?.darkMode)} className={`p-2 inline-block w-full h-full text-left relative`} disabled={!settings || disableButton}>
               {
-                settings?.darkMode || !session?.user ?
+                darkMode || !session?.user ?
                 <>
                   <FontAwesomeIcon icon={faMoon} className={`pr-6 w-5 ${!session?.user && 'opacity-40'}`} />
                   <span className={`${!session?.user && 'opacity-40'}`}>Dark Mode</span> <span className="text-red-600 absolute right-4">{!session?.user && 'Sign In'}{showSaving === 'dark' && <LoadingSVG />}</span>

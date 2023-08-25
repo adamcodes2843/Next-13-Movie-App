@@ -17,7 +17,7 @@ export default async function handler(
                 favoritePizza
             }
         })
-        res.status(200).json({message: `Allow comments switched`})
+        res.status(200).json({message: `Pizza switched`})
     } catch (error) {
         console.log(error)
     }
