@@ -2,7 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     },
     "lib": [
       "dom",
@@ -25,14 +27,16 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "app/layout.tsx"  ],
+    "**/*.tsx",
+    "app/layout.tsx"
+  ],
   "exclude": [
     "node_modules"
   ]

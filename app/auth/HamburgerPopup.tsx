@@ -9,6 +9,8 @@ import { AppContext } from '../Context-Provider'
 import { useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import LoadingSVG from './LoadingSVG'
+import FilterMenu from './FilterMenu'
+import SortMenu from './SortMenu'
 
 const HamburgerPopup = ({session, reviews, settings}:any) => {
   const {setPopup, popup, setDisableButton, disableButton}:any = useContext(AppContext)
@@ -30,8 +32,8 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
   }, [popup])
   const handleDarkMode = (id:string, data:boolean) => {
     updateDarkMode(id, data)
-    router.refresh()
     setShowSaving('dark')
+    router.refresh()
     setDarkMode(!darkMode)
     setDisableButton(true)
     setTimeout(() => {
@@ -64,7 +66,19 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
       setShowFilter(false)
       setNumberOfReviews(3)
     } else if (!showFilter) {
+      setShowSort(false)
       setShowFilter(true)
+      setNumberOfReviews(0)
+    }
+  }
+
+  const handleSort = () => {
+    if (showSort) {
+      setShowSort(false)
+      setNumberOfReviews(3)
+    } else if (!showSort) {
+      setShowFilter(false)
+      setShowSort(true)
       setNumberOfReviews(0)
     }
   }
@@ -119,7 +133,7 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
                 </Link>
             </li>
             <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-                <Link href="/reviews/review-board" onClick={()=>setPopup(false)} className="p-2 inline-block w-full h-full">
+                <Link href="/reviews/review-board" onClick={()=> setPopup(false)} className="p-2 inline-block w-full h-full">
                 <FontAwesomeIcon icon={faComments} className="pr-6 w-5" /> 
                 Review Board
                 </Link>
@@ -142,17 +156,19 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
         
         </div>
         <ul className={`py-4 mb-3`}>
-          <li className={`hover:bg-gray-600 rounded-lg hover:bg-opacity-40`}>
+          <li className={`hover:bg-gray-600 ${showFilter && 'bg-gray-600 bg-opacity-40'} rounded-lg hover:bg-opacity-40`}>
             <button type='button' onClick={() => handleFilter()} className="p-2 inline-block w-full h-full text-left">
             <FontAwesomeIcon icon={faFilter} className="pr-6 w-5" />
               Filter
             </button>
+            {showFilter && <FilterMenu setShowFilter={setShowFilter} setNumberOfReviews={setNumberOfReviews} />}
           </li>
-          <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
-            <button type='button' className="p-2 inline-block w-full h-full text-left">
+          <li className={`hover:bg-gray-600 ${showSort && 'bg-gray-600 bg-opacity-40'} rounded-lg hover:bg-opacity-40`}>
+            <button type='button' onClick={() => handleSort()} className="p-2 inline-block w-full h-full text-left">
             <FontAwesomeIcon icon={faSort} className="pr-6 w-5" />
               Sort
             </button>
+            {showSort && <SortMenu setShowSort={setShowSort} setNumberOfReviews={setNumberOfReviews} />}
           </li>
           <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
             { viewMode === "grid" || !session?.user ?

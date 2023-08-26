@@ -36,7 +36,7 @@ export default async function MovieDetail({params}) {
     }
     
     return (
-        <div className={`mt-16 2xl:mt-32 mx-auto flex flex-col 2xl:flex-row 2xl:justify-center 2xl:items-center 2xl:gap-8 max-w-[1600px]  ${user?.settings?.darkMode === false && 'text-black'}`}>
+        <div className={`mt-16 2xl:mt-32 mx-auto flex flex-col 2xl:flex-row 2xl:justify-center 2xl:items-center 2xl:gap-8 max-w-[1600px]  ${user?.settings?.darkMode === false ? 'text-black' : 'text-white'}`}>
             <div className={`2xl:bg-opacity-30 2xl:rounded-lg ${user?.settings?.darkMode || !user?.settings ? '2xl:bg-gray-600' : '2xl:bg-white 2xl:border-4 2xl:border-skin-base'} 2xl:p-8 2xl:pb-20`}>
                 <div className="flex justify-end 2xl:justify-start items-center">
                 <div className="flex flex-col items-end 2xl:items-start text-right 2xl:text-left">
@@ -47,7 +47,7 @@ export default async function MovieDetail({params}) {
                 </div>
                 </div>
                 <Image className="mt-4 mb-2 w-full" src={imagePath + res.backdrop_path} width={1000} height={1000} alt={res.title} priority/>
-                <p className={`p-4 bg-gray-900 text-sm md:text-base ${user?.settings?.darkMode === false && 'bg-white'}`}>{res.overview}</p>
+                <p className={`p-4 text-sm md:text-base ${user?.settings?.darkMode === false ? 'bg-white' : 'bg-gray-900'}`}>{res.overview}</p>
             </div>
             <FormReview res={res} session={session} userId={user?.id} checkForReview={checkForReview} darkMode={user?.settings?.darkMode} />
         </div>

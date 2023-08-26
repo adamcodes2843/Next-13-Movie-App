@@ -30,6 +30,7 @@ export default async function Home() {
       console.log(error)
     }
   }
+  console.log(res.results)
   const reviews = user?.reviews.map((review):any => {return review.movie})
   const movieList = res.results.map((movie):any=> {return movie.original_title})
   const highlightedReviews = reviews?.filter((review):any=> {return movieList.indexOf(review) >= 0}).length
@@ -60,8 +61,7 @@ export default async function Home() {
       { user?.settings?.view === 'card' && <ClickRight />}
       { user?.settings?.view === 'card' && <ScrollRight />}
       </div>
-      </div> 
-      {/* @ts-expect-error Async Server Component */}
+      </div>
       <Footer reviewed={highlightedReviews} />
     </main>
   )

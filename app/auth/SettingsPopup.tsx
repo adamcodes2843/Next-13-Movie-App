@@ -203,7 +203,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
       }
     }
   return (
-    <div className={`fixed ${popup !== 'settingsPopup' && 'hidden'} bg-opacity-95 bg-black border-white border-[1px] rounded-lg  w-[calc(100%-3rem)] md:w-[calc(100%-6rem)] top-72 p-4 z-50 max-w-4xl left-0 right-0 mx-auto`}>
+    <div className={`fixed ${popup !== 'settingsPopup' && 'hidden'} bg-opacity-95 bg-black border-white border-[1px] rounded-lg  w-[calc(100%-4rem)] md:w-[calc(100%-8rem)] top-24 md:top-36 2xl:top-72 p-4 z-50 max-w-4xl left-0 right-0 mx-auto`}>
         <div className="flex justify-between items-center mr-6">
         <h1 className="text-lg pl-6 text-skin-light">User settings</h1>
         <button type='button' onClick={()=> handleXButton('closeSettings')} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 px-3 py-1">
