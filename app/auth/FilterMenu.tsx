@@ -25,7 +25,7 @@ const FilterMenu = ({setShowFilter, setNumberOfReviews}:any) => {
     <div className={`flex flex-col pb-3 px-6 w-full gap-3`}>
         <div className={`flex flex-col w-full`}>
             <label className="flex items-center justify-between">Average Rating
-            <p>{'>'}</p>
+            <p className="text-xl">{'>'}</p>
             <input type="text" value={ratingFilter} onChange={(e) => setRatingFilter(e.target.value)} maxLength={2} className={`ml-3 md:ml-0 w-20 text-center h-8 bg-black border-2 focus:ring-0 focus:border-skin-base rounded hover:border-skin-base cursor-pointer ${Number.isNaN(Number(ratingFilter)) || ratingFilter.length < 1 ? 'border-red-600' : 'border-white'}`} />
             </label>
         </div>
