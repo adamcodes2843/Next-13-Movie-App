@@ -30,7 +30,7 @@ export default async function Home() {
       console.log(error)
     }
   }
-  console.log(res.results)
+  console.log(res)
   const reviews = user?.reviews.map((review):any => {return review.movie})
   const movieList = res.results.map((movie):any=> {return movie.original_title})
   const highlightedReviews = reviews?.filter((review):any=> {return movieList.indexOf(review) >= 0}).length

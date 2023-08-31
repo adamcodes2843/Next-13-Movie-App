@@ -3,7 +3,7 @@ import { useState } from "react"
 
 const SortMenu = ({setShowSort, setNumberOfReviews}:any) => {
     const [sortDirection, setSortDirection] = useState<string>('High > Low')
-    const [using, setUsing] = useState<string>('rating')
+    const [using, setUsing] = useState<string>('popularity')
 
     const handleSortDirection = () => {
         if (sortDirection === 'High > Low') {
@@ -16,15 +16,18 @@ const SortMenu = ({setShowSort, setNumberOfReviews}:any) => {
     const handleSortBy = () => {
         switch (using) {
             case 'rating':
-                setUsing('vote count')
+                setUsing('vote Count')
                 break;
-            case "vote count":
+            case "vote Count":
                 setUsing('name')
                 break;
             case "name":
                 setUsing('release')
                 break;
             case "release":
+                setUsing('popularity')
+                break;
+            case "popularity":
                 setUsing('rating')
         }
     }

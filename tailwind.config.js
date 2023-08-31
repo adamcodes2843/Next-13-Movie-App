@@ -50,7 +50,8 @@ module.exports = {
       },
       fontFamily: {
         montserrat: ['var(--font-montserrat)'],
-        monoton: ['var(--font-monoton)']
+        monoton: ['var(--font-monoton)'],
+        blackOpsOne: ['var(--font-black_ops_one']
       },
       gridTemplateColumns: {
         fluid: "repeat(auto-fit,minmax(15rem,1fr))",
