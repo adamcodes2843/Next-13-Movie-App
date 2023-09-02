@@ -4,9 +4,13 @@ import VoteCounter from "./VoteCounter"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
+import CommentButton from "./CommentButton"
+import CommentSection from "./CommentSection"
 
-export default function ReviewItem({rating, voteCount, movie, title, reviewText, darkMode}:any) {
-    const [showInfo, setShowInfo] = useState(false)
+export default function ReviewItem({rating, voteCount, movie, title, reviewText, reviewId, darkMode, userId, comments, displayName, userImage}:any) {
+    const [showInfo, setShowInfo] = useState<boolean>(false)
+    const [showComments, setShowComments] = useState<boolean>(false)
+    
     return(
         <li key={Math.random()} className={`${darkMode === false ? 'bg-gray-600 hover:border-skin-base' : 'hover:border-skin-light'} text-white border-2 rounded border-skin-dark  w-full px-3 md:px-6 py-1 text-sm lg:text-base group relative`}>
             <div className={`w-full flex items-center justify-between gap-6 `}>
@@ -20,8 +24,10 @@ export default function ReviewItem({rating, voteCount, movie, title, reviewText,
                 </div>
                 <p className={`${darkMode === false ? 'border-skin-light' : 'border-skin-dark'} border-2 rounded-full h-10 w-10 md:h-12 md:w-12 lg:h-16 lg:w-16 flex justify-center items-center text-xl`}>{rating}</p>
             </div>
-            <div className={`${!showInfo && 'hidden'} border-t-[1px] mt-2 border-skin-dark w-5/6 mx-auto p-3`}>
-                <p className={`text-center`}>{reviewText}</p>
+            <div className={`${!showInfo && 'hidden'} border-t-[1px] mt-2 border-skin-dark w-5/6 mx-auto py-3`}>
+                <p className={`text-center mx-3`}>{reviewText}</p>
+                <CommentButton commentCount={comments?.length} setShowComments={setShowComments} showComments={showComments} />
+                {showComments && <CommentSection userImage={userImage} displayName={displayName} comments={comments} userId={userId} reviewId={reviewId} setShowComments={setShowComments} />}
             </div>
         </li>
     )

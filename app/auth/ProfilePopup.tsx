@@ -62,24 +62,27 @@ const ProfilePopup = ({session, reviews, comments, id, name, displayName}) => {
       <button type="button" onClick={() => setShowStats(!showStats)}  className={`text-lg py-1 px-3 rounded-lg hover:bg-gray-600 hover:bg-opacity-40 ${!session?.user && 'hidden'}`}>{showStats ? '-' : '+'}</button>
       </div>
       {showStats && 
-      <div className="pt-4 pl-1">
-        <h2 className="text-sm text-center mb-2 flex justify-between pr-[0.65rem]">Level <span>1</span></h2>
+      <div className="pt-4">
+        <h2 className="text-sm text-center flex justify-between hover:border-skin-base hover:bg-opacity-20 hover:bg-gray-600 mr-3 py-1 px-2 border-l-2 border-transparent">
+          Level 
+          <span className="text-skin-light">1</span>
+        </h2>
         <ul className={`pr-[0.65rem] text-sm flex flex-col ${!session?.user && 'hidden'}`}>
-        <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
+        <li className="flex justify-between items-center hover:border-skin-base cursor-default py-1 px-2 border-l-2 border-transparent hover:bg-opacity-20 hover:bg-gray-600">
           <p>Reviews</p>
-          <p>{reviews ?  reviews.length : '0'}</p>
+          <p className="text-skin-light">{reviews ?  reviews.length : '0'}</p>
         </li>
-        <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
+        <li className="flex justify-between items-center hover:border-skin-base cursor-default py-1 px-2 border-l-2 border-transparent hover:bg-opacity-20 hover:bg-gray-600">
           <p>Comments</p>
-          <p>{comments ? comments.length : '0'}</p>
+          <p className="text-skin-light">{comments ? comments.length : '0'}</p>
         </li>
-        <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
+        <li className="flex justify-between items-center hover:border-skin-base cursor-default py-1 px-2 border-l-2 border-transparent hover:bg-opacity-20 hover:bg-gray-600">
           <p>Karma</p>
-          <p>{karmaCounter()}</p>
+          <p className="text-skin-light">{karmaCounter()}</p>
         </li>
-        <li className="flex justify-between  hover:border-green-600 cursor-default py-1">
+        <li className="flex justify-between items-center hover:border-skin-base cursor-default py-1 px-2 border-l-2 border-transparent hover:bg-opacity-20 hover:bg-gray-600">
           <p>Average Rating</p>
-          <p>{reviews ? reviews.reduce((acc:number, curr:any) => acc + curr.rating, 0) / reviews.length : '0'}</p>
+          <p className="text-skin-light">{reviews ? reviews.reduce((acc:number, curr:any) => acc + curr.rating, 0) / reviews.length : '0'}</p>
         </li>
       </ul>
       </div>

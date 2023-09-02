@@ -5,7 +5,7 @@ import { useState } from "react"
 const ChoiceBoard = ({choices}:any) => {
     const [showSelect, setShowSelect] = useState<boolean>(false)
   return (
-    <div className={`p-3 md:px-12 rounded-lg border-4 border-skin-dark hover:border-skin-light md:max-w-sm mt-6 pb-6`}>
+    <div className={`p-3 md:px-12 rounded-lg border-4 border-skin-dark hover:border-skin-light w-sm mt-6 pb-6`}>
         <h2 className={`text-2xl font-bold text-center my-3`}>Select Movie</h2>
         <div className={`flex justify-around py-3`}>
           <button type="button" onClick={() => setShowSelect(false)} className={`${!showSelect ? 'bg-gray-600 bg-opacity-40' : 'opacity-70'} hover:bg-gray-600 hover:opacity-100 rounded-lg hover:bg-opacity-40 p-2 w-20`}>All</button>
@@ -13,10 +13,10 @@ const ChoiceBoard = ({choices}:any) => {
         </div>
         {
             showSelect &&
-            <ul className={`flex flex-col items-center pb-3 cursor-pointer`}>
+            <ul className={`flex flex-col md:grid grid-cols-2 md:items-stretch lg:flex items-center md:pb-3 lg:pb-0 cursor-pointer`}>
                 {
                     choices.map((name:any, i:number) => (
-                    <li key={'option-' + i} className={`hover:bg-gray-600 rounded-lg hover:bg-opacity-40 w-full text-center p-2`}>
+                    <li key={'option-' + i} className={`hover:bg-gray-600 rounded-lg hover:bg-opacity-40 md:flex justify-center items-center w-full text-center p-2`}>
                         <button>
                             {name.title}
                         </button>

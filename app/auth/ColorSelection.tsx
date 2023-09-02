@@ -23,7 +23,7 @@ const ColorSelection = ({showColors, id, setShowColors, setShowSaving}:any) => {
 
   async function updateColor(id:string, data:string) {
     try{
-      fetch(`api/updateColorTheme/${id}`, {
+      fetch(`http://localhost:3000/api/updateColorTheme/${id}`, {
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json'

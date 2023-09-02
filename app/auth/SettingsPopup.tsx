@@ -280,7 +280,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
               !changeName ?
               <button onClick={() => handleChangeButton('name')} disabled={disableButton} className="rounded-full hover:bg-gray-600 hover:bg-opacity-40 border-2 px-2 py-1">Change</button> :
               <div className={`flex gap-2 md:gap-6 w-full md:w-3/4 justify-between items-center`}>
-                <input type="text" value={newDisplayName} onChange={(e) => setNewDisplayName(e.target.value) } maxLength={30} placeholder="Change Name" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light hover:border-skin-base focus:outline-skin-dark mr-auto`}/>
+                <input type="text" value={newDisplayName} onChange={(e) => setNewDisplayName(e.target.value) } maxLength={30} placeholder="Change Name" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light hover:border-skin-base focus:ring-0 focus:outline-skin-base mr-auto`}/>
               <button type="button" disabled={newDisplayName.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newDisplayName,'name')} className={`rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10`}>
                 <FontAwesomeIcon icon={faAngleRight} className={`w-4 h-4 text-white `} />
               </button>
@@ -301,7 +301,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
               !changeMovie ?
               <button onClick={() => handleChangeButton('favoriteMovie')} disabled={disableButton} className="rounded-full hover:bg-gray-600 hover:bg-opacity-40 border-2 px-2 py-1">Change</button> :
               <div className={`flex gap-2 md:gap-6 w-full md:w-3/4 justify-between items-center`}>
-                <input type="text" value={newFavoriteMovie} onChange={(e) => setNewFavoriteMovie(e.target.value) } maxLength={30} placeholder="Change Movie" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light hover:border-skin-base focus:outline-skin-dark mr-auto`}/>
+                <input type="text" value={newFavoriteMovie} onChange={(e) => setNewFavoriteMovie(e.target.value) } maxLength={30} placeholder="Change Movie" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light focus:ring-0 hover:border-skin-base focus:outline-skin-base mr-auto`}/>
               <button type="button" disabled={newFavoriteMovie.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newFavoriteMovie ,'favoriteMovie')} className={`rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10`}>
                 <FontAwesomeIcon icon={faAngleRight} className={`w-4 h-4 text-white `} />
               </button>
@@ -321,7 +321,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
               !changePizza ?
               <button onClick={() => handleChangeButton('favoritePizza')} disabled={disableButton} className="rounded-full hover:bg-gray-600 hover:bg-opacity-40 border-2 px-2 py-1">Change</button> :
               <div className={`flex gap-2 md:gap-6 w-full md:w-3/4 justify-between items-center`}>
-                <input type="text" value={newFavoritePizza} onChange={(e) => setNewFavoritePizza(e.target.value) } maxLength={30} placeholder="Change Pizza" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light hover:border-skin-base focus:outline-skin-dark mr-auto`}/>
+                <input type="text" value={newFavoritePizza} onChange={(e) => setNewFavoritePizza(e.target.value) } maxLength={30} placeholder="Change Pizza" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light focus:ring-0 hover:border-skin-base focus:outline-skin-base mr-auto`}/>
               <button type="button" disabled={newFavoritePizza.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newFavoritePizza ,'favoritePizza')} className={`rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10`}>
                 <FontAwesomeIcon icon={faAngleRight} className={`w-4 h-4 text-white `} />
               </button>
