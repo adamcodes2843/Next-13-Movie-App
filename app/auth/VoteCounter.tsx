@@ -2,46 +2,97 @@
 
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { useRouter } from 'next/navigation'
+import { AppContext } from '../Context-Provider'
 
-const VoteCounter = ({voteCount}:any) => {
-    const [vote, setVote] = useState<string>('up')
-    const [count, setCount] = useState<number>(1)
-    
+interface voteData {
+    karmaCounter: number | undefined,
+    dvList: string[],
+    uvList: string[]
+}
+
+const VoteCounter = ({voteCount, userId, upVotes, downVotes, reviewId}:any) => {
+    const {setDisableButton, disableButton}:any = useContext(AppContext)
+    const [count, setCount] = useState<number>(upVotes.length && downVotes.length ? upVotes.length - downVotes.length : !upVotes.length && downVotes.length ? 0 - downVotes.length : upVotes.length && !downVotes.length ? upVotes.length : undefined)
+    const [curVote, setCurVote] = useState<string>(downVotes?.includes(userId) ? 'down' : upVotes?.includes(userId) ? 'up' : 'off')
+    let uvList = upVotes ? upVotes : []
+    let dvList = downVotes ? downVotes : []
+    const router = useRouter()
+
     useEffect(() => {
-        setCount(voteCount)
+        setCount(uvList.length - dvList.length)
     }, [])
 
-    const handleUpVote = (x:string) => {
-        if (x === 'up') {
-            setVote('off')
-            setCount(count - 1)
-        } else if (x === 'off') {
-            setVote('up')
-            setCount(count + 1)
-        } else if (x === 'down') {
-            setVote('up')
-            setCount(count + 2)
+    function handleVote (button:string, x:string) {
+        if (button === 'downButton') {
+            if (x === 'down') {
+                dvList = dvList?.filter((user:string) => user !== userId)
+                setCurVote('off')
+            } else if (x === 'off') {
+                //dvList?.push(userId)
+                if (!dvList.includes(userId)){
+                    dvList = [...dvList, userId]
+                }
+                setCurVote('down')
+            } else if (x === 'up') {
+                uvList = uvList?.filter((user:string) => user !== userId)
+                //dvList?.push(userId)
+                if (!dvList.includes(userId)){
+                    dvList = [...dvList, userId]
+                }
+                setCurVote('down')
+            }
         }
-    } 
-    const handleDownVote = (x:string) => {
-        if (x === 'down') {
-            setVote('off')
-            setCount(count + 1)
-        } else if (x === 'off') {
-            setVote('down')
-            setCount(count - 1)
-        } else if (x === 'up') {
-            setVote('down')
-            setCount(count - 2)
+        else if (button === 'upButton') {
+            if (x === 'up') {
+                uvList = uvList?.filter((user:string) => user !== userId)
+                setCurVote('off')
+            } else if (x === 'off') {
+                //uvList?.push(userId[0])
+                if (!uvList.includes(userId)){
+                    uvList = [...uvList, userId]
+                }
+                setCurVote('up')
+            } else if (x === 'down') {
+                dvList = dvList?.filter((user:string) => user !== userId)
+                //uvList?.push(userId[0])
+                if (!uvList.includes(userId)){
+                    uvList = [...uvList, userId]
+                }
+                setCurVote('up')
+            }
         }
+        setCount(uvList.length - dvList.length)
+        let karmaCounter = uvList.length - dvList.length
+        setDisableButton(true)
+        let data = {karmaCounter, dvList, uvList}
+        changeVote(reviewId, data)
+        setTimeout(() => {
+            setDisableButton(false)
+        }, 1500)
     }
 
+    async function changeVote(id:string, data: voteData) {
+        try {
+            fetch(`http://localhost:3000/api/updateVote/${id}`, {
+              body: JSON.stringify(data),
+              headers: {
+                'Content-Type': 'application/json'
+              }, 
+              method: 'PATCH'
+            })
+            .then((response) => response.json())
+            .then((json) => console.log(json))
+          } catch (error) {
+            console.log(error)
+          }
+    }
   return (
     <div className={`flex flex-col justify-between items-center my-2`}>
-        <button type="button" onClick={() => handleUpVote(vote)} className="cursor-pointer"><FontAwesomeIcon icon={faAngleUp} className={`w-6 h-6 md:w-8 md:h-8 ${vote === 'up' ? 'text-skin-light' : 'text-skin-dark'} hover:text-skin-light active:text-skin-dark`} /></button>
+        <button type="button" disabled={!userId || disableButton} onClick={() => handleVote('upButton', curVote)} className="cursor-pointer"><FontAwesomeIcon icon={faAngleUp} className={`w-6 h-6 md:w-8 md:h-8 ${curVote === 'up' ? 'text-skin-light' : 'text-skin-dark'} ${disableButton && 'cursor-default'}`} /></button>
         <p className={`text-skin-light`}>{count}</p>
-        <button type="button" onClick={() => handleDownVote(vote)} className="cursor-pointer"><FontAwesomeIcon icon={faAngleDown} className={`w-6 h-6 md:w-8 md:h-8 ${vote === 'down' ? 'text-skin-light' : 'text-skin-dark'} hover:text-skin-light active:text-skin-dark`} /></button>
+        <button type="button" disabled={!userId || disableButton} onClick={() => handleVote('downButton', curVote)} className="cursor-pointer"><FontAwesomeIcon icon={faAngleDown} className={`w-6 h-6 md:w-8 md:h-8 ${curVote === 'down' ? 'text-skin-light' : 'text-skin-dark'} ${disableButton && 'cursor-default'}`} /></button>
     </div>
   )
 }

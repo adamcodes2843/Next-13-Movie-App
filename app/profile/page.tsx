@@ -37,9 +37,9 @@ export default async function Profile() {
             if (user?.reviews) {
                 reviewVotes = user?.reviews.reduce((acc:number, curr:any) => acc + curr.voteCount, 0)
             }
-            if (user?.comments) {
-                commentVotes = user?.comments.reduce((acc:number, curr:any) => acc + curr.voteCount, 0)
-            }
+            // if (user?.comments) {
+            //     commentVotes = user?.comments.reduce((acc:number, curr:any) => acc + curr.voteCount, 0)
+            // }
             return reviewVotes + commentVotes
         } else {
             return 0
@@ -58,7 +58,7 @@ export default async function Profile() {
                 commentXP = user?.comments.length * 10
             }
             if (user?.reviews || user?.comments) {
-                karmaXP = Math.floor(karmaCounter() / 10)
+                karmaXP = Math.floor(karmaCounter() / 10) * 50
             }
             totalXP = reviewXP + commentXP + karmaXP
         }

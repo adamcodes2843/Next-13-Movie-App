@@ -13,7 +13,8 @@ export default async function handler(
                 title,
                 rating: Number(rating),
                 review,
-                userId
+                userId,                
+                upVotes: [userId]
             }
         })
         res.status(200).json({message: 'Review created'})

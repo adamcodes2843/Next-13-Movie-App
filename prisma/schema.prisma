@@ -27,6 +27,8 @@ model Review {
   rating            Int
   review            String @db.VarChar(800)
   voteCount         Int @default(1)
+  upVotes           String[]
+  downVotes         String[]
   dateTimePosted    DateTime @default(now())
   dateTimeUpdated   DateTime?
   comments          Comment[]
@@ -42,9 +44,6 @@ model Comment {
   voteCount         Int @default(1)
   dateTimePosted    DateTime @default(now())
   dateTimeUpdated   DateTime?
-  parentCommentId   String?
-  parentComment     Comment? @relation("CommentBranch",fields: [parentCommentId], references: [id])
-  childComments     Comment[] @relation("CommentBranch")
   review            Review @relation(fields: [reviewId], references: [id])
   user              User @relation(fields: [userId], references: [id])
 }
@@ -85,7 +84,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  reviews       Review[]
+  reviews       Review[] 
   comments      Comment[]
   settings      Settings?
   favoriteMovie String?

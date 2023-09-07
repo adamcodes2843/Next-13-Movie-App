@@ -140,15 +140,15 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
             </li>
         </ul>
         <h2 className="text-sm opacity-50 py-4">Recent Reviews</h2>
-        <ul className="mb-4 cursor-pointer">
+        <ul className="mb-4 hover:cursor-default">
           { reviews && reviews.sort((date1,date2):any => (date1.dateTimePosted - date2.dateTimePosted)).map((review):any => (
           <li key={Math.random()} className={`py-2 hover:border-skin-base border-l-2 border-l-transparent`}>
-            <Link href='/'>
+            <div>
               <div className="flex gap-2 ml-2 justify-between items-center">
               <p className="text-sm">{review.movie}</p>
               <p className={`border-2 rounded-full h-8 w-8 text-center text-skin-light flex justify-center items-center`}>{review.rating}</p>
               </div>
-            </Link>
+            </div>
           </li>
         )).slice(0,numberOfReviews)}
         </ul>

@@ -1,15 +1,49 @@
-import prisma from "@/prisma/client"
-export default async function UserItem({postDate, userId}: any) {
-    let userInfo = await prisma.user.findUnique({
-        where: {
-            id: userId
-        }
-    })
+'use client'
+import { useSearchParams } from "next/navigation"
+import { useState, useEffect } from 'react'
+
+export default function UserItem({postDate, reviewUserId, movies, movie}: any) {
+    const [userInfo, setUserInfo] = useState<any>('')
+    const [showReview, setShowReview] = useState<boolean>(true)
+    const searchParams = useSearchParams()!
+    let movieId = searchParams.get('movie')
     
+    useEffect(() => {
+        findReviewer(reviewUserId)
+    }, [movieId])
+
+    async function findReviewer(id:string) {
+        fetch(`http://localhost:3000/api/getReviewer/${id}`)
+        .then(response => {
+            if(!response.ok) {
+                throw Error('could not fetch the data for theat resource')
+            }
+            return response.json()
+        })
+        .then(data => {
+            setUserInfo(data)
+        })
+        if (movieId) {
+            let movieChoice = movies.filter((option:any) => String(option.id) === movieId)
+            if (movieChoice[0].title === movie) {
+               setShowReview(true)
+            } else {
+               setShowReview(false)
+            }
+           } 
+           if (!movieId) {
+               setShowReview(true)
+           }
+    }
+    console.log(userInfo)
     return (
-        <li key={Math.random()} className={`bg-opacity-40 bg-gradient-to-r from-skin-dark p-3 flex justify-between gap-3 text-sm md:text-base`}>
-            <p>{userInfo?.displayName}</p>
-            <p>{String(postDate).split(' ').slice(1,4).join('-')}</p>
+        <li key={Math.random()}>
+            {showReview && 
+            <div className={`bg-opacity-40 bg-gradient-to-r from-skin-dark p-3 flex justify-between gap-3 text-sm md:text-base`}>
+                <p>{userInfo?.displayName}</p>
+                <p>{String(postDate).split(' ').slice(1,4).join('-')}</p>
+            </div>
+            }
         </li>
     )
 }
