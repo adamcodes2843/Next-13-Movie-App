@@ -58,10 +58,10 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
       setChangePizza(false)
       updateFavoritePizza(id, String(data))
     }
-    router.refresh()
     setShowSaving(true)
     setDisableButton(true)
     setTimeout(() => {
+      router.refresh()
       setShowSaving(false)
       setDisableButton(false)
     }, 1500)

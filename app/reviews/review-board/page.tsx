@@ -6,6 +6,7 @@ import UserItem from '@/app/auth/UserItem'
 import prisma from '@/prisma/client'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import ReviewCheck from '@/app/auth/ReviewCheck'
 
 export default async function ReviewBoard() {
   const session:any = await getServerSession(authOptions)
@@ -41,8 +42,9 @@ export default async function ReviewBoard() {
           <ChoiceBoard choices={data?.results}/>
         </div>
         <div className={`grow rounded-lg flex flex-col items-center px-3 lg:col-span-2 2xl:col-span-9`}>
-          <h2 className={`text-center text-4xl font-bold md:mt-6 lg:mt-0 mb-6 md:mb-12`}>Pizza Night Reviews</h2>
-          <ul className={`flex flex-col w-full justify-between gap-2`}>
+          <h2 className={`text-center text-4xl font-bold md:mt-6 lg:mt-0 mb-6`}>Pizza Night Reviews</h2>
+          <ReviewCheck movies={data?.results} reviews={reviews} />
+          <ul className={`flex flex-col w-full justify-between gap-2 mt-6`}>
             {
               reviews && 
               reviews.sort((a:any,b:any)=> b.dateTimePosted - a.dateTimePosted).map((review:any) => (

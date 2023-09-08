@@ -35,7 +35,7 @@ export default function UserItem({postDate, reviewUserId, movies, movie}: any) {
                setShowReview(true)
            }
     }
-    console.log(userInfo)
+    
     return (
         <li key={Math.random()}>
             {showReview && 

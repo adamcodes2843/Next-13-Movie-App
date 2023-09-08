@@ -33,13 +33,13 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
   const handleDarkMode = (id:string, data:boolean) => {
     updateDarkMode(id, data)
     setShowSaving('dark')
-    router.refresh()
     setDarkMode(!darkMode)
     setDisableButton(true)
     setTimeout(() => {
       setShowSaving(false)
       setDisableButton(false)
-    }, 1500)
+      router.refresh()
+    }, 1000)
   }
 
   const gridListMode = (id: string, data:string) => {
@@ -54,8 +54,8 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
     } else if (data === 'card') {
       setViewMode('card')
     }
-    router.refresh()
     setTimeout(() => {
+      router.refresh()
       setShowSaving(false)
       setDisableButton(false)
     }, 1500)

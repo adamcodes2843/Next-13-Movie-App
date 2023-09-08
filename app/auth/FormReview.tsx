@@ -21,7 +21,8 @@ const FormReview = ({res, session, userId, checkForReview, darkMode}) => {
       movie: res.title,
       userId: userId
     })
-    const [changeReview, setChangeReview] = useState(false)
+
+    const [showInputFields, setShowInputFields] = useState<boolean>(checkForReview.length === 0)
     const router = useRouter()
 
     const ratings = [1,2,3,4,5,6,7,8,9,10]
@@ -34,8 +35,10 @@ const FormReview = ({res, session, userId, checkForReview, darkMode}) => {
         } else if (checkForReview.length > 0) {
           updateUserReview(data, id)
         }
-        setChangeReview(false)
-        router.refresh()
+        setShowInputFields(false)
+        setTimeout(() => {
+          router.refresh()
+        }, 500)
     }
 
     async function createUserReview(data: FormDataType) {
@@ -71,7 +74,7 @@ const FormReview = ({res, session, userId, checkForReview, darkMode}) => {
     }
 
     const handleEdit = () => {
-      setChangeReview(true)
+      setShowInputFields(true)
       setFormData({...formData, title: checkForReview[0].title,  rating: checkForReview[0].rating, review: checkForReview[0].review})
     }
 
@@ -79,7 +82,7 @@ const FormReview = ({res, session, userId, checkForReview, darkMode}) => {
 
   return (
     <>
-    { !reviewId || changeReview ?
+    { showInputFields ?
     <form onSubmit={(e) => handleSubmit(e, formData, reviewId)} className={`${darkMode === true || !session?.user ? 'bg-gray-900 bg-opacity-60' : 'bg-white'}  border-4 border-skin-base md:mt-8 mt-4 2xl:mt-4 flex flex-col justify-center items-center text-center py-4 md:min-w-[38rem] md:w-full md:mx-auto 2xl:w-1/2`}>
         <h3 className="md:text-lg px-4">What did you think about <span className={`${darkMode === true || !session?.user ? 'text-skin-light' : 'text-skin-base font-semibold'}`}>{res.title}</span>?</h3>
         <input
@@ -113,7 +116,7 @@ const FormReview = ({res, session, userId, checkForReview, darkMode}) => {
             disabled={!formData.rating || !formData.title || !formData.review || !session}>
               Submit
         </button>
-        <div className="text-sm flex gap-8 mt-2">
+        <div className="text-sm flex items-center justify-between gap-8 mt-2 mx-auto px-6">
         <p>Rated <span className={`${darkMode === true || !session?.user ? "text-skin-light" : 'text-skin-base'}`}>{res.vote_count}</span> times</p>
         <Link href="https://www.themoviedb.org/" className={`${darkMode === true || !session?.user ? 'text-skin-light' : 'text-skin-base'} text-sm  underline`}>TMDB</Link>
         <p>Average rating: <span className={`${darkMode === true || !session?.user ? "text-skin-light" : 'text-skin-base'}`}>{res.vote_average}</span></p>
@@ -123,9 +126,9 @@ const FormReview = ({res, session, userId, checkForReview, darkMode}) => {
   <div className={`${darkMode === true || !session?.user ? 'bg-gray-900 bg-opacity-60' : 'bg-white'} bg-opacity-60 border-4 border-skin-base md:mt-8 mt-4 2xl:mt-0 flex flex-col justify-center items-center text-center py-4 w-full m-auto 2xl:m-0 md:min-w-[38rem]`}>
     <h2 className="text-2xl px-4">{res.title}</h2>
     <h1 className={`${darkMode === true || !session?.user ? 'text-skin-light' : 'text-skin-base'}`}>Review</h1>
-    <h3 className="mt-2 text-xl">{checkForReview[0].title}</h3>
-    <div className={`border-2 ${darkMode === true || !session?.user ? 'bg-gray-600' : 'bg-gray-300'} border-skin-light rounded-full w-12 h-12 flex justify-center items-center m-4`}>{checkForReview[0].rating}</div>
-    <p className="mb-4 mx-4">{checkForReview[0].review}</p>
+    <h3 className="mt-2 text-xl">{checkForReview[0]?.title || formData.title}</h3>
+    <div className={`border-2 ${darkMode === true || !session?.user ? 'bg-gray-600' : 'bg-gray-300'} border-skin-light rounded-full w-12 h-12 flex justify-center items-center m-4`}>{checkForReview[0]?.rating || formData.rating}</div>
+    <p className="mb-4 mx-4">{checkForReview[0]?.review || formData.review}</p>
     <div className={`flex justify-around items-center text-sm w-full ${darkMode || !session?.user ? 'text-skin-light' : 'text-skin-dark'}`}>
     <Link href='/reviews/review-board' className={`${darkMode === true || !session?.user ? 'hover:bg-gray-600' : 'hover:bg-gray-300'}  hover:bg-opacity-70 p-2 rounded`}>Review Board</Link><button onClick={() => handleEdit()} className={`${darkMode === true || !session?.user ? 'hover:bg-gray-600' : 'hover:bg-gray-300'} hover:bg-opacity-70 p-2 rounded`}>Edit</button><Link  href="/reviews/review-history" className={`${darkMode === true || !session?.user ? 'hover:bg-gray-600' : 'hover:bg-gray-300'} hover:bg-opacity-70 p-2 rounded`}>Your Reviews</Link>
     </div>

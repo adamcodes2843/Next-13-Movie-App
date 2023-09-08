@@ -18,14 +18,34 @@ const ProfilePopup = ({session, reviews, comments, id, name, displayName}) => {
         if (reviews) {
             reviewVotes = reviews.reduce((acc:number, curr:any) => acc + curr.voteCount, 0)
         }
-        if (comments) {
-            commentVotes = comments.reduce((acc:number, curr:any) => acc + curr.voteCount, 0)
-        }
+        // if (comments) {
+        //     commentVotes = comments.reduce((acc:number, curr:any) => acc + curr.voteCount, 0)
+        // }
         return reviewVotes + commentVotes
     } else {
         return 0
     }
 }
+
+  const level = () => {
+    let totalXP = 0
+    if (reviews){
+      let reviewXP = 0
+      let commentXP = 0
+      let karmaXP = 0
+      if (reviews) {
+          reviewXP = reviews.length * 150
+      }
+      if (comments) {
+          commentXP = comments.length * 10
+      }
+      if (reviews || comments) {
+          karmaXP = Math.floor(karmaCounter() / 10) * 50
+      }
+      totalXP = reviewXP + commentXP + karmaXP
+    }
+    return Math.floor(totalXP / 150)
+  }
   
   return (
     <div className={`fixed flex flex-col border-l-[1px] border-white right-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 bg-black bg-opacity-95 rounded-l-lg px-12 pt-3 pb-3 ${popup !== 'profilePopup' && 'hidden'}`}>
@@ -65,7 +85,7 @@ const ProfilePopup = ({session, reviews, comments, id, name, displayName}) => {
       <div className="pt-4">
         <h2 className="text-sm text-center flex justify-between hover:border-skin-base hover:bg-opacity-20 hover:bg-gray-600 mr-3 py-1 px-2 border-l-2 border-transparent">
           Level 
-          <span className="text-skin-light">1</span>
+          <span className="text-skin-light">{level()}</span>
         </h2>
         <ul className={`pr-[0.65rem] text-sm flex flex-col ${!session?.user && 'hidden'}`}>
         <li className="flex justify-between items-center hover:border-skin-base cursor-default py-1 px-2 border-l-2 border-transparent hover:bg-opacity-20 hover:bg-gray-600">
@@ -82,7 +102,7 @@ const ProfilePopup = ({session, reviews, comments, id, name, displayName}) => {
         </li>
         <li className="flex justify-between items-center hover:border-skin-base cursor-default py-1 px-2 border-l-2 border-transparent hover:bg-opacity-20 hover:bg-gray-600">
           <p>Average Rating</p>
-          <p className="text-skin-light">{reviews ? reviews.reduce((acc:number, curr:any) => acc + curr.rating, 0) / reviews.length : '0'}</p>
+          <p className="text-skin-light">{reviews ? Math.round(reviews.reduce((acc:number, curr:any) => acc + curr.rating, 0) / reviews.length) : '0'}</p>
         </li>
       </ul>
       </div>

@@ -31,16 +31,16 @@ export default async function Home() {
     }
   }
   const reviews = user?.reviews.map((review):any => {return review.movie})
-  const movieList = res.results.map((movie):any=> {return movie.original_title})
+  const movieList = res.results.map((movie):any=> {return movie.title})
+  const searchList = res.results.map((movie):any=> {return {title: movie.title, id: movie.id}})
   const highlightedReviews = reviews?.filter((review):any=> {return movieList.indexOf(review) >= 0}).length
-  
   return (
     <main className={`max-w-[1600px] mx-auto`}>
       <div className={`mt-24 mb-6 rounded-lg  ${user?.settings?.darkMode !== false && 'lg:shadow-inner border-skin-light shadow-skin-base lg:border-4 lg:px-6 lg:py-6'} mx-auto w-full md:w-[30rem] lg:w-[40rem]`}>
       <h1 className={`${monoton.className} text-6xl lg:text-8xl text-center  font-bold ${!user?.settings?.darkMode && user?.settings ? 'text-skin-base': 'text-skin-light'}`}>Pizza Night</h1>
       <h2 className={`text-4xl text-center  ${!user?.settings?.darkMode && user?.settings && 'text-gray-600'}`}>Popular Movie Reviews</h2>
       </div>
-      <SearchAndFilter darkMode={user?.settings?.darkMode} view={user?.settings?.view} />    
+      <SearchAndFilter darkMode={user?.settings?.darkMode} view={user?.settings?.view} searchList={searchList}/>    
       <div className={`${user?.settings?.view === 'card' && 'mx-auto relative'}`}>
       <div className={`${!user?.settings?.view || user?.settings?.view === 'grid' ? 'grid grid-cols-fluid gap-6 lg:gap-12' : user?.settings?.view === 'list' ? 'relative flex flex-col gap-1' : 'flex items-end cursor-pointer overflow-x-scroll md:overflow-x-hidden overflow-y-hidden scrollbar scroll-smooth gap-6 max-w-[1400px] mx-auto'}`} id="movies" >
       { user?.settings?.view === 'card' && <ScrollLeft />}

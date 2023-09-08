@@ -10,6 +10,8 @@ import NameButton from '../auth/NameButton'
 
 export default async function Profile() {
     const session:any = await getServerSession(authOptions)
+    const data = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`)
+    const res = await data.json()
     let user 
         if (session) {
             try {
@@ -29,6 +31,14 @@ export default async function Profile() {
         }
 
     let questList = [{title: "1 Movie Review", xp: '150'}, {title: "Every 10 Karma", xp: '50'}, {title: "1 Comment on Review", xp: '10'}]
+
+    let ratings = user?.reviews?.map(review => review.rating)
+    
+    let heighestRating = Math.max(...ratings)
+    let lowestRating = Math.min(...ratings)
+    const reviews = user?.reviews.map((review):any => {return review.movie})
+    const movieList = res.results.map((movie):any=> {return movie.title})
+    const highlightedReviews = reviews?.filter((review):any=> {return movieList.indexOf(review) >= 0}).length
 
     const karmaCounter = () => {
         if (user) {
@@ -64,7 +74,6 @@ export default async function Profile() {
         }
         return totalXP
     }
-
     return (
         <div className={`flex flex-col items-center lg:grid lg:grid-cols-2 lg:grid-rows-3 lg:gap-8 lg:max-w-[1400px] lg:mx-auto lg:mt-24 2xl:mt-32`}>
         {/* User */}
@@ -90,14 +99,14 @@ export default async function Profile() {
                 Comments <span className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'} absolute right-0 mr-2`}>{user ? user.comments.length : '0'}</span>
             </li>
             <li className={`${user?.settings?.darkMode === false ? 'hover:bg-white hover:bg-opacity-50' : 'hover:bg-gray-600 hover:bg-opacity-20'} w-full relative border-l-2 border-transparent hover:border-skin-base pl-2`}>
-                Average Rating <span className={`absolute right-0 ${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'} mr-2`}>{user?.reviews.length > 0 ? user.reviews.reduce((acc:number, curr:any) => acc + curr.rating, 0) / user.reviews.length : '0'}</span>
+                Average Rating <span className={`absolute right-0 ${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'} mr-2`}>{user?.reviews.length > 0 ? Math.round(user.reviews.reduce((acc:number, curr:any) => acc + curr.rating, 0) / user.reviews.length) : '0'}</span>
             </li>
             <li className={`${user?.settings?.darkMode === false ? 'hover:bg-white hover:bg-opacity-50' : 'hover:bg-gray-600 hover:bg-opacity-20'} w-full relative border-l-2 border-transparent hover:border-skin-base pl-2`}>
                 Karma <span className={`absolute right-0 ${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'} mr-2`}>{karmaCounter()}</span>
             </li>
             </ul>
         </section>
-        <Highlights reviews={user?.reviews} darkMode={user?.settings?.darkMode} />
+        <Highlights reviews={user?.reviews} darkMode={user?.settings?.darkMode} heighestRating={heighestRating} lowestRating={lowestRating} reviewed={highlightedReviews} />
         {/* Pizza Night XP*/}
         <section className="w-full gap-2 mt-4 lg:mt-0 lg:self-start">
             <div className={`flex items-center gap-3 w-full ${user?.settings?.darkMode === false && 'text-black'}`}><h2 className="">Pizza Night XP</h2><div className={`h-[1px] ${user?.settings?.darkMode === false ? 'bg-black' : 'bg-white'} flex-grow`} /></div>

@@ -2,20 +2,52 @@
 
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { AppContext } from '../Context-Provider'
+import Link from 'next/link'
 
-const SearchAndFilter = ({darkMode, view}) => {
-  const {popup}:any = useContext(AppContext)
+const SearchAndFilter = ({darkMode, view, searchList}:any) => {
+  const [searchWord, setSearchWord] = useState<string>('')
+  const {popup, setPopup}:any = useContext(AppContext)
+  
+  useEffect(() => {
+    if (searchWord.length > 0) {
+      setPopup(false)
+    }
+  }, [searchWord])
+  
   return (
-    <div className={`sticky top-2 z-30 ${view === 'card' ? 'md:mb-6' : 'mb-12'} lg:mx-auto ml-12 mr-11 rounded-lg flex items-center lg:max-w-3xl xl:max-w-4xl ${popup && 'opacity-30'} ${darkMode !== false && 'text-black'}`}>
+    <div className={`sticky top-2 z-30`}>
+    <div className={`${view === 'card' ? 'md:mb-6' : 'mb-12'} lg:mx-auto ml-12 mr-11 rounded-lg flex items-center lg:max-w-3xl xl:max-w-4xl ${popup && popup !== 'searchPopup' && 'opacity-30'} ${darkMode !== false && 'text-black'}`}>
           <input 
           placeholder="Search highlighted movies..."
-          className={`${darkMode === false ? 'bg-gray-300 border-skin-base text-skin-dark' : 'bg-black border-skin-dark text-white'} border-l-2 border-b-2 border-t-2 w-full h-8 rounded-l-lg pl-4 focus:outline-none cursor-pointer`}
+          value={searchWord}
+          className={`${darkMode === false ? 'bg-gray-300 border-skin-base text-skin-dark' : 'bg-black border-skin-dark text-white'} border-l-2 border-b-2 border-t-2 w-full h-9 rounded-l-lg pl-4 focus:outline-none cursor-pointer`}
+          onChange={(e) => setSearchWord(e.target.value)}
           />
-          <button className={`h-8 w-8 ${darkMode === false ? 'bg-gray-300 border-skin-base' : ' bg-black border-skin-dark'} rounded-r-lg border-r-2 border-b-2 border-t-2`}>
-            <FontAwesomeIcon icon={faMagnifyingGlass} className={`opacity-50 hover:opacity-100 ${darkMode === false ? 'text-black' : 'text-white'}`}/>
-          </button>
+          <div className={`h-9 w-9 ${darkMode === false ? 'bg-gray-300 border-skin-base' : ' bg-black border-skin-dark'} rounded-r-lg border-r-2 border-b-2 border-t-2 flex items-center justify-center`}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} className={`opacity-50 h-4 w-4 ${darkMode === false ? 'text-black' : 'text-white'}`}/>
+          </div>
+      </div>
+        <div className={`${!searchWord && 'hidden'} absolute top-12 w-full`}>
+          <div className={`${!searchWord && 'hidden'} border-2 rounded-lg p-4 bg-black bg-opacity-95 lg:mx-auto ml-12 mr-11 flex items-center lg:max-w-3xl xl:max-w-4xl border-skin-dark`}>
+            <ul>
+              {
+              searchList.filter(movie => movie?.title?.slice(0, searchWord.length).toLowerCase() === searchWord.toLowerCase()).map(movie => (
+                <li key={Math.random()} className={`hover:text-skin-light`}>
+                  <Link href={`/${movie.id}`}>{movie.title}</Link>
+                </li>
+              ))
+              }
+              {
+              searchList.filter(movie => movie?.title?.slice(0, searchWord.length).toLowerCase() === searchWord.toLowerCase()).length === 0 && 
+              <li key={Math.random()} className={`opacity-70 text-red-600`}>
+                Your movie is not found in the current top 20 list.
+              </li>
+              }
+            </ul>
+          </div>
+        </div>
       </div>
   )
 }

@@ -42,7 +42,7 @@ const HighlightedMovie = ({movies}:any) => {
                 </li>
                 <li className={`bg-black bg-opacity-70 p-2 rounded-xl md:w-32`}>
                     <p>Vote Average</p>
-                    <p className={`text-skin-light text-sm`}>{Math.round(choice?.vote_average)}</p>
+                    <p className={`text-skin-light text-sm`}>{Math.round(choice?.vote_average * 10) / 10}</p>
                 </li>
             </ul>
             </div>

@@ -7,17 +7,18 @@ import { useRouter } from 'next/navigation'
 import { AppContext } from '../Context-Provider'
 
 interface voteData {
-    karmaCounter: number | undefined,
+    count: number | undefined,
     dvList: string[],
     uvList: string[]
 }
 
 const VoteCounter = ({voteCount, userId, upVotes, downVotes, reviewId}:any) => {
     const {setDisableButton, disableButton}:any = useContext(AppContext)
-    const [count, setCount] = useState<number>(upVotes.length && downVotes.length ? upVotes.length - downVotes.length : !upVotes.length && downVotes.length ? 0 - downVotes.length : upVotes.length && !downVotes.length ? upVotes.length : undefined)
+    const [count, setCount] = useState<number | undefined>(upVotes.length && downVotes.length ? upVotes.length - downVotes.length : !upVotes.length && downVotes.length ? 0 - downVotes.length : upVotes.length && !downVotes.length ? upVotes.length : undefined)
     const [curVote, setCurVote] = useState<string>(downVotes?.includes(userId) ? 'down' : upVotes?.includes(userId) ? 'up' : 'off')
     let uvList = upVotes ? upVotes : []
     let dvList = downVotes ? downVotes : []
+    
     const router = useRouter()
 
     useEffect(() => {
@@ -25,15 +26,18 @@ const VoteCounter = ({voteCount, userId, upVotes, downVotes, reviewId}:any) => {
     }, [])
 
     function handleVote (button:string, x:string) {
+
         if (button === 'downButton') {
             if (x === 'down') {
-                dvList = dvList?.filter((user:string) => user !== userId)
+                dvList = (dvList?.filter((user:string) => user !== userId))
+                uvList = (uvList?.filter((user:string) => user !== userId))
                 setCurVote('off')
             } else if (x === 'off') {
                 //dvList?.push(userId)
                 if (!dvList.includes(userId)){
                     dvList = [...dvList, userId]
                 }
+                uvList = (uvList?.filter((user:string) => user !== userId))
                 setCurVote('down')
             } else if (x === 'up') {
                 uvList = uvList?.filter((user:string) => user !== userId)
@@ -47,15 +51,17 @@ const VoteCounter = ({voteCount, userId, upVotes, downVotes, reviewId}:any) => {
         else if (button === 'upButton') {
             if (x === 'up') {
                 uvList = uvList?.filter((user:string) => user !== userId)
+                dvList = (dvList?.filter((user:string) => user !== userId))
                 setCurVote('off')
             } else if (x === 'off') {
                 //uvList?.push(userId[0])
                 if (!uvList.includes(userId)){
                     uvList = [...uvList, userId]
                 }
+                dvList = (dvList?.filter((user:string) => user !== userId))
                 setCurVote('up')
             } else if (x === 'down') {
-                dvList = dvList?.filter((user:string) => user !== userId)
+                dvList  = dvList?.filter((user:string) => user !== userId)
                 //uvList?.push(userId[0])
                 if (!uvList.includes(userId)){
                     uvList = [...uvList, userId]
@@ -64,9 +70,9 @@ const VoteCounter = ({voteCount, userId, upVotes, downVotes, reviewId}:any) => {
             }
         }
         setCount(uvList.length - dvList.length)
-        let karmaCounter = uvList.length - dvList.length
+        let data = {count: uvList.length - dvList.length, uvList, dvList}
         setDisableButton(true)
-        let data = {karmaCounter, dvList, uvList}
+        console.log(data)
         changeVote(reviewId, data)
         setTimeout(() => {
             setDisableButton(false)

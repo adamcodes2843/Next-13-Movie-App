@@ -6,7 +6,7 @@ export default async function handler(
     res: NextApiResponse
 ) {
     const reviewId = req.query.id
-    const {karmaCounter, dvList, uvList} = req.body
+    const {count, dvList, uvList} = req.body
 
     try {
         await prisma.review.update({
@@ -14,12 +14,12 @@ export default async function handler(
                 id: String(reviewId)
             },
             data: {
-                voteCount: Number(karmaCounter),
+                voteCount: Number(count),
                 downVotes: dvList,
                 upVotes: uvList
             }
         })
-        res.status(200).json({message: `count: ${karmaCounter}`})
+        res.status(200).json({message: `count: ${count}`})
     } catch (error) {
         console.log(error)
     }
