@@ -109,7 +109,7 @@ export default async function Profile() {
         <Highlights reviews={user?.reviews} darkMode={user?.settings?.darkMode} heighestRating={heighestRating} lowestRating={lowestRating} reviewed={highlightedReviews} />
         {/* Pizza Night XP*/}
         <section className="w-full gap-2 mt-4 lg:mt-0 lg:self-start">
-            <div className={`flex items-center gap-3 w-full ${user?.settings?.darkMode === false && 'text-black'}`}><h2 className="">Pizza Night XP</h2><div className={`h-[1px] ${user?.settings?.darkMode === false ? 'bg-black' : 'bg-white'} flex-grow`} /></div>
+            <div className={`flex items-center gap-3 w-full ${user?.settings?.darkMode === false && 'text-black'}`}><h2 className="">Pizza Night XP</h2><div className={`h-[1px] ${user?.settings?.darkMode === false ? 'bg-black' : 'bg-white bg-opacity-70'} flex-grow`} /></div>
             <ul className="">
                 {questList.map((quest):any => {
                     return (

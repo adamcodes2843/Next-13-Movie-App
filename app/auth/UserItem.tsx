@@ -2,7 +2,7 @@
 import { useSearchParams } from "next/navigation"
 import { useState, useEffect } from 'react'
 
-export default function UserItem({postDate, reviewUserId, movies, movie}: any) {
+export default function UserItem({postDate, reviewUserId, movies, movie, darkMode}: any) {
     const [userInfo, setUserInfo] = useState<any>('')
     const [showReview, setShowReview] = useState<boolean>(true)
     const searchParams = useSearchParams()!
@@ -16,7 +16,7 @@ export default function UserItem({postDate, reviewUserId, movies, movie}: any) {
         fetch(`http://localhost:3000/api/getReviewer/${id}`)
         .then(response => {
             if(!response.ok) {
-                throw Error('could not fetch the data for theat resource')
+                throw Error('could not fetch the data for that resource')
             }
             return response.json()
         })
@@ -41,7 +41,7 @@ export default function UserItem({postDate, reviewUserId, movies, movie}: any) {
             {showReview && 
             <div className={`bg-opacity-40 bg-gradient-to-r from-skin-dark p-3 flex justify-between gap-3 text-sm md:text-base`}>
                 <p>{userInfo?.displayName}</p>
-                <p>{String(postDate).split(' ').slice(1,4).join('-')}</p>
+                <p className={`${darkMode === false && 'text-skin-base'}`}>{String(postDate).split(' ').slice(1,4).join('-')}</p>
             </div>
             }
         </li>

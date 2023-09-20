@@ -33,17 +33,18 @@ export default async function ReviewBoard() {
       console.log(error)
     }
   }
+  console.log(user)
   return (
-    <main className='max-w-[1600px] mx-auto'>
+    <main className={`max-w-[1600px] mx-auto`}>
       <h1 className={`${blackOpsOne.className} text-6xl lg:text-8xl text-center font-bold mt-16 md:mt-20 lg:mt-24 p-8 bg-gradient-to-b from-skin-base via-skin-dark to-skin-base rounded`}>Review Board</h1>
       <div className={`mt-6 lg:mt-12 flex flex-col lg:grid grid-cols-3 2xl:grid-cols-12 gap-6`}>
         <div className={`flex flex-col lg:col-span-1 2xl:col-span-3`}>
-          <HighlightedMovie movies={data?.results} />
-          <ChoiceBoard choices={data?.results}/>
+          <HighlightedMovie movies={data?.results} darkMode={user?.settings?.darkMode} />
+          <ChoiceBoard choices={data?.results} darkMode={user?.settings?.darkMode} />
         </div>
         <div className={`grow rounded-lg flex flex-col items-center px-3 lg:col-span-2 2xl:col-span-9`}>
-          <h2 className={`text-center text-4xl font-bold md:mt-6 lg:mt-0 mb-6`}>Pizza Night Reviews</h2>
-          <ReviewCheck movies={data?.results} reviews={reviews} />
+          <h2 className={`text-center text-4xl font-bold mt-6 lg:mt-0 mb-6 ${user?.settings?.darkMode === false && 'text-skin-dark'}`}>Pizza Night Reviews</h2>
+          <ReviewCheck movies={data?.results} reviews={reviews} darkMode={user?.settings?.darkMode} />
           <ul className={`flex flex-col w-full justify-between gap-2 mt-6`}>
             {
               reviews && 
@@ -54,6 +55,7 @@ export default async function ReviewBoard() {
                     reviewUserId={review?.userId}
                     movies={data?.results}
                     movie={review?.movie}
+                    darkMode={user?.settings?.darkMode}
                   />
                   <ReviewItem
                     reviewText={review?.review}

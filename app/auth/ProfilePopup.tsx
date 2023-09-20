@@ -7,7 +7,7 @@ import { signIn, signOut } from "next-auth/react"
 import { useState, useContext } from 'react'
 import { AppContext } from '../Context-Provider'
 
-const ProfilePopup = ({session, reviews, comments, id, name, displayName}) => {
+const ProfilePopup = ({session, reviews, comments, id, name, displayName, darkMode}) => {
   const [showStats, setShowStats] = useState<boolean>(false)
   const {popup, setPopup }:any = useContext(AppContext)
 
@@ -48,7 +48,7 @@ const ProfilePopup = ({session, reviews, comments, id, name, displayName}) => {
   }
   
   return (
-    <div className={`fixed flex flex-col border-l-[1px] border-white right-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 bg-black bg-opacity-95 rounded-l-lg px-12 pt-3 pb-3 ${popup !== 'profilePopup' && 'hidden'}`}>
+    <div className={`fixed flex flex-col border-l-[1px] border-white right-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 ${darkMode === false ? 'bg-gray-600' : 'bg-black bg-opacity-95'} rounded-l-lg px-12 pt-3 pb-3 ${popup !== 'profilePopup' && 'hidden'}`}>
       <div className='flex justify-between items-center'>
       <div className={`border-2 rounded-lg px-3 py-1 border-skin-light ${!session?.user && 'opacity-0'}`}>
       {displayName ? displayName : name ? name : ''}
@@ -58,19 +58,19 @@ const ProfilePopup = ({session, reviews, comments, id, name, displayName}) => {
       </button>
       </div>
       <ul className={`border-b-[1px] py-4 ${!session?.user && 'hidden'}`}>
-        <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
+        <li className={`${darkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40`}>
         <Link href={`/profile`} onClick={()=>setPopup(false)} className="p-2 inline-block w-full h-full">
         <FontAwesomeIcon icon={faUser} className="mr-6 w-5" />
           Your Profile
         </Link>
         </li>
-        <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
+        <li className={`${darkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40`}>
         <Link href="/reviews/review-history" onClick={()=>setPopup(false)} className="p-2 inline-block w-full h-full">
         <FontAwesomeIcon icon={faStar} className="mr-6 w-5" />
           Your Reviews
         </Link>
         </li>
-        <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
+        <li className={`${darkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40`}>
         <Link href="/reviews/comment-history" onClick={() => setPopup(false)} className="p-2 inline-block w-full h-full">
         <FontAwesomeIcon icon={faComment} className="mr-6 w-5" />
           Your Comments
@@ -108,16 +108,16 @@ const ProfilePopup = ({session, reviews, comments, id, name, displayName}) => {
       </div>
       }
       
-        <button type="button" onClick={() => setPopup('settingsPopup')} className={` hover:bg-gray-600 rounded-lg hover:bg-opacity-40 p-2 text-left mt-auto ${!session?.user && 'hidden'} w-full`} >
+        <button type="button" onClick={() => setPopup('settingsPopup')} className={`${darkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40 p-2 text-left mt-auto ${!session?.user && 'hidden'} w-full`} >
         <FontAwesomeIcon icon={faGear} className="mr-6 w-5" />
         Settings
         </button>
         {
           !session?.user ? 
-          <button type='button' onClick={() => signIn()} className={`hover:bg-gray-600 rounded-lg hover:bg-opacity-40 p-2 my-4 text-3xl h-full text-center w-full`}>
+          <button type='button' onClick={() => signIn()} className={`${darkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40 p-2 my-4 text-3xl h-full text-center w-full`}>
             Sign In
           </button> :
-          <button type="button" onClick={() => signOut()} className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40 p-2 text-left">
+          <button type="button" onClick={() => signOut()} className={`${darkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40 p-2 text-left`}>
           <FontAwesomeIcon icon={faRightFromBracket} className="mr-6 w-5" />Sign Out
           </button>
         }

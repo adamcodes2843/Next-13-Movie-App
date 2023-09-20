@@ -7,6 +7,11 @@ import ReviewItem from '@/app/auth/ReviewItem'
 
 export default async function ReviewHistory() {
   const session:any = await getServerSession(authOptions)
+  const reviews = await prisma.review.findMany({
+    include: {
+      comments: true
+    }
+  })
   let user 
   if (session) {
     try {
@@ -23,7 +28,6 @@ export default async function ReviewHistory() {
       console.log(error)
     }
   }
-
   return (
     <main className='max-w-[1600px] mx-auto'>
       <div className={`flex items-center justify-between mt-16 md:mt-24 2xl:mt-32`}>
@@ -49,24 +53,30 @@ export default async function ReviewHistory() {
             <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user ? '0' : user?.reviews?.reduce((total:number, curr:any) => total + curr.voteCount, 0)}</p>
           </li>
         </ul>
-        <ul className={`w-full mt-6 lg:mt-12 flex flex-col justify-between gap-2`}>
+        <ul className={`w-full mt-6 lg:mt-12 flex flex-col  gap-2`}>
           {!user?.reviews?.length && 
           <li className={`text-center flex flex-col items-center gap-3 md:gap-6 md:text-xl mt-20 ${user?.settings?.darkMode === false && 'text-black'}`}>
             You haven't reviewed any movies yet.
           <FontAwesomeIcon icon={faFaceMeh} className={`w-12 h-12`}/> 
           </li>
           }
-          {user?.reviews?.length > 0 && 
-          user?.reviews?.map((review:any) => (
-            <ReviewItem 
-              reviewText={review?.review} 
-              rating={review?.rating} 
-              voteCount={review?.voteCount} 
-              movie={review?.movie} 
-              title={review?.title}
-              darkMode={user?.settings?.darkMode} 
-              />
-          ))
+          {reviews && 
+              reviews.sort((a:any,b:any)=> b.dateTimePosted - a.dateTimePosted).map((review:any) => (
+                  <ReviewItem
+                    reviewText={review?.review}
+                    rating={review?.rating} 
+                    voteCount={review?.voteCount} 
+                    upVotes={review?.upVotes}
+                    downVotes={review?.downVotes}
+                    movie={review?.movie} 
+                    title={review?.title}
+                    darkMode={user?.settings?.darkMode}
+                    reviewId={review?.id}
+                    userId={user?.id}
+                    reviewUserId={review?.userId}
+                    comments={review?.comments}
+                  />
+              ))
           }
         </ul>
       </div>

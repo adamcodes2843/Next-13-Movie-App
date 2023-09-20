@@ -3,6 +3,7 @@ import { authOptions } from '../../../pages/api/auth/[...nextauth]'
 import prisma from "@/prisma/client"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faFaceMeh } from '@fortawesome/free-solid-svg-icons'
+import DeleteItem from '@/app/auth/DeleteItem'
 
 export default async function CommentHistory() {
   const session:any = await getServerSession(authOptions)
@@ -23,6 +24,7 @@ export default async function CommentHistory() {
       console.log(error)
     }
   }
+  
   return (
     <main className='max-w-[1600px] mx-auto'>
       <div className={`flex items-center justify-between mt-16 md:mt-24 2xl:mt-32`}>
@@ -35,34 +37,32 @@ export default async function CommentHistory() {
             <p>Total Comments</p>
             <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user ? '0' : user?.comments?.length}</p>
           </li>
-          <li className={`flex flex-col md:gap-2`}>
+          {/* <li className={`flex flex-col md:gap-2`}>
             <p>Most Upvoted</p>
             <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{user?.comments?.length === 0 || !user ? '0' : user?.comments?.map((x:any) => x.rating).reduce((prev:any, curr:any) => Math.max(prev, curr), - Infinity)}</p>
           </li>
           <li className={`flex flex-col md:gap-2`}>
             <p>Comment Karma</p>
             <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user ? '0' : user?.comments?.reduce((total:number, curr:any) => total + curr.voteCount, 0)}</p>
-          </li>
+          </li> */}
         </ul>
-        <ul className={`w-full mt-6 lg:mt-12 flex flex-col justify-between gap-2`}>
+        <ul className={`w-full mt-6 lg:mt-12 flex flex-col justify-between gap-2 ${user?.settings?.darkMode === false && 'text-black'}`}>
           {!user?.comments?.length && 
           <li className={`text-center flex flex-col items-center gap-3 md:gap-6 md:text-xl mt-20 ${user?.settings?.darkMode === false && 'text-black'}`}>
             You haven't made any comments yet.
           <FontAwesomeIcon icon={faFaceMeh} className={`w-12 h-12 ${user?.settings?.darkMode === false && 'text-skin-base'}`}/> 
-          </li>
+          </li> 
           }
-          {/* {user?.reviews?.length > 0 && 
-          user?.reviews?.map((review:any) => (
-            <ReviewItem 
-              reviewText={review?.review} 
-              rating={review?.rating} 
-              voteCount={review?.voteCount} 
-              movie={review?.movie} 
-              title={review?.title}
-              darkMode={user?.settings?.darkMode} 
-              />
-          ))
-          } */}
+          {
+            user?.comments?.length && 
+            user?.comments?.sort((a,b) => b.dateTimePosted - a.dateTimePosted).map(comment => (
+              <li key={Math.random()} className={`flex border-2 border-skin-dark items-center md:justify-between text-sm p-2 ${user?.settings?.darkMode === false && 'bg-white bg-opacity-70'}`}>
+                <DeleteItem id={comment.id} item={'comment'} darkMode={user?.settings?.darkMode}/>
+                <p className={`px-3 mr-auto`}>{comment.comment}</p>
+                <p className={`text-right w-36`}>{String(comment.dateTimePosted).slice(4,15)}</p>
+              </li>
+            ))
+          }
         </ul>
       </div>
     </main>

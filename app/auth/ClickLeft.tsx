@@ -6,7 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 const ClickLeft = () => {
     const clickedLeft = () => {
         let slider = document.getElementById('movies')
-        slider.scrollLeft -= 345
+        if (slider){
+          slider.scrollLeft -= 345
+        } 
     }
 
   return (

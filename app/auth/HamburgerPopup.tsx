@@ -1,6 +1,6 @@
 'use client'
 
-import { faHouse, faComments, faMoon, faTableCells, faSun, faList, faSort, faFilter, faRightLeft } from '@fortawesome/free-solid-svg-icons'
+import { faHouse, faComments, faMoon, faTableCells, faSun, faList, faSort, faFilter, faRightLeft} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -12,7 +12,7 @@ import LoadingSVG from './LoadingSVG'
 import FilterMenu from './FilterMenu'
 import SortMenu from './SortMenu'
 
-const HamburgerPopup = ({session, reviews, settings}:any) => {
+const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:any) => {
   const {setPopup, popup, setDisableButton, disableButton}:any = useContext(AppContext)
   const [numberOfReviews, setNumberOfReviews] = useState<number>(3)
   const [showSaving, setShowSaving] = useState<boolean | string>(false)
@@ -58,7 +58,7 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
       router.refresh()
       setShowSaving(false)
       setDisableButton(false)
-    }, 1500)
+    }, 1000)
   }
   
   const handleFilter = () => {
@@ -116,7 +116,7 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
   }
   
   return (
-    <div className={`fixed border-r-[1px] border-white left-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 bg-black bg-opacity-95 rounded-r-lg px-12 pt-3 pb-6 ${popup !== 'hamburgerPopup' && 'hidden'}`}>
+    <div className={`fixed border-r-[1px] border-white left-0 w-[21rem] md:w-96 top-0 bottom-0 z-40 ${dbDarkMode === false ? 'bg-gray-600' : 'bg-black bg-opacity-95'} rounded-r-lg px-12 pt-3 pb-6 ${popup !== 'hamburgerPopup' && 'hidden'}`}>
       <div className='flex justify-between items-center'>
       <Image src={pizzaSlice} className="bg-white rounded-full border-2" alt="pizza icon" width={32} height={32} />
       <button type='button' onClick={()=>setPopup(false)} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 px-3 py-1">
@@ -126,13 +126,13 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
       <div className={`flex flex-col justify-between h-full`}>
         <div>
         <ul className="border-b-[1px] py-4">
-            <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
+            <li className={`${dbDarkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40`}>
                 <Link href="/" onClick={() => setPopup(false)} className="p-2 inline-block w-full h-full">
                 <FontAwesomeIcon icon={faHouse} className="pr-6 w-5" /> 
                 Home
                 </Link>
             </li>
-            <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
+            <li className={`${dbDarkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40`}>
                 <Link href="/reviews/review-board" onClick={()=> setPopup(false)} className="p-2 inline-block w-full h-full">
                 <FontAwesomeIcon icon={faComments} className="pr-6 w-5" /> 
                 Review Board
@@ -145,7 +145,7 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
           <li key={Math.random()} className={`py-2 hover:border-skin-base border-l-2 border-l-transparent`}>
             <div>
               <div className="flex gap-2 ml-2 justify-between items-center">
-              <p className="text-sm">{review.movie}</p>
+              <p className="text-sm w-5/6">{review.movie}</p>
               <p className={`border-2 rounded-full h-8 w-8 text-center text-skin-light flex justify-center items-center`}>{review.rating}</p>
               </div>
             </div>
@@ -156,7 +156,7 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
         
         </div>
         <ul className={`py-4 mb-3`}>
-          <li className={`hover:bg-gray-600 ${showFilter && 'bg-gray-600 bg-opacity-40'} rounded-lg hover:bg-opacity-40`}>
+          {/* <li className={`hover:bg-gray-600 ${showFilter && 'bg-gray-600 bg-opacity-40'} rounded-lg hover:bg-opacity-40`}>
             <button type='button' onClick={() => handleFilter()} className="p-2 inline-block w-full h-full text-left">
             <FontAwesomeIcon icon={faFilter} className="pr-6 w-5" />
               Filter
@@ -169,8 +169,8 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
               Sort
             </button>
             {showSort && <SortMenu setShowSort={setShowSort} setNumberOfReviews={setNumberOfReviews} />}
-          </li>
-          <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
+          </li> */}
+          <li className={`${dbDarkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40`}>
             { viewMode === "grid" || !session?.user ?
               <button type="button" disabled={!settings || disableButton} onClick={() => gridListMode(settings?.userId, 'list')} className="p-2 inline-block w-full h-full text-left relative">
               <FontAwesomeIcon icon={faTableCells} className={`pr-6 w-5 ${!session?.user && 'opacity-40'}`} />
@@ -188,7 +188,7 @@ const HamburgerPopup = ({session, reviews, settings}:any) => {
               </button>
             }
           </li>
-          <li className="hover:bg-gray-600 rounded-lg hover:bg-opacity-40">
+          <li className={`${dbDarkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40`}>
             <button type="button" onClick={() => handleDarkMode(settings?.userId, !settings?.darkMode)} className={`p-2 inline-block w-full h-full text-left relative`} disabled={!settings || disableButton}>
               {
                 darkMode || !session?.user ?

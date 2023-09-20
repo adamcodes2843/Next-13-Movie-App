@@ -10,15 +10,14 @@ const Highlights = ({reviews, darkMode, heighestRating, lowestRating, reviewed}:
   let heighestReviews = reviews.filter(review => review.rating === heighestRating)
   let lowestReviews = reviews.filter(review => review.rating === lowestRating)
   let reviewPercent = `${(String(reviewed / 20 * 100))}%`
-  console.log(reviewPercent)
-
+  
   return (
     <section className={`${darkMode === false && 'text-black'} w-full lg:self-start h-[12.5rem] flex flex-col justify-between`}>
-            <div className="flex items-center gap-3 w-full"><h2 className="">Highlights</h2><div className={`${darkMode === false ? 'bg-black' : 'bg-white'} h-[1px] flex-grow`} /></div>
+            <div className="flex items-center gap-3 w-full"><h2 className="">Highlights</h2><div className={`${darkMode === false ? 'bg-black' : 'bg-white bg-opacity-70'} h-[1px] flex-grow`} /></div>
             {
               showRated === off ?
               <>
-                <div className={`${darkMode === false && 'border-black bg-white'} w-full max-w-[800px] h-8 border-2 rounded-2xl p-1 relative mx-auto mt-4 mb-1`}>
+                <div className={`${darkMode === false && 'border-black bg-white bg-opacity-70'} w-full max-w-[800px] h-8 border-2 rounded-2xl p-1 relative mx-auto mt-4 mb-1`}>
                   <div className={`h-full bg-skin-base rounded-2xl`} style={{width: reviewPercent}} />
                   <h2 className="absolute w-full text-center pb-[2px] left-0 bottom-0 mx-auto">{reviewPercent}</h2>
                 </div>
@@ -37,10 +36,10 @@ const Highlights = ({reviews, darkMode, heighestRating, lowestRating, reviewed}:
               </div>
             }
               <div className="flex w-full gap-4 justify-around items-center mt-4">
-                <button type="button" onClick={() => setShowRated(showRated !== highest ? highest : off)} className={`${darkMode === false ? 'shadow hover:shadow-inner hover:shadow-black shadow-black bg-white' : 'bg-gray-600 shadow-inner hover:shadow-none bg-opacity-30'} text-center p-4 flex-grow shadow-gray-600`}>
+                <button type="button" onClick={() => setShowRated(showRated !== highest ? highest : off)} className={`${darkMode === false ? 'shadow hover:shadow-inner hover:shadow-black shadow-black bg-white bg-opacity-70' : 'bg-gray-600 shadow-inner hover:shadow-none bg-opacity-30'} text-center p-4 flex-grow shadow-gray-600`}>
                     All Time<br />Highest Rated
                 </button>
-                <button type="button" onClick={() => setShowRated(showRated !== lowest ? lowest : off)} className={`${darkMode === false ? 'shadow hover:shadow-inner hover:shadow-black shadow-black bg-white' : 'bg-gray-600 shadow-inner hover:shadow-none bg-opacity-30'} text-center p-4 flex-grow shadow-gray-600`}>
+                <button type="button" onClick={() => setShowRated(showRated !== lowest ? lowest : off)} className={`${darkMode === false ? 'shadow hover:shadow-inner hover:shadow-black shadow-black bg-white bg-opacity-70' : 'bg-gray-600 shadow-inner hover:shadow-none bg-opacity-30'} text-center p-4 flex-grow shadow-gray-600`}>
                     All Time<br />Lowest Rated
                 </button>
             </div>    

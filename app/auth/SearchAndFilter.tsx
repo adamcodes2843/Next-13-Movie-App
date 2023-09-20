@@ -31,7 +31,7 @@ const SearchAndFilter = ({darkMode, view, searchList}:any) => {
       </div>
         <div className={`${!searchWord && 'hidden'} absolute top-12 w-full`}>
           <div className={`${!searchWord && 'hidden'} border-2 rounded-lg p-4 bg-black bg-opacity-95 lg:mx-auto ml-12 mr-11 flex items-center lg:max-w-3xl xl:max-w-4xl border-skin-dark`}>
-            <ul>
+            <ul className={`flex flex-col gap-1`}>
               {
               searchList.filter(movie => movie?.title?.slice(0, searchWord.length).toLowerCase() === searchWord.toLowerCase()).map(movie => (
                 <li key={Math.random()} className={`hover:text-skin-light`}>

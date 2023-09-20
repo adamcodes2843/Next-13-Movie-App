@@ -5,13 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const ScrollRight = () => {
 
-    let timer = undefined
+    let timer:any = undefined
 
     const slideRight = () => {
         let slider = document.getElementById('movies')
-        slider.scrollLeft += 150
-        timer && clearInterval(timer)
-        timer = setInterval(slideRight, 100)
+        if (slider) {
+          slider.scrollLeft += 150
+          timer && clearInterval(timer)
+          timer = setInterval(slideRight, 100)
+        }
     }
 
     const kill = () => {
@@ -19,7 +21,7 @@ const ScrollRight = () => {
     }
 
   return (
-    <button type="button" onMouseEnter={() => slideRight()} onMouseLeave={() => kill()} className="hidden md:block absolute right-0 top-[calc(50%-12rem)] h-96 w-20 bg-white text-skin-dark bg-opacity-70 2xl:bg-opacity-20 z-30 text-3xl font-bold hover:text-4xl hover:bg-opacity-100">
+    <button type="button" onMouseEnter={() => slideRight()} onMouseLeave={() => kill()} className={`hidden md:block absolute bg-white right-0 top-[calc(50%-12rem)] h-96 w-20 text-skin-dark z-30 text-3xl font-bold hover:text-4xl bg-opacity-70 2xl:bg-opacity-20 hover:bg-opacity-100`}>
         <FontAwesomeIcon icon={faChevronRight} />
     </button>
   )

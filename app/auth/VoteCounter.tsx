@@ -12,7 +12,7 @@ interface voteData {
     uvList: string[]
 }
 
-const VoteCounter = ({voteCount, userId, upVotes, downVotes, reviewId}:any) => {
+const VoteCounter = ({darkMode, userId, upVotes, downVotes, reviewId}:any) => {
     const {setDisableButton, disableButton}:any = useContext(AppContext)
     const [count, setCount] = useState<number | undefined>(upVotes.length && downVotes.length ? upVotes.length - downVotes.length : !upVotes.length && downVotes.length ? 0 - downVotes.length : upVotes.length && !downVotes.length ? upVotes.length : undefined)
     const [curVote, setCurVote] = useState<string>(downVotes?.includes(userId) ? 'down' : upVotes?.includes(userId) ? 'up' : 'off')
@@ -95,10 +95,12 @@ const VoteCounter = ({voteCount, userId, upVotes, downVotes, reviewId}:any) => {
           }
     }
   return (
-    <div className={`flex flex-col justify-between items-center my-2`}>
-        <button type="button" disabled={!userId || disableButton} onClick={() => handleVote('upButton', curVote)} className="cursor-pointer"><FontAwesomeIcon icon={faAngleUp} className={`w-6 h-6 md:w-8 md:h-8 ${curVote === 'up' ? 'text-skin-light' : 'text-skin-dark'} ${disableButton && 'cursor-default'}`} /></button>
-        <p className={`text-skin-light`}>{count}</p>
-        <button type="button" disabled={!userId || disableButton} onClick={() => handleVote('downButton', curVote)} className="cursor-pointer"><FontAwesomeIcon icon={faAngleDown} className={`w-6 h-6 md:w-8 md:h-8 ${curVote === 'down' ? 'text-skin-light' : 'text-skin-dark'} ${disableButton && 'cursor-default'}`} /></button>
+    <div className={`flex flex-col items-start justify-center w-10 md:w-12 lg:w-16`}>
+        <div className={`flex flex-col justify-between items-center my-2`}>
+        <button type="button" disabled={!userId || disableButton} onClick={() => handleVote('upButton', curVote)} className="cursor-pointer"><FontAwesomeIcon icon={faAngleUp} className={`w-6 h-6 md:w-8 md:h-8 ${curVote === 'up' && darkMode === false ? 'text-skin-base' : curVote === 'up' && darkMode !== false ? 'text-skin-light' : 'text-skin-dark'} ${disableButton && 'cursor-default'}`} /></button>
+        <p className={`${darkMode === false ? 'text-skin-base font-semibold' : 'text-skin-light'}`}>{count}</p>
+        <button type="button" disabled={!userId || disableButton} onClick={() => handleVote('downButton', curVote)} className="cursor-pointer"><FontAwesomeIcon icon={faAngleDown} className={`w-6 h-6 md:w-8 md:h-8 ${curVote === 'down' && darkMode === false ? 'text-skin-base' : curVote === 'down' && darkMode !== false ? 'text-skin-light' : 'text-skin-dark'} ${disableButton && 'cursor-default'}`} /></button>
+        </div>
     </div>
   )
 }

@@ -5,13 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const ScrollLeft = () => {
 
-    let timer = undefined
+    let timer:any = undefined
 
     const slideLeft = () => {
         let slider = document.getElementById('movies')
-        slider.scrollLeft -= 150
-        timer && clearInterval(timer)
-        timer = setInterval(slideLeft, 100)
+        if (slider) {
+          slider.scrollLeft -= 150
+          timer && clearInterval(timer)
+          timer = setInterval(slideLeft, 100)
+        }
     }
 
     const kill = () => {

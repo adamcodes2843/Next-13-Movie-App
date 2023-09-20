@@ -38,14 +38,14 @@ export default async function Nav() {
         
   return (
     <>
-    <nav className="fixed bg-gradient-to-r from-black to-gray-600 w-full h-[3.25rem] flex justify-between items-center text-xl z-20 text-white top-0 left-0 bg-opacity-90">
-      <HamburgerButton />
+    <nav className={`fixed ${user?.settings?.darkMode === false ? 'bg-gray-600' : 'bg-gradient-to-r from-black to-gray-600 bg-opacity-90'} w-full h-[3.25rem] flex justify-between items-center text-xl z-20 text-white top-0 left-0`}>
+      <HamburgerButton darkMode={user?.settings?.darkMode}/>
       <ProfileButton session={session} />
     </nav>
-    <HamburgerPopup session={session} reviews={user?.reviews} settings={user?.settings}/>
-    <ProfilePopup session={session} reviews={user?.reviews} id={user?.id} comments={user?.comments} name={user?.name} displayName={user?.displayName} />
-    <SettingsPopup settings={user?.settings} name={user?.name} favoriteMovie={user?.favoriteMovie} favoritePizza={user?.favoritePizza} id={user?.settings?.userId} displayName={user?.displayName}/>
-    <DeletePopup id={user?.id}/>
+    <HamburgerPopup session={session} reviews={user?.reviews} settings={user?.settings} dbDarkMode={user?.settings?.darkMode}/>
+    <ProfilePopup session={session} reviews={user?.reviews} id={user?.id} comments={user?.comments} name={user?.name} displayName={user?.displayName} darkMode={user?.settings?.darkMode} />
+    <SettingsPopup settings={user?.settings} name={user?.name} favoriteMovie={user?.favoriteMovie} favoritePizza={user?.favoritePizza} id={user?.settings?.userId} displayName={user?.displayName} dbDarkMode={user?.settings?.darkMode} />
+    <DeletePopup id={user?.id} darkMode={user?.settings?.darkMode}/>
     </>
   )
 }

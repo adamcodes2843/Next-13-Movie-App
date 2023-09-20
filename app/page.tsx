@@ -61,7 +61,7 @@ export default async function Home() {
       { user?.settings?.view === 'card' && <ScrollRight />}
       </div>
       </div>
-      <Footer reviewed={highlightedReviews} />
+      <Footer reviewed={highlightedReviews} darkMode={user?.settings?.darkMode} />
     </main>
   )
 }

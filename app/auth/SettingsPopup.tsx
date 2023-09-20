@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import ColorSelection from './ColorSelection'
 import LoadingSVG from './LoadingSVG'
 
-const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizza, id}:any) => {
+const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizza, id, dbDarkMode}:any) => {
     const {popup, setPopup, setDisableButton, disableButton}:any = useContext(AppContext)
     const [settingsPage, setSettingsPage] = useState<string>('display')
     const [showColors, setShowColors] = useState<boolean>(false)
@@ -203,16 +203,16 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
       }
     }
   return (
-    <div className={`fixed ${popup !== 'settingsPopup' && 'hidden'} bg-opacity-95 bg-black border-white border-[1px] rounded-lg  w-[calc(100%-4rem)] md:w-[calc(100%-8rem)] top-24 md:top-36 2xl:top-72 p-4 z-50 max-w-4xl left-0 right-0 mx-auto`}>
+    <div className={`fixed ${popup !== 'settingsPopup' && 'hidden'} ${dbDarkMode === false ? 'bg-gray-600' : 'bg-opacity-95 bg-black'} border-white border-[1px] rounded-lg  w-[calc(100%-4rem)] md:w-[calc(100%-8rem)] top-24 md:top-36 2xl:top-72 p-4 z-50 max-w-4xl left-0 right-0 mx-auto`}>
         <div className="flex justify-between items-center mr-6">
         <h1 className="text-lg pl-6 text-skin-light">User settings</h1>
-        <button type='button' onClick={()=> handleXButton('closeSettings')} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 px-3 py-1">
+        <button type='button' onClick={()=> handleXButton('closeSettings')} className={`text-lg rounded-lg ${dbDarkMode === false ? 'hover:bg-gray-300' : 'hover:bg-gray-600'} hover:bg-opacity-40 px-3 py-1`}>
           x
         </button>  
         </div>
         <div className="w-full flex justify-around md:justify-start md:ml-6 mt-4 gap-2 md:gap-4">
-            <button type='button' onClick={() => setSettingsPage('display')} className={`${settingsPage === 'display' ? 'border-white' : 'border-black hover:opacity-100 opacity-60'} border-b-2 px-3`}>Display</button>
-            <button type='button' onClick={() => setSettingsPage('account')} className={`${settingsPage === 'account' ? 'border-white' : 'border-black hover:opacity-100 opacity-60'} border-b-2 px-3`}>Account</button>
+            <button type='button' onClick={() => setSettingsPage('display')} className={`${settingsPage === 'display' ? 'border-white' : settingsPage !== 'display' && dbDarkMode === false ? 'border-gray-600' : 'border-black hover:opacity-100 opacity-60'} border-b-2 px-3`}>Display</button>
+            <button type='button' onClick={() => setSettingsPage('account')} className={`${settingsPage === 'account' ? 'border-white' : settingsPage !== 'account' && dbDarkMode === false ? 'border-gray-600' : 'border-black hover:opacity-100 opacity-60'} border-b-2 px-3`}>Account</button>
         </div>
         {/* Display Settings  */}
         <section className={`${settingsPage !== 'display' && 'hidden'} mx-6 mt-4 flex flex-col gap-2`}>
@@ -221,7 +221,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
             <h3>Dark Mode</h3>
             <label className="relative inline-flex items-center cursor-pointer ml-4">
               <input type="checkbox" value="" className="sr-only peer" disabled={disableButton} checked={darkMode === false ? false : true} onChange={() => settingsHandler(id, !settings?.darkMode, 'dark')}/>
-              <div className={`w-11 h-6 bg-gray-600 rounded-full peer-checked:ring-2 peer-checked:ring-skin-light peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-skin-base ${disableButton && 'cursor-default'}`}></div>
+              <div className={`w-11 h-6 bg-skin-base rounded-full peer-checked:ring-2 peer-checked:ring-skin-light peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-skin-base ${disableButton && 'cursor-default'}`}></div>
             </label>
           </div>
           <div className="flex justify-between items-center">
@@ -280,11 +280,11 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
               !changeName ?
               <button onClick={() => handleChangeButton('name')} disabled={disableButton} className="rounded-full hover:bg-gray-600 hover:bg-opacity-40 border-2 px-2 py-1">Change</button> :
               <div className={`flex gap-2 md:gap-6 w-full md:w-3/4 justify-between items-center`}>
-                <input type="text" value={newDisplayName} onChange={(e) => setNewDisplayName(e.target.value) } maxLength={30} placeholder="Change Name" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light hover:border-skin-base focus:ring-0 focus:outline-skin-base mr-auto`}/>
-              <button type="button" disabled={newDisplayName.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newDisplayName,'name')} className={`rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10`}>
+                <input type="text" value={newDisplayName} onChange={(e) => setNewDisplayName(e.target.value) } maxLength={30} placeholder="Change Name" className={`${dbDarkMode === false ? 'bg-white text-skin-dark' : 'bg-black text-white'} border-2 border-white rounded-full w-3/4 focus:border-skin-light hover:border-skin-base focus:ring-0 focus:outline-skin-base mr-auto`}/>
+              <button type="button" disabled={newDisplayName.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newDisplayName,'name')} className={`rounded-lg ${dbDarkMode === false ? 'hover:bg-gray-300' : 'hover:bg-gray-600'} hover:bg-opacity-40 w-12 h-10`}>
                 <FontAwesomeIcon icon={faAngleRight} className={`w-4 h-4 text-white `} />
               </button>
-              <button type='button' onClick={()=>handleXButton('name')} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10">
+              <button type='button' onClick={()=>handleXButton('name')} className={`text-lg rounded-lg ${dbDarkMode === false ? 'hover:bg-gray-300' : 'hover:bg-gray-600'} hover:bg-opacity-40 w-12 h-10`}>
               x
               </button> 
               </div>
@@ -301,11 +301,11 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
               !changeMovie ?
               <button onClick={() => handleChangeButton('favoriteMovie')} disabled={disableButton} className="rounded-full hover:bg-gray-600 hover:bg-opacity-40 border-2 px-2 py-1">Change</button> :
               <div className={`flex gap-2 md:gap-6 w-full md:w-3/4 justify-between items-center`}>
-                <input type="text" value={newFavoriteMovie} onChange={(e) => setNewFavoriteMovie(e.target.value) } maxLength={30} placeholder="Change Movie" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light focus:ring-0 hover:border-skin-base focus:outline-skin-base mr-auto`}/>
-              <button type="button" disabled={newFavoriteMovie.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newFavoriteMovie ,'favoriteMovie')} className={`rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10`}>
+                <input type="text" value={newFavoriteMovie} onChange={(e) => setNewFavoriteMovie(e.target.value) } maxLength={30} placeholder="Change Movie" className={`${dbDarkMode === false ? 'bg-white text-skin-dark' : 'bg-black text-white'} border-2 border-white rounded-full w-3/4 focus:border-skin-light focus:ring-0 hover:border-skin-base focus:outline-skin-base mr-auto`}/>
+              <button type="button" disabled={newFavoriteMovie.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newFavoriteMovie ,'favoriteMovie')} className={`rounded-lg ${dbDarkMode === false ? 'hover:bg-gray-300' : 'hover:bg-gray-600'} hover:bg-opacity-40 w-12 h-10`}>
                 <FontAwesomeIcon icon={faAngleRight} className={`w-4 h-4 text-white `} />
               </button>
-              <button type='button' onClick={()=>handleXButton('favoriteMovie')} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10">
+              <button type='button' onClick={()=>handleXButton('favoriteMovie')} className={`text-lg rounded-lg ${dbDarkMode === false ? 'hover:bg-gray-300' : 'hover:bg-gray-600'} hover:bg-opacity-40 w-12 h-10`}>
               x
               </button> 
               </div>
@@ -321,11 +321,11 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
               !changePizza ?
               <button onClick={() => handleChangeButton('favoritePizza')} disabled={disableButton} className="rounded-full hover:bg-gray-600 hover:bg-opacity-40 border-2 px-2 py-1">Change</button> :
               <div className={`flex gap-2 md:gap-6 w-full md:w-3/4 justify-between items-center`}>
-                <input type="text" value={newFavoritePizza} onChange={(e) => setNewFavoritePizza(e.target.value) } maxLength={30} placeholder="Change Pizza" className={`bg-black text-white border-2 border-white rounded-full w-3/4 focus:border-skin-light focus:ring-0 hover:border-skin-base focus:outline-skin-base mr-auto`}/>
-              <button type="button" disabled={newFavoritePizza.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newFavoritePizza ,'favoritePizza')} className={`rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10`}>
+                <input type="text" value={newFavoritePizza} onChange={(e) => setNewFavoritePizza(e.target.value) } maxLength={30} placeholder="Change Pizza" className={`${dbDarkMode === false ? 'bg-white text-skin-dark' : 'bg-black text-white'} border-2 border-white rounded-full w-3/4 focus:border-skin-light focus:ring-0 hover:border-skin-base focus:outline-skin-base mr-auto`}/>
+              <button type="button" disabled={newFavoritePizza.length < 3 || disableButton} onClick={() => settingsHandler(settings?.userId, newFavoritePizza ,'favoritePizza')} className={`rounded-lg ${dbDarkMode === false ? 'hover:bg-gray-300' : 'hover:bg-gray-600'} hover:bg-opacity-40 w-12 h-10`}>
                 <FontAwesomeIcon icon={faAngleRight} className={`w-4 h-4 text-white `} />
               </button>
-              <button type='button' onClick={()=>handleXButton('favoritePizza')} className="text-lg rounded-lg hover:bg-gray-600 hover:bg-opacity-40 w-12 h-10">
+              <button type='button' onClick={()=>handleXButton('favoritePizza')} className={`text-lg rounded-lg ${dbDarkMode === false ? 'hover:bg-gray-300' : 'hover:bg-gray-600'} hover:bg-opacity-40 w-12 h-10`}>
               x
               </button> 
               </div>
@@ -338,7 +338,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
             {/* Allow Comments */}
             <label className="relative inline-flex items-center cursor-pointer ml-4">
               <input type="checkbox" disabled={disableButton} className="sr-only peer" checked={allowComments === false ? false : true} onChange={() => settingsHandler(id, !settings?.allowComments, 'allowComments')} />
-              <div className={`w-11 h-6 bg-gray-600 rounded-full peer-checked:ring-2 peer-checked:ring-skin-light peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-skin-base ${disableButton && 'cursor-default'}`}></div>
+              <div className={`w-11 h-6 bg-skin-base rounded-full peer-checked:ring-2 peer-checked:ring-skin-light peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-skin-base ${disableButton && 'cursor-default'}`}></div>
             </label>
           </div>
           <h2 className="border-b-2 opacity-60">Delete Account</h2>

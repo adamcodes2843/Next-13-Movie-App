@@ -7,7 +7,9 @@ const ClickRight = () => {
 
     const clickedRight = () => {
         let slider = document.getElementById('movies')
-        slider.scrollLeft += 345
+        if (slider) {
+          slider.scrollLeft += 345
+        }
     }
 
   return (
