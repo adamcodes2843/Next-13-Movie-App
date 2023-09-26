@@ -1,33 +1,20 @@
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from '../../../pages/api/auth/[...nextauth]'
 import prisma from "@/prisma/client"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faFaceMeh } from '@fortawesome/free-solid-svg-icons'
 import ReviewItem from '@/app/auth/ReviewItem'
+import { sessionUser } from '@/app/auth/sessionUser'
+import { ReviewType } from "@/app/auth/PageTypes"
 
 export default async function ReviewHistory() {
-  const session:any = await getServerSession(authOptions)
+  const user = await sessionUser()
   const reviews = await prisma.review.findMany({
+    where: {
+      userId: user?.id
+    },
     include: {
       comments: true
     }
   })
-  let user 
-  if (session) {
-    try {
-      user = await prisma.user.findUnique({
-        where: {
-            email: session.user.email
-        },
-        include: {
-            reviews: true,
-            settings: true
-        }
-    })
-    } catch (error) {
-      console.log(error)
-    }
-  }
   return (
     <main className='max-w-[1600px] mx-auto'>
       <div className={`flex items-center justify-between mt-16 md:mt-24 2xl:mt-32`}>
@@ -42,15 +29,15 @@ export default async function ReviewHistory() {
           </li>
           <li className={`flex flex-col md:gap-2`}>
             <p>Average Rating</p>
-            <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user ? '0' : user?.reviews?.reduce((total:number, curr:any) => total + curr.rating, 0) / user?.reviews?.length}</p>
+            <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user ? '0' : user?.reviews?.reduce((total:number, curr:ReviewType) => total + curr.rating, 0) / user?.reviews?.length}</p>
           </li>
           <li className={`flex flex-col md:gap-2`}>
             <p>Most Upvoted</p>
-            <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user ? '0' : user?.reviews?.length === 0 ? '0' : user?.reviews?.map((x:any) => x.rating).reduce((prev:any, curr:any) => Math.max(prev, curr), - Infinity)}</p>
+            <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user ? '0' : user?.reviews?.length === 0 ? '0' : user?.reviews?.map((x:ReviewType) => x.rating).reduce((prev:number, curr:number) => Math.max(prev, curr), - Infinity)}</p>
           </li>
           <li className={`flex flex-col md:gap-2`}>
             <p>Review Karma</p>
-            <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user ? '0' : user?.reviews?.reduce((total:number, curr:any) => total + curr.voteCount, 0)}</p>
+            <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user ? '0' : user?.reviews?.reduce((total:number, curr:ReviewType) => total + curr.voteCount, 0)}</p>
           </li>
         </ul>
         <ul className={`w-full mt-6 lg:mt-12 flex flex-col  gap-2`}>
@@ -60,12 +47,11 @@ export default async function ReviewHistory() {
           <FontAwesomeIcon icon={faFaceMeh} className={`w-12 h-12`}/> 
           </li>
           }
-          {reviews && 
-              reviews.sort((a:any,b:any)=> b.dateTimePosted - a.dateTimePosted).map((review:any) => (
+          {user?.reviews && 
+              user?.reviews.sort((a:ReviewType,b:ReviewType)=> Number(b.dateTimePosted) - Number(a.dateTimePosted)).map((review:ReviewType) => (
                   <ReviewItem
                     reviewText={review?.review}
-                    rating={review?.rating} 
-                    voteCount={review?.voteCount} 
+                    rating={review?.rating}  
                     upVotes={review?.upVotes}
                     downVotes={review?.downVotes}
                     movie={review?.movie} 

@@ -1,29 +1,12 @@
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from '../../../pages/api/auth/[...nextauth]'
-import prisma from "@/prisma/client"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faFaceMeh } from '@fortawesome/free-solid-svg-icons'
 import DeleteItem from '@/app/auth/DeleteItem'
+import { sessionUser } from '@/app/auth/sessionUser'
+import { CommentType } from '@/app/auth/PageTypes'
 
 export default async function CommentHistory() {
-  const session:any = await getServerSession(authOptions)
-  let user 
-  if (session) {
-    try {
-      user = await prisma.user.findUnique({
-        where: {
-            email: session.user.email
-        },
-        include: {
-            reviews: true,
-            settings: true,
-            comments: true
-        }
-    })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const user = await sessionUser()
+  
   
   return (
     <main className='max-w-[1600px] mx-auto'>
@@ -55,7 +38,7 @@ export default async function CommentHistory() {
           }
           {
             user?.comments?.length && 
-            user?.comments?.sort((a,b) => b.dateTimePosted - a.dateTimePosted).map(comment => (
+            user?.comments?.sort((a:CommentType, b:CommentType) => Number(b.dateTimePosted) - Number(a.dateTimePosted)).map((comment:CommentType) => (
               <li key={Math.random()} className={`flex border-2 border-skin-dark items-center md:justify-between text-sm p-2 ${user?.settings?.darkMode === false && 'bg-white bg-opacity-70'}`}>
                 <DeleteItem id={comment.id} item={'comment'} darkMode={user?.settings?.darkMode}/>
                 <p className={`px-3 mr-auto`}>{comment.comment}</p>

@@ -1,7 +1,12 @@
 'use client'
 import { useState } from "react"
 
-const FilterMenu = ({setShowFilter, setNumberOfReviews}:any) => {
+interface FilterMenuProps {
+    setShowFilter: React.Dispatch<React.SetStateAction<boolean>>,
+    setNumberOfReviews: React.Dispatch<React.SetStateAction<number>>
+}
+
+const FilterMenu = ({setShowFilter, setNumberOfReviews}:FilterMenuProps) => {
     const [reviewFilter , setReviewFilter] = useState<string>('Show')
     const [ratingFilter, setRatingFilter] = useState('0')
 

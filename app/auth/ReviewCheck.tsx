@@ -3,8 +3,15 @@
 import { useSearchParams } from "next/navigation"
 import { useState, useEffect } from 'react'
 import Link from "next/link"
+import { MovieType, ReviewsType } from "./PageTypes"
 
-const ReviewCheck = ({movies, reviews, darkMode}:any) => {
+interface ReviewCheckType {
+    movies: MovieType[],
+    reviews: ReviewsType,
+    darkMode: boolean
+}
+
+const ReviewCheck = ({movies, reviews, darkMode}:ReviewCheckType) => {
     const [count, setCount] = useState<number | string>('off') 
     const searchParams = useSearchParams()!
     let movieId = searchParams.get('movie')

@@ -3,12 +3,23 @@
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { useContext, useState, useEffect } from 'react'
-import { AppContext } from '../Context-Provider'
+import { AppContext, ContextInterface } from '../Context-Provider'
 import Link from 'next/link'
 
-const SearchAndFilter = ({darkMode, view, searchList}:any) => {
+type SearchObjectType = {
+  title: string,
+  id: number
+}
+
+interface SearchAndFilterInterface {
+  darkMode: boolean,
+  view: string,
+  searchList: SearchObjectType[]
+}
+
+const SearchAndFilter = ({darkMode, view, searchList}:SearchAndFilterInterface) => {
   const [searchWord, setSearchWord] = useState<string>('')
-  const {popup, setPopup}:any = useContext(AppContext)
+  const {popup, setPopup}:ContextInterface = useContext(AppContext)
   
   useEffect(() => {
     if (searchWord.length > 0) {

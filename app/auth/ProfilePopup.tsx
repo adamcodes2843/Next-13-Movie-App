@@ -5,21 +5,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { signIn, signOut } from "next-auth/react"
 import { useState, useContext } from 'react'
-import { AppContext } from '../Context-Provider'
+import { AppContext, ContextInterface } from '../Context-Provider'
+import { ReviewType } from './PageTypes'
 
-const ProfilePopup = ({session, reviews, comments, id, name, displayName, darkMode}) => {
+const ProfilePopup = ({session, reviews, comments, name, displayName, darkMode}) => {
   const [showStats, setShowStats] = useState<boolean>(false)
-  const {popup, setPopup }:any = useContext(AppContext)
+  const {popup, setPopup }:ContextInterface = useContext(AppContext)
 
   const karmaCounter = () => {
     if (session) {
         let reviewVotes = 0
         let commentVotes = 0
         if (reviews) {
-            reviewVotes = reviews.reduce((acc:number, curr:any) => acc + curr.voteCount, 0)
+            reviewVotes = reviews.reduce((acc:number, curr:ReviewType) => acc + curr.voteCount, 0)
         }
         // if (comments) {
-        //     commentVotes = comments.reduce((acc:number, curr:any) => acc + curr.voteCount, 0)
+        //     commentVotes = comments.reduce((acc:number, curr:CommentType) => acc + curr.voteCount, 0)
         // }
         return reviewVotes + commentVotes
     } else {
@@ -102,7 +103,7 @@ const ProfilePopup = ({session, reviews, comments, id, name, displayName, darkMo
         </li>
         <li className="flex justify-between items-center hover:border-skin-base cursor-default py-1 px-2 border-l-2 border-transparent hover:bg-opacity-20 hover:bg-gray-600">
           <p>Average Rating</p>
-          <p className="text-skin-light">{reviews ? Math.round(reviews.reduce((acc:number, curr:any) => acc + curr.rating, 0) / reviews.length) : '0'}</p>
+          <p className="text-skin-light">{reviews ? Math.round(reviews.reduce((acc:number, curr:ReviewType) => acc + curr.rating, 0) / reviews.length) : '0'}</p>
         </li>
       </ul>
       </div>

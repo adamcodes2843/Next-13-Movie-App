@@ -2,11 +2,11 @@
 
 import {faBars} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { AppContext } from '../Context-Provider'
+import { AppContext, ContextInterface } from '../Context-Provider'
 import { useContext } from 'react'
 
 const HamburgerButton = ({darkMode}) => {
-    const {popup, setPopup}:any = useContext(AppContext)
+    const {popup, setPopup}:ContextInterface = useContext(AppContext)
 
     let hamburgerClick = () => {
     if (popup !== 'hamburgerPopup') {

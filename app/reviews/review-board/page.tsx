@@ -4,12 +4,10 @@ import ChoiceBoard from '@/app/auth/ChoiceBoard'
 import ReviewItem from '@/app/auth/ReviewItem'
 import UserItem from '@/app/auth/UserItem'
 import prisma from '@/prisma/client'
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import ReviewCheck from '@/app/auth/ReviewCheck'
+import { sessionUser } from '@/app/auth/sessionUser'
 
 export default async function ReviewBoard() {
-  const session:any = await getServerSession(authOptions)
   const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`)
   const data = await res.json()
   const reviews = await prisma.review.findMany({
@@ -17,23 +15,8 @@ export default async function ReviewBoard() {
       comments: true
     }
   })
-  let user 
-  if (session) {
-    try {
-      user = await prisma.user.findUnique({
-        where: {
-            email: session.user.email
-        },
-        include: {
-            reviews: true,
-            settings: true
-        }
-    })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  console.log(user)
+  const user = await sessionUser()
+  
   return (
     <main className={`max-w-[1600px] mx-auto`}>
       <h1 className={`${blackOpsOne.className} text-6xl lg:text-8xl text-center font-bold mt-16 md:mt-20 lg:mt-24 p-8 bg-gradient-to-b from-skin-base via-skin-dark to-skin-base rounded`}>Review Board</h1>
@@ -48,7 +31,7 @@ export default async function ReviewBoard() {
           <ul className={`flex flex-col w-full justify-between gap-2 mt-6`}>
             {
               reviews && 
-              reviews.sort((a:any,b:any)=> b.dateTimePosted - a.dateTimePosted).map((review:any) => (
+              reviews.sort((a, b)=> Number(b.dateTimePosted) - Number(a.dateTimePosted)).map((review) => (
                 <>
                   <UserItem 
                     postDate={review?.dateTimePosted}
@@ -59,8 +42,7 @@ export default async function ReviewBoard() {
                   />
                   <ReviewItem
                     reviewText={review?.review}
-                    rating={review?.rating} 
-                    voteCount={review?.voteCount} 
+                    rating={review?.rating}
                     upVotes={review?.upVotes}
                     downVotes={review?.downVotes}
                     movie={review?.movie} 
@@ -81,7 +63,3 @@ export default async function ReviewBoard() {
     </main>
   )
 }
-
-//<li key={Math.random()} className={`hover:border-skin-light border-2 rounded border-skin-dark w-full px-3 md:px-6 py-1 text-sm lg:text-base group relative`}>
-//<ReviewBoardItem reviewData={x}/>
-//</li>

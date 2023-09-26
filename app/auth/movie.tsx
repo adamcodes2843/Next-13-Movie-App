@@ -1,7 +1,18 @@
 import Link from "next/link" 
 import Image from "next/image"
+import { } from "./PageTypes"
 
-export default function Movie({title, id, poster_path, release_date, vote_average, reviews, view}) {
+interface MoviePageInterface {
+    title: string,
+    id: number,
+    poster_path: string,
+    release_date: string,
+    vote_average: number,
+    reviews: string[],
+    view: string
+}
+
+export default function Movie({title, id, poster_path, release_date, vote_average, reviews, view}:MoviePageInterface) {
     const imagePath = 'https://image.tmdb.org/t/p/original'
 
     return(

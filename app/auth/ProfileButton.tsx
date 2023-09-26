@@ -2,12 +2,12 @@
 
 import {faUser} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { AppContext } from '../Context-Provider'
+import { AppContext, ContextInterface } from '../Context-Provider'
 import { useContext } from 'react'
 import Image from 'next/image'
 
 const ProfileButton = ({session}) => {
-    const {popup, setPopup}:any = useContext(AppContext)
+    const {popup, setPopup}:ContextInterface = useContext(AppContext)
     
     let profileClick = () => {
         if (popup !== 'profilePopup') {

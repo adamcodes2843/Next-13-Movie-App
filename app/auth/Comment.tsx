@@ -1,13 +1,19 @@
 'use client'
 import { useEffect, useState } from "react"
+import { CommentType } from "./PageTypes"
 
-interface commentType {
+interface CommenterType {
     displayName: string,
     name: string
 }
 
-const Comment = ({comment, darkMode}:any) => {
-    const [commenter, setCommenter] = useState<commentType>({
+interface CommentComponentType {
+    comment: CommentType,
+    darkMode: boolean
+}
+
+const Comment = ({comment, darkMode}:CommentComponentType) => {
+    const [commenter, setCommenter] = useState<CommenterType>({
         displayName: '',
         name: ''
     })

@@ -1,12 +1,18 @@
 'use client'
 import {useState, useContext} from 'react'
-import { AppContext } from '../Context-Provider'
+import { AppContext, ContextInterface } from '../Context-Provider'
 import { useRouter } from 'next/navigation'
 
-const ColorSelection = ({showColors, id, setShowColors, setShowSaving}:any) => {
-    const {setDisableButton, disableButton}:any = useContext(AppContext)
+interface ColorSelectionProps {
+  showColors: boolean,
+  id: string, 
+  setShowColors: React.Dispatch<React.SetStateAction<boolean>>,
+  setShowSaving: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const ColorSelection = ({showColors, id, setShowColors, setShowSaving}:ColorSelectionProps) => {
+    const {setDisableButton}:ContextInterface = useContext(AppContext)
     const [colorIndicator, setColorIndicator] = useState<string>('')
-    //const colorSelection = [ 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'] (mapping colors into bg className didn't work)
     const router = useRouter()
 
   const handleColorUpdate = (id:string, color:string) => {

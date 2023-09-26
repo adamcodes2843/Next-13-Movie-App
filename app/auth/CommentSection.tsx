@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import LoadingSVG from './LoadingSVG'
 import Comment from './Comment'
+import { CommentType, CommentsType } from './PageTypes'
 
 interface CommentDataType {
     comment: string,
@@ -12,7 +13,15 @@ interface CommentDataType {
     reviewId: string
 }
 
-const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode}:any) => {
+interface CommentSectionProps {
+    reviewId: string,
+    setShowComments: React.Dispatch<React.SetStateAction<boolean>>,
+    userId: string,
+    comments: CommentsType,
+    darkMode: boolean
+}
+
+const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode}:CommentSectionProps) => {
     const [newComment, setNewComment] = useState<string>('')
     const [showSaving, setShowSaving] = useState<boolean>(false)
     const router = useRouter()
@@ -44,6 +53,7 @@ const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode}:
             console.log(error)
         }
     }
+
   return (
     <section className={`mt-3 mb-8 xl:mb-6 text-center border-skin-dark ${darkMode === false && 'bg-white hover:border-skin-base'} border-2 rounded-xl px-3 pt-3 md:p-3 xl:mx-3`}>
         <div className={`flex justify-between items-center pb-3`}>
@@ -55,7 +65,7 @@ const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode}:
         <ul className={`text-sm flex flex-col gap-3 mx-3 md:mx-6 md:mr-16 xl:mx-16`}>
             {
             comments?.length ?
-            comments?.map((comment:any) => (
+            comments?.map((comment:CommentType) => (
                 <Comment darkMode={darkMode}  comment={comment} key={Math.random()} />
             ))
             :

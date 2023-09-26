@@ -8,8 +8,24 @@ import CommentButton from "./CommentButton"
 import CommentSection from "./CommentSection"
 import { useSearchParams } from "next/navigation"
 import DeleteItem from "./DeleteItem"
+import { CommentsType, MovieType } from "./PageTypes"
 
-export default function ReviewItem({rating, voteCount, movie, title, reviewText, reviewId, darkMode, userId, reviewUserId, comments, upVotes, downVotes, movies}:any) {
+interface ReviewItemInterface {
+    rating: number,
+    movie: string,
+    title: string,
+    reviewText: string,
+    reviewId: string,
+    darkMode: boolean,
+    userId: string,
+    reviewUserId: string,
+    comments:  CommentsType,
+    upVotes: string[],
+    downVotes: string[],
+    movies?: MovieType[]
+}
+
+export default function ReviewItem({rating, movie, title, reviewText, reviewId, darkMode, userId, reviewUserId, comments, upVotes, downVotes, movies}:ReviewItemInterface) {
     const searchParams = useSearchParams()!
     const [showInfo, setShowInfo] = useState<boolean>(false)
     const [showComments, setShowComments] = useState<boolean>(false)
@@ -23,8 +39,8 @@ export default function ReviewItem({rating, voteCount, movie, title, reviewText,
     }, [showInfo])
 
     useEffect(() => {
-        if (movieId) {
-         let movieChoice = movies.filter((option:any) => String(option.id) === movieId)
+        if (movieId && movies) {
+         let movieChoice = movies.filter((option) => String(option.id) === movieId)
          if (movieChoice[0].title === movie) {
             setShowReview(true)
          } else {
@@ -48,14 +64,13 @@ export default function ReviewItem({rating, voteCount, movie, title, reviewText,
                 setAllowComments(data.allowComments)
             })
     }
-    
     return(
         <li key={Math.random()}>
         {
             showReview &&
         <div className={`${darkMode === false ? 'bg-white bg-opacity-70 hover:border-skin-base text-skin-dark' : 'text-white hover:border-skin-light'}  border-2 rounded border-skin-dark  w-full px-3 md:px-6 py-1 text-sm lg:text-base group relative`}>
             <div className={`w-full flex items-center justify-between gap-6 `}>
-                <VoteCounter voteCount={voteCount} userId={userId} upVotes={upVotes} downVotes={downVotes} reviewId={reviewId} darkMode={darkMode} />
+                <VoteCounter userId={userId} upVotes={upVotes} downVotes={downVotes} reviewId={reviewId} darkMode={darkMode} />
                 <div className="flex flex-col justify-center items-center text-center gap-1 mt-4">
                     <p className={`${darkMode === false && 'font-semibold'} xl:text-xl`}>{movie}</p>
                     <p className={`${darkMode === false ? "text-skin-base" : "text-skin-light"}`}>{title}</p>

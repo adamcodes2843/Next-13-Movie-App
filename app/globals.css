@@ -4,9 +4,9 @@
 
 @layer base {
     :root{
-        --medium-color: rgb(22 163 74);
-        --light-color: rgb(187 247 208);
-        --dark-color: rgb(22 101 52);
+        --medium-color: rgb(8 145 178);
+        --light-color: rgb(165 243 252);
+        --dark-color: rgb(21 94 117);
     }
     .theme-red{
         --medium-color: rgb(220 38 38);

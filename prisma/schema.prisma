@@ -12,7 +12,7 @@ datasource db {
 
 model Settings {
   id               Int @id @default(autoincrement())
-  colorTheme       String @default("green")
+  colorTheme       String @default("cyan")
   darkMode         Boolean @default(true)
   view             String @default("grid")
   userId           String @unique

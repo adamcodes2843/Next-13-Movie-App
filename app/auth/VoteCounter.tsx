@@ -4,16 +4,24 @@ import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/navigation'
-import { AppContext } from '../Context-Provider'
+import { AppContext, ContextInterface } from '../Context-Provider'
 
-interface voteData {
+interface VoteData {
     count: number | undefined,
     dvList: string[],
     uvList: string[]
 }
 
-const VoteCounter = ({darkMode, userId, upVotes, downVotes, reviewId}:any) => {
-    const {setDisableButton, disableButton}:any = useContext(AppContext)
+interface VoteCounterProps {
+    darkMode: boolean,
+    userId: string,
+    upVotes: string[],
+    downVotes: string[],
+    reviewId: string
+}
+
+const VoteCounter = ({darkMode, userId, upVotes, downVotes, reviewId}:VoteCounterProps) => {
+    const {setDisableButton, disableButton}:ContextInterface = useContext(AppContext)
     const [count, setCount] = useState<number | undefined>(upVotes.length && downVotes.length ? upVotes.length - downVotes.length : !upVotes.length && downVotes.length ? 0 - downVotes.length : upVotes.length && !downVotes.length ? upVotes.length : undefined)
     const [curVote, setCurVote] = useState<string>(downVotes?.includes(userId) ? 'down' : upVotes?.includes(userId) ? 'up' : 'off')
     let uvList = upVotes ? upVotes : []
@@ -29,18 +37,18 @@ const VoteCounter = ({darkMode, userId, upVotes, downVotes, reviewId}:any) => {
 
         if (button === 'downButton') {
             if (x === 'down') {
-                dvList = (dvList?.filter((user:string) => user !== userId))
-                uvList = (uvList?.filter((user:string) => user !== userId))
+                dvList = (dvList?.filter((user) => user !== userId))
+                uvList = (uvList?.filter((user) => user !== userId))
                 setCurVote('off')
             } else if (x === 'off') {
                 //dvList?.push(userId)
                 if (!dvList.includes(userId)){
                     dvList = [...dvList, userId]
                 }
-                uvList = (uvList?.filter((user:string) => user !== userId))
+                uvList = (uvList?.filter((user) => user !== userId))
                 setCurVote('down')
             } else if (x === 'up') {
-                uvList = uvList?.filter((user:string) => user !== userId)
+                uvList = uvList?.filter((user) => user !== userId)
                 //dvList?.push(userId)
                 if (!dvList.includes(userId)){
                     dvList = [...dvList, userId]
@@ -50,18 +58,18 @@ const VoteCounter = ({darkMode, userId, upVotes, downVotes, reviewId}:any) => {
         }
         else if (button === 'upButton') {
             if (x === 'up') {
-                uvList = uvList?.filter((user:string) => user !== userId)
-                dvList = (dvList?.filter((user:string) => user !== userId))
+                uvList = uvList?.filter((user) => user !== userId)
+                dvList = (dvList?.filter((user) => user !== userId))
                 setCurVote('off')
             } else if (x === 'off') {
                 //uvList?.push(userId[0])
                 if (!uvList.includes(userId)){
                     uvList = [...uvList, userId]
                 }
-                dvList = (dvList?.filter((user:string) => user !== userId))
+                dvList = (dvList?.filter((user) => user !== userId))
                 setCurVote('up')
             } else if (x === 'down') {
-                dvList  = dvList?.filter((user:string) => user !== userId)
+                dvList  = dvList?.filter((user) => user !== userId)
                 //uvList?.push(userId[0])
                 if (!uvList.includes(userId)){
                     uvList = [...uvList, userId]
@@ -79,7 +87,7 @@ const VoteCounter = ({darkMode, userId, upVotes, downVotes, reviewId}:any) => {
         }, 1500)
     }
 
-    async function changeVote(id:string, data: voteData) {
+    async function changeVote(id:string, data: VoteData) {
         try {
             fetch(`http://localhost:3000/api/updateVote/${id}`, {
               body: JSON.stringify(data),

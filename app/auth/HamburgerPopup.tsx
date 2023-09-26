@@ -5,15 +5,23 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import Image from 'next/image'
 import pizzaSlice from '../../public/assets/pizza-icon-18.png'
-import { AppContext } from '../Context-Provider'
+import { AppContext, ContextInterface } from '../Context-Provider'
 import { useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import LoadingSVG from './LoadingSVG'
+import { ReviewsType, SessionType, SettingsType } from './PageTypes'
 import FilterMenu from './FilterMenu'
 import SortMenu from './SortMenu'
 
-const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:any) => {
-  const {setPopup, popup, setDisableButton, disableButton}:any = useContext(AppContext)
+interface HamburgerInterface {
+  session: SessionType | null,
+  reviews: ReviewsType,
+  settings: SettingsType,
+  dbDarkMode: boolean
+}
+
+const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:HamburgerInterface) => {
+  const {setPopup, popup, setDisableButton, disableButton}:ContextInterface = useContext(AppContext)
   const [numberOfReviews, setNumberOfReviews] = useState<number>(3)
   const [showSaving, setShowSaving] = useState<boolean | string>(false)
   const [darkMode, setDarkMode] = useState<boolean>(true)
@@ -141,7 +149,7 @@ const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:any) => {
         </ul>
         <h2 className="text-sm opacity-50 py-4">Recent Reviews</h2>
         <ul className="mb-4 hover:cursor-default">
-          { reviews && reviews.sort((date1,date2):any => (date1.dateTimePosted - date2.dateTimePosted)).map((review):any => (
+          { reviews && reviews.sort((date1,date2) => Number(date2.dateTimePosted) - (Number(date1.dateTimePosted) )).map((review) => (
           <li key={Math.random()} className={`py-2 hover:border-skin-base border-l-2 border-l-transparent`}>
             <div>
               <div className="flex gap-2 ml-2 justify-between items-center">

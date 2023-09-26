@@ -7,9 +7,10 @@ import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../../pages/api/auth/[...nextauth]'
 import prisma from '@/prisma/client'
 import SettingsPopup from './SettingsPopup'
+import {SessionType} from './PageTypes'
 
 export default async function Nav() {
-  const session:any = await getServerSession(authOptions)
+  const session:SessionType | null = await getServerSession(authOptions)
   let user 
         if (session) {
             try {
@@ -34,7 +35,6 @@ export default async function Nav() {
             }
           })
         }
-        let colorTheme = user?.settings?.colorTheme
         
   return (
     <>
@@ -43,7 +43,7 @@ export default async function Nav() {
       <ProfileButton session={session} />
     </nav>
     <HamburgerPopup session={session} reviews={user?.reviews} settings={user?.settings} dbDarkMode={user?.settings?.darkMode}/>
-    <ProfilePopup session={session} reviews={user?.reviews} id={user?.id} comments={user?.comments} name={user?.name} displayName={user?.displayName} darkMode={user?.settings?.darkMode} />
+    <ProfilePopup session={session} reviews={user?.reviews} comments={user?.comments} name={user?.name} displayName={user?.displayName} darkMode={user?.settings?.darkMode} />
     <SettingsPopup settings={user?.settings} name={user?.name} favoriteMovie={user?.favoriteMovie} favoritePizza={user?.favoritePizza} id={user?.settings?.userId} displayName={user?.displayName} dbDarkMode={user?.settings?.darkMode} />
     <DeletePopup id={user?.id} darkMode={user?.settings?.darkMode}/>
     </>

@@ -1,12 +1,17 @@
 'use client'
 
-import { AppContext } from '../Context-Provider'
+import { AppContext, ContextInterface } from '../Context-Provider'
 import { useContext, useState } from 'react'
 import {useRouter} from 'next/navigation'
 import {signOut} from 'next-auth/react'
 
-const DeletePopup = ({id, darkMode}:any) => {
-    const {setPopup, popup, disableButton, setDisableButton}:any = useContext(AppContext)
+interface DeletePopupProps {
+    id: string,
+    darkMode: boolean
+}
+
+const DeletePopup = ({id, darkMode}:DeletePopupProps) => {
+    const {setPopup, popup, disableButton, setDisableButton}:ContextInterface = useContext(AppContext)
     const [message, setMessage] = useState("Are you sure you want to delete your account?")
     const router = useRouter()
     const handleYes = () => {

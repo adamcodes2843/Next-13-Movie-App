@@ -3,15 +3,21 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
+import { MovieType } from "./PageTypes"
 
-const HighlightedMovie = ({movies, darkMode}:any) => {
+interface HighlightedMovieType {
+    movies: MovieType[],
+    darkMode: boolean
+}
+
+const HighlightedMovie = ({movies, darkMode}:HighlightedMovieType) => {
     const [choice, setChoice] = useState(movies[0])
     const searchParams = useSearchParams()!
     const imagePath = "https://image.tmdb.org/t/p/original"
     
     let moviePage = choice?.id
     let movieId = searchParams.get('movie')
-    let movieChoice = movies?.filter((movie:any) => String(movie.id) === movieId)
+    let movieChoice = movies?.filter((movie) => String(movie.id) === movieId)
 
     useEffect(() => {
         if (movieId) {

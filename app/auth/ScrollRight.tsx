@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const ScrollRight = () => {
 
-    let timer:any = undefined
+    let timer: NodeJS.Timer
 
     const slideRight = () => {
         let slider = document.getElementById('movies')

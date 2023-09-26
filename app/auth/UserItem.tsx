@@ -1,13 +1,21 @@
 'use client'
 import { useSearchParams } from "next/navigation"
 import { useState, useEffect } from 'react'
+import { MovieType, UserObject } from "./PageTypes"
 
-export default function UserItem({postDate, reviewUserId, movies, movie, darkMode}: any) {
-    const [userInfo, setUserInfo] = useState<any>('')
+interface UserItemInterface {
+    postDate: Date,
+    reviewUserId: string,
+    movies:  MovieType[],
+    movie: string,
+    darkMode: boolean
+}
+
+export default function UserItem({postDate, reviewUserId, movies, movie, darkMode}: UserItemInterface) {
+    const [userInfo, setUserInfo] = useState<UserObject | null>(null)
     const [showReview, setShowReview] = useState<boolean>(true)
     const searchParams = useSearchParams()!
     let movieId = searchParams.get('movie')
-    
     useEffect(() => {
         findReviewer(reviewUserId)
     }, [movieId])
@@ -24,7 +32,7 @@ export default function UserItem({postDate, reviewUserId, movies, movie, darkMod
             setUserInfo(data)
         })
         if (movieId) {
-            let movieChoice = movies.filter((option:any) => String(option.id) === movieId)
+            let movieChoice = movies.filter((option) => String(option.id) === movieId)
             if (movieChoice[0].title === movie) {
                setShowReview(true)
             } else {

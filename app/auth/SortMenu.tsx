@@ -1,7 +1,12 @@
 'use client'
 import { useState } from "react"
 
-const SortMenu = ({setShowSort, setNumberOfReviews}:any) => {
+interface SortMenuType {
+    setShowSort: React.Dispatch<React.SetStateAction<boolean>>,
+    setNumberOfReviews: React.Dispatch<React.SetStateAction<number>>
+}
+
+const SortMenu = ({setShowSort, setNumberOfReviews}:SortMenuType) => {
     const [sortDirection, setSortDirection] = useState<string>('High > Low')
     const [using, setUsing] = useState<string>('popularity')
 

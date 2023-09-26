@@ -1,5 +1,9 @@
+interface FooterProps {
+  reviewed: number,
+  darkMode: boolean
+}
 
-export default async function Footer ({reviewed, darkMode}:any) {
+export default async function Footer ({reviewed, darkMode}:FooterProps) {
 
   let reviewPercent = `${(String(reviewed / 20 * 100))}%`
 

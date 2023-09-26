@@ -1,39 +1,23 @@
 import Movie from "./auth/movie"
 import Footer from "./auth/Footer"
 import SearchAndFilter from "./auth/SearchAndFilter"
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from '../pages/api/auth/[...nextauth]'
-import prisma from "@/prisma/client"
 import ScrollLeft from "./auth/ScrollLeft"
 import ScrollRight from "./auth/ScrollRight"
 import ClickRight from "./auth/ClickRight"
 import ClickLeft from "./auth/ClickLeft"
 import { monoton } from './auth/fonts'
+import { sessionUser } from "./auth/sessionUser"
+import { MovieType, ReviewType } from "./auth/PageTypes"
 
 export default async function Home() {
-  const session:any = await getServerSession(authOptions)
   const data = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`)
   const res = await data.json()
-  let user 
-  if (session) {
-    try {
-      user = await prisma.user.findUnique({
-        where: {
-            email: session.user.email
-        },
-        include: {
-            reviews: true,
-            settings: true
-        }
-    })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const reviews = user?.reviews.map((review):any => {return review.movie})
-  const movieList = res.results.map((movie):any=> {return movie.title})
-  const searchList = res.results.map((movie):any=> {return {title: movie.title, id: movie.id}})
-  const highlightedReviews = reviews?.filter((review):any=> {return movieList.indexOf(review) >= 0}).length
+  const user = await sessionUser()
+  const reviews = user?.reviews.map((review:ReviewType) => {return review.movie})
+  const movieList = res.results.map((movie:MovieType)=> {return movie.title})
+  const searchList = res.results.map((movie:MovieType) => {return {title: movie.title, id: movie.id}})
+  const highlightedReviews = reviews?.filter((review:ReviewType) => {return movieList.indexOf(review) >= 0}).length
+  console.log(reviews)
   return (
     <main className={`max-w-[1600px] mx-auto`}>
       <div className={`mt-24 mb-6 rounded-lg  ${user?.settings?.darkMode !== false && 'lg:shadow-inner border-skin-light shadow-skin-base lg:border-4 lg:px-6 lg:py-6'} mx-auto w-full md:w-[30rem] lg:w-[40rem]`}>
@@ -45,7 +29,7 @@ export default async function Home() {
       <div className={`${!user?.settings?.view || user?.settings?.view === 'grid' ? 'grid grid-cols-fluid gap-6 lg:gap-12' : user?.settings?.view === 'list' ? 'relative flex flex-col gap-1' : 'flex items-end cursor-pointer overflow-x-scroll md:overflow-x-hidden overflow-y-hidden scrollbar scroll-smooth gap-6 max-w-[1400px] mx-auto'}`} id="movies" >
       { user?.settings?.view === 'card' && <ScrollLeft />}
       { user?.settings?.view === 'card' && <ClickLeft />}
-      {res.results.map((movie:any) => (
+      {res.results.map((movie:MovieType) => (
         <Movie 
           key={movie.id}
           id={movie.id}

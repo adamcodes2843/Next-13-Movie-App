@@ -1,15 +1,24 @@
 'use client'
 import { useState } from "react"
+import { ReviewsType } from "./PageTypes"
 
-const Highlights = ({reviews, darkMode, heighestRating, lowestRating, reviewed}:any) => {
+interface HighlightsType {
+  reviews: ReviewsType,
+  darkMode: boolean,
+  heighestRating: number,
+  lowestRating: number,
+  reviewed: number
+}
+
+const Highlights = ({reviews, darkMode, heighestRating, lowestRating, reviewed}:HighlightsType) => {
   const [showRated, setShowRated] = useState<string>('off')
   const highest = 'highest'
   const lowest = 'lowest'
   const off = 'off'
 
-  let heighestReviews = reviews.filter(review => review.rating === heighestRating)
-  let lowestReviews = reviews.filter(review => review.rating === lowestRating)
-  let reviewPercent = `${(String(reviewed / 20 * 100))}%`
+  let heighestReviews = reviews?.filter(review => review.rating === heighestRating)
+  let lowestReviews = reviews?.filter(review => review.rating === lowestRating)
+  let reviewPercent = reviewed  ? `${(String(reviewed / 20 * 100))}%` : '0%'
   
   return (
     <section className={`${darkMode === false && 'text-black'} w-full lg:self-start h-[12.5rem] flex flex-col justify-between`}>

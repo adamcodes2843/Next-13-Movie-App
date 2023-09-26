@@ -1,30 +1,11 @@
 import './globals.css'
 import Nav from './auth/Nav'
 import ContextProvider from './Context-Provider'
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from '../pages/api/auth/[...nextauth]'
-import prisma from '@/prisma/client'
 import { montserrat } from './auth/fonts'
+import { sessionUser } from './auth/sessionUser'
 
 export default async function RootLayout({ children }) {
-  const session:any = await getServerSession(authOptions)
-  let user 
-        if (session) {
-            try {
-                user = await prisma.user.findUnique({
-                    where: {
-                        email: session.user.email
-                    },
-                    include: {
-                        reviews: true,
-                        comments: true,
-                        settings: true
-                    }
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        }
+  const user = await sessionUser()
   let savedColorTheme = user?.settings?.colorTheme
   let savedDarkMode = user?.settings?.darkMode
   return (

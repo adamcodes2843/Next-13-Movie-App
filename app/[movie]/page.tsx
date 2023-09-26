@@ -1,38 +1,22 @@
 import Image from "next/image"
 import FormReview from '../auth/FormReview'
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from '../../pages/api/auth/[...nextauth]'
-import prisma from "@/prisma/client"
+import { sessionUser } from "../auth/sessionUser"
+import { ReviewType} from '../auth/PageTypes'
 
 export default async function MovieDetail({params}) {
-    const session:any = await getServerSession(authOptions)
     const { movie } = params
-    let user 
-    if (session) {
-        try {
-            user = await prisma.user.findUnique({
-                where: {
-                    email: session.user.email
-            },
-                include: {
-                    reviews: true,
-                    settings: true
-            }
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    } 
-
+    const user = await sessionUser()
     const imagePath = "https://image.tmdb.org/t/p/original"
     const data= await fetch(`https://api.themoviedb.org/3/movie/${movie}?api_key=${process.env.API_KEY}`)
     const res = await data.json()
 
-    let checkForReview = false
-    if (session && user) {
-        checkForReview = user.reviews.filter(review => {
-        return review.movie === res.original_title
+    let checkForReview: ReviewType[] | [] = []
+    if (user) {
+        if (user?.reviews) {
+            checkForReview = user?.reviews?.filter((review:ReviewType) => {
+            return review.movie === res.original_title
         })
+        }
     }
     
     return (
@@ -49,7 +33,7 @@ export default async function MovieDetail({params}) {
                 <Image className="mt-4 mb-2 w-full" src={imagePath + res.backdrop_path} width={1000} height={1000} alt={res.title} priority/>
                 <p className={`p-4 text-sm md:text-base ${user?.settings?.darkMode === false ? 'bg-white' : 'bg-gray-900'}`}>{res.overview}</p>
             </div>
-            <FormReview res={res} session={session} userId={user?.id} checkForReview={checkForReview} darkMode={user?.settings?.darkMode} />
+            <FormReview res={res} userId={user?.id} checkForReview={checkForReview} darkMode={user?.settings?.darkMode} />
         </div>
     )
 }

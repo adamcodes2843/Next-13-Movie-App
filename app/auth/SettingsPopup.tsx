@@ -1,14 +1,25 @@
 'use client'
-import { AppContext } from '../Context-Provider'
+import { AppContext, ContextInterface } from '../Context-Provider'
 import { useContext, useState, useEffect } from 'react'
 import { faTrash, faAngleDown, faAngleUp, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRouter } from 'next/navigation'
 import ColorSelection from './ColorSelection'
 import LoadingSVG from './LoadingSVG'
+import { SettingsType } from './PageTypes'
 
-const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizza, id, dbDarkMode}:any) => {
-    const {popup, setPopup, setDisableButton, disableButton}:any = useContext(AppContext)
+interface SettingsPopupInterface {
+  settings: SettingsType,
+  name: string,
+  displayName: string,
+  favoriteMovie: string,
+  favoritePizza: string,
+  id: string,
+  dbDarkMode: boolean
+}
+
+const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizza, id, dbDarkMode}:SettingsPopupInterface) => {
+    const {popup, setPopup, setDisableButton, disableButton}:ContextInterface = useContext(AppContext)
     const [settingsPage, setSettingsPage] = useState<string>('display')
     const [showColors, setShowColors] = useState<boolean>(false)
     const [showViewOptions, setShowViewOptions] = useState<boolean>(false)

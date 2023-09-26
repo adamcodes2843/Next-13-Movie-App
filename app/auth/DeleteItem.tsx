@@ -1,7 +1,13 @@
 'use client'
 import { useRouter } from "next/navigation"
 
-const DeleteItem = ({id, item, darkMode}) => {
+interface DeleteItemPorps {
+    id: string,
+    item: string,
+    darkMode: boolean
+}
+
+const DeleteItem = ({id, item, darkMode}:DeleteItemPorps) => {
     const router = useRouter()
 
     const handleDeleteItem = (id:string) => {
