@@ -23,9 +23,11 @@ interface ReviewItemInterface {
     upVotes: string[],
     downVotes: string[],
     movies?: MovieType[]
+    displayName: string | null,
+    userName: string | null
 }
 
-export default function ReviewItem({rating, movie, title, reviewText, reviewId, darkMode, userId, reviewUserId, comments, upVotes, downVotes, movies}:ReviewItemInterface) {
+export default function ReviewItem({rating, movie, title, reviewText, reviewId, darkMode, userId, reviewUserId, comments, upVotes, downVotes, movies, displayName, userName}:ReviewItemInterface) {
     const searchParams = useSearchParams()!
     const [showInfo, setShowInfo] = useState<boolean>(false)
     const [showComments, setShowComments] = useState<boolean>(false)
@@ -65,7 +67,7 @@ export default function ReviewItem({rating, movie, title, reviewText, reviewId, 
             })
     }
     return(
-        <li key={Math.random()}>
+        <>
         {
             showReview &&
         <div className={`${darkMode === false ? 'bg-white bg-opacity-70 hover:border-skin-base text-skin-dark' : 'text-white hover:border-skin-light'}  border-2 rounded border-skin-dark  w-full px-3 md:px-6 py-1 text-sm lg:text-base group relative`}>
@@ -88,10 +90,12 @@ export default function ReviewItem({rating, movie, title, reviewText, reviewId, 
                     </div>
                 }
                 { allowComments && <CommentButton commentCount={comments?.length} setShowComments={setShowComments} showComments={showComments} darkMode={darkMode} /> }
-                {showComments && allowComments && <CommentSection darkMode={darkMode} comments={comments} userId={userId} reviewId={reviewId} setShowComments={setShowComments} />}
+                {showComments && allowComments && 
+                    <CommentSection darkMode={darkMode} comments={comments} userId={userId} reviewId={reviewId} setShowComments={setShowComments} displayName={displayName} userName={userName}/>
+                    }
             </div>
         </div>
         }
-        </li>
+        </>
     )
 }

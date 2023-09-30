@@ -3,7 +3,6 @@
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useEffect, useContext } from 'react'
-import { useRouter } from 'next/navigation'
 import { AppContext, ContextInterface } from '../Context-Provider'
 
 interface VoteData {
@@ -26,8 +25,6 @@ const VoteCounter = ({darkMode, userId, upVotes, downVotes, reviewId}:VoteCounte
     const [curVote, setCurVote] = useState<string>(downVotes?.includes(userId) ? 'down' : upVotes?.includes(userId) ? 'up' : 'off')
     let uvList = upVotes ? upVotes : []
     let dvList = downVotes ? downVotes : []
-    
-    const router = useRouter()
 
     useEffect(() => {
         setCount(uvList.length - dvList.length)

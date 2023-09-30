@@ -72,7 +72,6 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
     setShowSaving(true)
     setDisableButton(true)
     setTimeout(() => {
-      router.refresh()
       setShowSaving(false)
       setDisableButton(false)
     }, 1500)
@@ -120,7 +119,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateDarkMode(id:string, data:boolean) {
     try{
-      fetch(`http://localhost:3000/api/darkModeSwitch/${id}`, {
+      await fetch(`http://localhost:3000/api/darkModeSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -129,6 +128,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
       })
       .then((response) => response.json())
       .then((json) => console.log(json))
+      router.refresh()
     } catch (error) {
       console.log(error)
     }
@@ -136,7 +136,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateView(id:string, data:string) {
     try{
-      fetch(`http://localhost:3000/api/viewSwitch/${id}`, {
+      await fetch(`http://localhost:3000/api/viewSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -145,6 +145,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
       })
       .then((response) => response.json())
       .then((json) => console.log(json))
+      router.refresh()
     } catch (error) {
       console.log(error)
     }
@@ -152,7 +153,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateAllowComments(id:string, data:boolean) {
     try{
-      fetch(`http://localhost:3000/api/allowCommentsSwitch/${id}`, {
+      await fetch(`http://localhost:3000/api/allowCommentsSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -161,6 +162,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
       })
       .then((response) => response.json())
       .then((json) => console.log(json))
+      router.refresh()
     } catch (error) {
       console.log(error)
     }
@@ -168,7 +170,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateDisplayName(id:string, data:string) {
     try{
-      fetch(`http://localhost:3000/api/changeDisplayName/${id}`, {
+      await fetch(`http://localhost:3000/api/changeDisplayName/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -177,6 +179,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
       })
       .then((response) => response.json())
       .then((json) => console.log(json))
+      router.refresh()
     } catch (error) {
       console.log(error)
     }
@@ -184,7 +187,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateFavoriteMovie(id:string, data:string) {
     try{
-      fetch(`http://localhost:3000/api/changeFavoriteMovie/${id}`, {
+      await fetch(`http://localhost:3000/api/changeFavoriteMovie/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -193,6 +196,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
       })
       .then((response) => response.json())
       .then((json) => console.log(json))
+      router.refresh()
     } catch (error) {
       console.log(error)
     }
@@ -200,7 +204,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateFavoritePizza(id:string, data:string) {
     try{
-      fetch(`http://localhost:3000/api/changeFavoritePizza/${id}`, {
+      await fetch(`http://localhost:3000/api/changeFavoritePizza/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -209,10 +213,12 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
       })
       .then((response) => response.json())
       .then((json) => console.log(json))
+      router.refresh()
     } catch (error) {
       console.log(error)
       }
     }
+
   return (
     <div className={`fixed ${popup !== 'settingsPopup' && 'hidden'} ${dbDarkMode === false ? 'bg-gray-600' : 'bg-opacity-95 bg-black'} border-white border-[1px] rounded-lg  w-[calc(100%-4rem)] md:w-[calc(100%-8rem)] top-24 md:top-36 2xl:top-72 p-4 z-50 max-w-4xl left-0 right-0 mx-auto`}>
         <div className="flex justify-between items-center mr-6">
@@ -231,7 +237,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
           <div className="flex justify-between items-center mb-1 mt-2">
             <h3>Dark Mode</h3>
             <label className="relative inline-flex items-center cursor-pointer ml-4">
-              <input type="checkbox" value="" className="sr-only peer" disabled={disableButton} checked={darkMode === false ? false : true} onChange={() => settingsHandler(id, !settings?.darkMode, 'dark')}/>
+              <input name="darkmode" type="checkbox" value="" className="sr-only peer" disabled={disableButton} checked={darkMode === false ? false : true} onChange={() => settingsHandler(id, !settings?.darkMode, 'dark')}/>
               <div className={`w-11 h-6 bg-skin-base rounded-full peer-checked:ring-2 peer-checked:ring-skin-light peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-skin-base ${disableButton && 'cursor-default'}`}></div>
             </label>
           </div>
@@ -348,7 +354,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
             <h3>Allow Comments on Your Reviews</h3>
             {/* Allow Comments */}
             <label className="relative inline-flex items-center cursor-pointer ml-4">
-              <input type="checkbox" disabled={disableButton} className="sr-only peer" checked={allowComments === false ? false : true} onChange={() => settingsHandler(id, !settings?.allowComments, 'allowComments')} />
+              <input name="allow-comments" type="checkbox" disabled={disableButton} className="sr-only peer" checked={allowComments === false ? false : true} onChange={() => settingsHandler(id, !settings?.allowComments, 'allowComments')} />
               <div className={`w-11 h-6 bg-skin-base rounded-full peer-checked:ring-2 peer-checked:ring-skin-light peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-skin-base ${disableButton && 'cursor-default'}`}></div>
             </label>
           </div>

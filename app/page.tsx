@@ -17,7 +17,7 @@ export default async function Home() {
   const movieList = res.results.map((movie:MovieType)=> {return movie.title})
   const searchList = res.results.map((movie:MovieType) => {return {title: movie.title, id: movie.id}})
   const highlightedReviews = reviews?.filter((review:ReviewType) => {return movieList.indexOf(review) >= 0}).length
-  console.log(reviews)
+  
   return (
     <main className={`max-w-[1600px] mx-auto`}>
       <div className={`mt-24 mb-6 rounded-lg  ${user?.settings?.darkMode !== false && 'lg:shadow-inner border-skin-light shadow-skin-base lg:border-4 lg:px-6 lg:py-6'} mx-auto w-full md:w-[30rem] lg:w-[40rem]`}>

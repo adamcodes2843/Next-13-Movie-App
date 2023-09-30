@@ -45,13 +45,13 @@ export default function UserItem({postDate, reviewUserId, movies, movie, darkMod
     }
     
     return (
-        <li key={Math.random()}>
+        <>
             {showReview && 
-            <div className={`bg-opacity-40 bg-gradient-to-r from-skin-dark p-3 flex justify-between gap-3 text-sm md:text-base`}>
+            <div className={`bg-opacity-40 bg-gradient-to-r from-skin-dark p-3 flex justify-between gap-3 text-sm md:text-base mb-2`}>
                 <p>{userInfo?.displayName}</p>
                 <p className={`${darkMode === false && 'text-skin-base'}`}>{String(postDate).split(' ').slice(1,4).join('-')}</p>
             </div>
             }
-        </li>
+        </>
     )
 }

@@ -7,14 +7,7 @@ import { ReviewType } from "@/app/auth/PageTypes"
 
 export default async function ReviewHistory() {
   const user = await sessionUser()
-  const reviews = await prisma.review.findMany({
-    where: {
-      userId: user?.id
-    },
-    include: {
-      comments: true
-    }
-  })
+  
   return (
     <main className='max-w-[1600px] mx-auto'>
       <div className={`flex items-center justify-between mt-16 md:mt-24 2xl:mt-32`}>
@@ -61,6 +54,8 @@ export default async function ReviewHistory() {
                     userId={user?.id}
                     reviewUserId={review?.userId}
                     comments={review?.comments}
+                    displayName={user?.displayName}
+                    userName={user?.name}
                   />
               ))
           }

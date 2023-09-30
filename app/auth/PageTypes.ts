@@ -26,6 +26,7 @@ export interface ReviewType {
 export interface CommentType {
     id: string,
     comment: string,
+    commenter: string,
     userId: string,
     reviewId: string,
     voteCount: number,

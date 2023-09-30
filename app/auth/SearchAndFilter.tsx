@@ -31,6 +31,7 @@ const SearchAndFilter = ({darkMode, view, searchList}:SearchAndFilterInterface) 
     <div className={`sticky top-2 z-30`}>
     <div className={`${view === 'card' ? 'md:mb-6' : 'mb-12'} lg:mx-auto ml-12 mr-11 rounded-lg flex items-center lg:max-w-3xl xl:max-w-4xl ${popup && popup !== 'searchPopup' && 'opacity-30'} ${darkMode !== false && 'text-black'}`}>
           <input 
+          name="search"
           placeholder="Search highlighted movies..."
           value={searchWord}
           className={`${darkMode === false ? 'bg-gray-300 border-skin-base text-skin-dark' : 'bg-black border-skin-dark text-white'} border-l-2 border-b-2 border-t-2 w-full h-9 rounded-l-lg pl-4 focus:outline-none cursor-pointer`}

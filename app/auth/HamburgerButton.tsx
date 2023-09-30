@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { AppContext, ContextInterface } from '../Context-Provider'
 import { useContext } from 'react'
 
-const HamburgerButton = ({darkMode}) => {
+const HamburgerButton = ({darkMode}:{darkMode: boolean}) => {
     const {popup, setPopup}:ContextInterface = useContext(AppContext)
 
     let hamburgerClick = () => {

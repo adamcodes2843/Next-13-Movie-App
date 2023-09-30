@@ -17,7 +17,6 @@ const ColorSelection = ({showColors, id, setShowColors, setShowSaving}:ColorSele
 
   const handleColorUpdate = (id:string, color:string) => {
     updateColor(id, color)
-    router.refresh()
     setShowColors(false)
     setShowSaving(true)
     setDisableButton(true)
@@ -29,7 +28,7 @@ const ColorSelection = ({showColors, id, setShowColors, setShowSaving}:ColorSele
 
   async function updateColor(id:string, data:string) {
     try{
-      fetch(`http://localhost:3000/api/updateColorTheme/${id}`, {
+      await fetch(`http://localhost:3000/api/updateColorTheme/${id}`, {
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json'
@@ -38,6 +37,7 @@ const ColorSelection = ({showColors, id, setShowColors, setShowSaving}:ColorSele
     })
         .then((response) => response.json())
         .then((json) => console.log(json))
+        router.refresh()
       } catch (error) {
         console.log(error)
       }

@@ -44,14 +44,11 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
           updateUserReview(data, id)
         }
         setShowInputFields(false)
-        setTimeout(() => {
-          router.refresh()
-        }, 500)
     }
 
     async function createUserReview(data: FormDataType) {
       try{
-        fetch(`/api/createReview`, {
+        await fetch(`/api/createReview`, {
           body: JSON.stringify(data),
           headers: {
             'Content-Type': 'application/json'
@@ -60,6 +57,7 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
         })
         .then((response) => response.json())
         .then((json) => console.log(json))
+        router.refresh()
       } catch (error) {
         console.log(error)
       }
@@ -67,7 +65,7 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
 
     async function updateUserReview(data: FormDataType, id:string) {
       try {
-        fetch(`/api/updateReview/${id}`, {
+        await fetch(`/api/updateReview/${id}`, {
           body: JSON.stringify(data),
           headers: {
             'Content-Type': 'application/json'
@@ -76,6 +74,7 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
         })
         .then((response) => response.json())
         .then((json) => console.log(json))
+        router.refresh()
       } catch (error) {
         console.log(error)
       }
@@ -90,9 +89,10 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
   return (
     <>
     { showInputFields ?
-    <form onSubmit={(e) => handleSubmit(e, formData, reviewId)} className={`${darkMode === true || !userId ? 'bg-gray-900 bg-opacity-60' : 'bg-white'}  border-4 border-skin-base md:mt-8 mt-4 2xl:mt-4 flex flex-col justify-center items-center text-center py-4 md:min-w-[38rem] md:w-full md:mx-auto 2xl:w-1/2`}>
+    <form name="review" onSubmit={(e) => handleSubmit(e, formData, reviewId)} className={`${darkMode === true || !userId ? 'bg-gray-900 bg-opacity-60' : 'bg-white'}  border-4 border-skin-base md:mt-8 mt-4 2xl:mt-4 flex flex-col justify-center items-center text-center py-4 md:min-w-[38rem] md:w-full md:mx-auto 2xl:w-1/2`}>
         <h3 className="md:text-lg px-4">What did you think about <span className={`${darkMode === true || !userId ? 'text-skin-light' : 'text-skin-base font-semibold'}`}>{res.title}</span>?</h3>
         <input
+            name="review-title"
             type="text"
             maxLength={100}
             required
@@ -110,7 +110,8 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
             <button type="button" onClick={() => setFormData({...formData, rating: ""})} className={`border-2 ${darkMode === true || !userId ? 'bg-gray-600' : 'bg-gray-300'} border-skin-light rounded-full w-10 h-10 flex justify-center items-center`}>{String(formData.rating)}</button>
         }
         </div>
-        <textarea 
+        <textarea
+            name="review-text"
             placeholder="Write a review..." 
             maxLength={800}
             value={formData.review}
@@ -124,9 +125,9 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
               Submit
         </button>
         <div className="text-sm flex items-center justify-between gap-8 mt-2 mx-auto px-6">
-        <p>Rated <span className={`${darkMode === true || !userId ? "text-skin-light" : 'text-skin-base'}`}>{res.vote_count}</span> times</p>
-        <Link href="https://www.themoviedb.org/" className={`${darkMode === true || !userId ? 'text-skin-light' : 'text-skin-base'} text-sm  underline`}>TMDB</Link>
-        <p>Average rating: <span className={`${darkMode === true || !userId ? "text-skin-light" : 'text-skin-base'}`}>{res.vote_average}</span></p>
+          <p>Rated <span className={`${darkMode === true || !userId ? "text-skin-light" : 'text-skin-base'}`}>{res.vote_count}</span> times</p>
+          <Link href="https://www.themoviedb.org/" className={`${darkMode === true || !userId ? 'text-skin-light' : 'text-skin-base'} text-sm  underline`}>TMDB</Link>
+          <p>Average rating: <span className={`${darkMode === true || !userId ? "text-skin-light" : 'text-skin-base'}`}>{res.vote_average}</span></p>
         </div>
     </form>
   :

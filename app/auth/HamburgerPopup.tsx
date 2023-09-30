@@ -46,7 +46,6 @@ const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:HamburgerInterf
     setTimeout(() => {
       setShowSaving(false)
       setDisableButton(false)
-      router.refresh()
     }, 1000)
   }
 
@@ -63,7 +62,6 @@ const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:HamburgerInterf
       setViewMode('card')
     }
     setTimeout(() => {
-      router.refresh()
       setShowSaving(false)
       setDisableButton(false)
     }, 1000)
@@ -93,7 +91,7 @@ const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:HamburgerInterf
 
   async function updateDarkMode(id:string, data:boolean) {
     try{
-      fetch(`http://localhost:3000/api/darkModeSwitch/${id}`, {
+      await fetch(`http://localhost:3000/api/darkModeSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -102,6 +100,7 @@ const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:HamburgerInterf
       })
       .then((response) => response.json())
       .then((json) => console.log(json))
+      router.refresh()
     } catch (error) {
       console.log(error)
     }
@@ -109,7 +108,7 @@ const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:HamburgerInterf
 
   async function updateView(id:string, data:string) {
     try{
-      fetch(`http://localhost:3000/api/viewSwitch/${id}`, {
+      await fetch(`http://localhost:3000/api/viewSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -118,6 +117,7 @@ const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:HamburgerInterf
       })
       .then((response) => response.json())
       .then((json) => console.log(json))
+      router.refresh()
     } catch (error) {
       console.log(error)
     }

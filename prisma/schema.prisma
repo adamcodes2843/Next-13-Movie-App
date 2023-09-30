@@ -39,6 +39,7 @@ model Review {
 model Comment {
   id                String @id @default(cuid())
   comment           String
+  commenter         String
   userId            String
   reviewId          String
   voteCount         Int @default(1)

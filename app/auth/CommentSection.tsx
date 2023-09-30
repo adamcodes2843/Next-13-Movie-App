@@ -1,7 +1,7 @@
 'use client'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faAngleRight, faMinus } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react'
+import { useState} from 'react'
 import { useRouter } from 'next/navigation'
 import LoadingSVG from './LoadingSVG'
 import Comment from './Comment'
@@ -10,7 +10,8 @@ import { CommentType, CommentsType } from './PageTypes'
 interface CommentDataType {
     comment: string,
     userId: string,
-    reviewId: string
+    reviewId: string,
+    commenter: string
 }
 
 interface CommentSectionProps {
@@ -18,21 +19,21 @@ interface CommentSectionProps {
     setShowComments: React.Dispatch<React.SetStateAction<boolean>>,
     userId: string,
     comments: CommentsType,
-    darkMode: boolean
+    darkMode: boolean,
+    userName: string | null,
+    displayName: string | null
 }
 
-const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode}:CommentSectionProps) => {
-    const [newComment, setNewComment] = useState<string>('')
+const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode, userName, displayName}:CommentSectionProps) => {
+    const [textField, setTextField] = useState<string>('')
     const [showSaving, setShowSaving] = useState<boolean>(false)
     const router = useRouter()
 
     const handleComments = (reviewId:string, userId:string, comment:string) => {
-        let data = {reviewId, userId, comment}
+        let commenter = displayName ? displayName : userName ? userName : 'unknown'
+        let data = {reviewId, userId, comment, commenter}
         createUserComment(data)
         setShowSaving(true)
-        setTimeout(() => {
-            router.refresh()
-        }, 500)
         setTimeout(() => {
             setShowSaving(false)
         }, 2000)
@@ -40,7 +41,7 @@ const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode}:
     
     async function createUserComment(data: CommentDataType) {
         try {
-            fetch(`http://localhost:3000/api/createComment`, {
+            await fetch(`http://localhost:3000/api/createComment`, {
                 body: JSON.stringify(data),
                 headers: {
                     'Content-Type' : 'application/json'
@@ -49,6 +50,7 @@ const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode}:
             })
             .then((response) => response.json())
             .then((json) => console.log(json))
+            router.refresh()
         } catch (error) {
             console.log(error)
         }
@@ -66,7 +68,7 @@ const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode}:
             {
             comments?.length ?
             comments?.map((comment:CommentType) => (
-                <Comment darkMode={darkMode}  comment={comment} key={Math.random()} />
+                <Comment darkMode={darkMode}  comment={comment} key={Math.random()} /> 
             ))
             :
             <li key='commentless' className={`text-base opacity-40 py-3 md:py-0`}>No Comments</li>
@@ -74,8 +76,9 @@ const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode}:
         </ul>
         <div className={`flex flex-col md:flex-row gap-3 items-center justify-between my-3 md:my-6`}>
             <textarea 
-            onChange={(e) => setNewComment(e.target.value)}
-            value={newComment}
+            name="comment"
+            onChange={(e) => setTextField(e.target.value)}
+            value={textField}
             maxLength={800}
             placeholder="Make a comment"
             className={`${darkMode === false ? 'bg-white bg-opacity-5 border-skin-dark hover:border-skin-base focus:border-skin-base' : 'bg-black border-skin-base focus:border-skin-light hover:border-skin-light focus:outline-skin-base'}  w-11/12 mx-auto py-3 rounded-lg focus:ring-0 border-2  resize-none md:ml-6 xl:ml-16`} 
@@ -83,10 +86,10 @@ const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode}:
             {
                 !showSaving ?
                 <>
-                    <button type="button" disabled={!newComment.length || !userId} onClick={() => handleComments(reviewId, userId, newComment)} className={`hidden md:block rounded-lg ${darkMode === false ? 'hover:bg-gray-300' : 'hover:bg-gray-600 hover:text-skin-light'} hover:bg-opacity-40 w-12 h-10 text-skin-base`}>
+                    <button type="button" disabled={!textField.length || !userId} onClick={() => handleComments(reviewId, userId, textField)} className={`hidden md:block rounded-lg ${darkMode === false ? 'hover:bg-gray-300' : 'hover:bg-gray-600 hover:text-skin-light'} hover:bg-opacity-40 w-12 h-10 text-skin-base`}>
                     <FontAwesomeIcon icon={faAngleRight} className={`w-5 h-5`} />
                     </button>
-                    <button type="button" disabled={!newComment.length || !userId} onClick={() => handleComments(reviewId, userId, newComment)} className={`md:hidden rounded-lg ${darkMode === false ? 'hover:bg-gray-300' : 'hover:bg-gray-600'}  hover:bg-opacity-40 py-2 px-3 ${!newComment.length && 'opacity-40'}`}>Submit</button>
+                    <button type="button" disabled={!textField.length || !userId} onClick={() => handleComments(reviewId, userId, textField)} className={`md:hidden rounded-lg ${darkMode === false ? 'hover:bg-gray-300' : 'hover:bg-gray-600'}  hover:bg-opacity-40 py-2 px-3 ${!textField.length && 'opacity-40'}`}>Submit</button>
                 </>
                 :
                 <p className={`w-12 h-10 rounded-lg flex justify-center items-center`}>
