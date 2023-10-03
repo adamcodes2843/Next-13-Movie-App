@@ -4,6 +4,7 @@ import {useState} from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/navigation'
 import { MovieType, ReviewType } from './PageTypes'
+import { faL } from '@fortawesome/free-solid-svg-icons'
 
 
 interface FormDataType {
@@ -99,7 +100,7 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
             placeholder="Review Title"
             value={formData.title}
             onChange={(e) => setFormData({...formData, title: e.target.value})}
-            className={`text-center md:text-lg ${darkMode === true || !userId ? 'bg-gray-600' : 'bg-gray-300'} border-2 shadow-white rounded mx-auto my-4 xl:w-96 overflow-clip md:w-96 w-9/12 ${!formData.title ? 'border-gray-400 focus:outline-skin-light' : formData.title.length === 100 ? 'focus:outline-red-400 border-skin-light' : 'border-skin-light focus:outline-skin-light'} ${darkMode === true || !userId ? 'hover:border-skin-light' : 'hover:border-skin-base'}  focus:border-transparent cursor-pointer focus:ring-0`}
+            className={`text-center md:text-lg ${darkMode === true || !userId ? 'bg-gray-600' : 'bg-gray-300'} border-2 shadow-white rounded mx-auto my-4 xl:w-96 overflow-clip md:w-96 w-9/12 ${!formData.title && darkMode !== false ? 'border-gray-400 focus:outline-skin-light' : !formData.title && darkMode === false ? 'border-gray-400 focus:outline-skin-base' : formData.title.length === 100 ? 'focus:outline-red-400 border-red-400' : formData.title && darkMode !== false ? 'border-skin-light focus:outline-skin-light' : 'border-skin-base focus:outline-skin-base'} ${darkMode === true || !userId ? 'hover:border-skin-light' : 'hover:border-skin-base'}  focus:border-transparent cursor-pointer focus:ring-0`}
              />
         <div className="w-11/12 flex justify-around items-center mb-1 max-w-[600px] md:text-xl gap-1 hover:cursor-pointer">
         { formData.rating === "" ?
@@ -107,7 +108,7 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
             return (<button type="button" key={option} className={`border-2 rounded-full w-10 h-10 border-gray-400 ${darkMode === true || !userId ? 'bg-gray-600 hover:border-skin-light' : 'bg-gray-300 hover:border-skin-base'} `} onClick={() => {setFormData({...formData, rating:option})}}>{option}</button>)
             })
         :
-            <button type="button" onClick={() => setFormData({...formData, rating: ""})} className={`border-2 ${darkMode === true || !userId ? 'bg-gray-600' : 'bg-gray-300'} border-skin-light rounded-full w-10 h-10 flex justify-center items-center`}>{String(formData.rating)}</button>
+            <button type="button" onClick={() => setFormData({...formData, rating: ""})} className={`border-2 ${darkMode === true || !userId ? 'bg-gray-600 border-skin-light' : 'bg-gray-300 border-skin-base'} rounded-full w-10 h-10 flex justify-center items-center`}>{String(formData.rating)}</button>
         }
         </div>
         <textarea
@@ -116,7 +117,7 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
             maxLength={800}
             value={formData.review}
             onChange={(e) => setFormData({...formData, review:e.target.value})}
-            className={`border-2 ${!formData.review ? 'border-gray-400 focus:outline-skin-light' : formData.review.length === 800 ? 'focus:outline-red-400 border-skin-light' : 'border-skin-light focus:outline-skin-light'} rounded hover:cursor-pointer my-2 focus:border-none ${darkMode === true || !userId ? 'bg-gray-600 hover:border-skin-light' : 'bg-gray-300 hover:border-skin-base'} w-11/12 max-w-[600px] h-32 px-2 resize-none text-sm md:text-base focus:ring-0`}
+            className={`border-2 ${!formData.title && darkMode !== false ? 'border-gray-400 focus:outline-skin-light' : !formData.title && darkMode === false ? 'border-gray-400 focus:outline-skin-base' : formData.title.length === 800 ? 'focus:outline-red-400 border-red-400' : formData.title && darkMode !== false ? 'border-skin-light focus:outline-skin-light' : 'border-skin-base focus:outline-skin-base'} rounded hover:cursor-pointer my-2 focus:border-none ${darkMode === true || !userId ? 'bg-gray-600 hover:border-skin-light' : 'bg-gray-300 hover:border-skin-base'} w-11/12 max-w-[600px] h-32 px-2 resize-none text-sm md:text-base focus:ring-0`}
         />
         <button 
             type="submit" 
@@ -135,7 +136,7 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
     <h2 className="text-2xl px-4">{res.title}</h2>
     <h1 className={`${darkMode === true || !userId ? 'text-skin-light' : 'text-skin-base'}`}>Review</h1>
     <h3 className="mt-2 text-xl">{checkForReview[0]?.title || formData.title}</h3>
-    <div className={`border-2 ${darkMode === true || !userId ? 'bg-gray-600' : 'bg-gray-300'} border-skin-light rounded-full w-12 h-12 flex justify-center items-center m-4`}>{checkForReview[0]?.rating || formData.rating}</div>
+    <div className={`border-2 ${darkMode === true || !userId ? 'bg-gray-600 border-skin-light' : 'bg-gray-300 border-skin-base'} rounded-full w-12 h-12 flex justify-center items-center m-4`}>{checkForReview[0]?.rating || formData.rating}</div>
     <p className="mb-4 mx-4">{checkForReview[0]?.review || formData.review}</p>
     <div className={`flex justify-around items-center text-sm w-full ${darkMode || !userId ? 'text-skin-light' : 'text-skin-dark'}`}>
     <Link href='/reviews/review-board' className={`${darkMode === true || !userId ? 'hover:bg-gray-600' : 'hover:bg-gray-300'}  hover:bg-opacity-70 p-2 rounded`}>Review Board</Link><button onClick={() => handleEdit()} className={`${darkMode === true || !userId ? 'hover:bg-gray-600' : 'hover:bg-gray-300'} hover:bg-opacity-70 p-2 rounded`}>Edit</button><Link  href="/reviews/review-history" className={`${darkMode === true || !userId ? 'hover:bg-gray-600' : 'hover:bg-gray-300'} hover:bg-opacity-70 p-2 rounded`}>Your Reviews</Link>

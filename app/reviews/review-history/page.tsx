@@ -7,6 +7,13 @@ import { ReviewType } from "@/app/auth/PageTypes"
 
 export default async function ReviewHistory() {
   const user = await sessionUser()
+  const reviews = await prisma.review.findMany({
+    include: {
+      comments: true
+    }
+  })
+  let reviewHistory = reviews.filter(item => item.userId === user.id)
+  let averageRating = user?.reviews?.reduce((total:number, curr:ReviewType) => total + curr.rating, 0)
   
   return (
     <main className='max-w-[1600px] mx-auto'>
@@ -22,7 +29,7 @@ export default async function ReviewHistory() {
           </li>
           <li className={`flex flex-col md:gap-2`}>
             <p>Average Rating</p>
-            <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user ? '0' : user?.reviews?.reduce((total:number, curr:ReviewType) => total + curr.rating, 0) / user?.reviews?.length}</p>
+            <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user ? '0' : Math.round(averageRating / user?.reviews?.length)}</p>
           </li>
           <li className={`flex flex-col md:gap-2`}>
             <p>Most Upvoted</p>
@@ -40,8 +47,8 @@ export default async function ReviewHistory() {
           <FontAwesomeIcon icon={faFaceMeh} className={`w-12 h-12`}/> 
           </li>
           }
-          {user?.reviews && 
-              user?.reviews.sort((a:ReviewType,b:ReviewType)=> Number(b.dateTimePosted) - Number(a.dateTimePosted)).map((review:ReviewType) => (
+          {reviewHistory && 
+              reviewHistory.sort((a:ReviewType,b:ReviewType)=> Number(b.dateTimePosted) - Number(a.dateTimePosted)).map((review:ReviewType) => (
                   <ReviewItem
                     reviewText={review?.review}
                     rating={review?.rating}  

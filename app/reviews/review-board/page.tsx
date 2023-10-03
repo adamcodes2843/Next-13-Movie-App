@@ -32,7 +32,7 @@ export default async function ReviewBoard() {
             {
               reviews && 
               reviews.sort((a, b)=> Number(b.dateTimePosted) - Number(a.dateTimePosted)).map((review) => (
-                <li  key={Math.random()}>
+                <>
                   <UserItem 
                     postDate={review?.dateTimePosted}
                     reviewUserId={review?.userId}
@@ -56,7 +56,7 @@ export default async function ReviewBoard() {
                     displayName={user?.displayName}
                     userName={user?.name}
                   />
-                </li>
+                </>
               ))
             }
           </ul>

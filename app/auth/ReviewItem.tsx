@@ -67,7 +67,7 @@ export default function ReviewItem({rating, movie, title, reviewText, reviewId, 
             })
     }
     return(
-        <>
+        <li key={Math.random()}>
         {
             showReview &&
         <div className={`${darkMode === false ? 'bg-white bg-opacity-70 hover:border-skin-base text-skin-dark' : 'text-white hover:border-skin-light'}  border-2 rounded border-skin-dark  w-full px-3 md:px-6 py-1 text-sm lg:text-base group relative`}>
@@ -96,6 +96,6 @@ export default function ReviewItem({rating, movie, title, reviewText, reviewId, 
             </div>
         </div>
         }
-        </>
+        </li>
     )
 }

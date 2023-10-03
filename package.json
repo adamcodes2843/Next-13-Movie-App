@@ -1,10 +1,11 @@
 {
-  "name": "next-13-movie-app",
+  "name": "pizza-night-highlights",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "lint": "next lint"
   },
@@ -32,7 +33,7 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   },
-  "description": "## Practicing new features in Next.js 13",
+  "description": "Next 13 full stack movie review website",
   "main": "next.config.js",
   "repository": {
     "type": "git",
