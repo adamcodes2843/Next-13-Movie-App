@@ -8,24 +8,28 @@ export default async function handler(
     const id = req.query.id
     const item = req.body
 
-    try {
-        if (item === 'comment'){
+    if (item === 'comment') {
+        try {
             await prisma.comment.delete({
                 where: {
                     id: String(id)
                 }
             })
-            res.status(200).json({message: `Comment deleted`})
+            res.status(200).json({message: `Comment deleted`})  
+        } catch (error) {
+            console.log(error)
         }
-        if (item === 'review'){
+    }
+    if (item === 'review') {
+        try {
             await prisma.review.delete({
                 where: {
                     id: String(id)
                 }
             })
             res.status(200).json({message: `Review deleted`})
+        } catch (error) {
+            console.log(error)
         }
-    } catch (error) {
-        console.log(error)
     }
 }

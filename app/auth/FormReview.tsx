@@ -4,7 +4,6 @@ import {useState} from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/navigation'
 import { MovieType, ReviewType } from './PageTypes'
-import { faL } from '@fortawesome/free-solid-svg-icons'
 
 
 interface FormDataType {

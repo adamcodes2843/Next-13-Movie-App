@@ -41,7 +41,7 @@ const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode, 
     
     async function createUserComment(data: CommentDataType) {
         try {
-            await fetch(`http://localhost:3000/api/createComment`, {
+            await fetch(`/api/createComment`, {
                 body: JSON.stringify(data),
                 headers: {
                     'Content-Type' : 'application/json'

@@ -119,7 +119,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateDarkMode(id:string, data:boolean) {
     try{
-      await fetch(`http://localhost:3000/api/darkModeSwitch/${id}`, {
+      await fetch(`/api/darkModeSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -136,7 +136,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateView(id:string, data:string) {
     try{
-      await fetch(`http://localhost:3000/api/viewSwitch/${id}`, {
+      await fetch(`/api/viewSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -153,7 +153,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateAllowComments(id:string, data:boolean) {
     try{
-      await fetch(`http://localhost:3000/api/allowCommentsSwitch/${id}`, {
+      await fetch(`/api/allowCommentsSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -170,7 +170,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateDisplayName(id:string, data:string) {
     try{
-      await fetch(`http://localhost:3000/api/changeDisplayName/${id}`, {
+      await fetch(`/api/changeDisplayName/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -187,7 +187,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateFavoriteMovie(id:string, data:string) {
     try{
-      await fetch(`http://localhost:3000/api/changeFavoriteMovie/${id}`, {
+      await fetch(`/api/changeFavoriteMovie/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -204,7 +204,7 @@ const SettingsPopup = ({settings, name, displayName, favoriteMovie, favoritePizz
 
   async function updateFavoritePizza(id:string, data:string) {
     try{
-      await fetch(`http://localhost:3000/api/changeFavoritePizza/${id}`, {
+      await fetch(`/api/changeFavoritePizza/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'

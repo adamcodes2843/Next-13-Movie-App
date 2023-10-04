@@ -21,7 +21,7 @@ export default function UserItem({postDate, reviewUserId, movies, movie, darkMod
     }, [movieId])
 
     async function findReviewer(id:string) {
-        fetch(`http://localhost:3000/api/getReviewer/${id}`)
+        fetch(`/api/getReviewer/${id}`)
         .then(response => {
             if(!response.ok) {
                 throw Error('could not fetch the data for that resource')

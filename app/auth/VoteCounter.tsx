@@ -86,7 +86,7 @@ const VoteCounter = ({darkMode, userId, upVotes, downVotes, reviewId}:VoteCounte
 
     async function changeVote(id:string, data: VoteData) {
         try {
-            fetch(`http://localhost:3000/api/updateVote/${id}`, {
+            fetch(`/api/updateVote/${id}`, {
               body: JSON.stringify(data),
               headers: {
                 'Content-Type': 'application/json'

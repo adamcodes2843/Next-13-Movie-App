@@ -7,7 +7,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Pizza Night Highlights',
-  description: "Movie review website. Fullstack next13, prisma, postgres, typescript, nextauth web developer project. App uses The Movie Database API",
+  description: "Movie review website. Fullstack next13, prisma, postgres, typescript, nextauth web developer project. This app uses The Movie Database API",
 }
 
 

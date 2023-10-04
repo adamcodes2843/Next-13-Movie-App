@@ -27,7 +27,7 @@ const DeletePopup = ({id, darkMode}:DeletePopupProps) => {
     }
     async function deleteAccount(id:string) {
         try {
-            fetch(`api/deleteUser/${id}`, {
+            fetch(`/api/deleteUser/${id}`, {
                 headers: {
                     'Content-Type': 'application/json'
                 },

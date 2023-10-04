@@ -30,14 +30,12 @@ export default async function CommentHistory() {
           </li> */}
         </ul>
         <ul className={`w-full mt-6 lg:mt-12 flex flex-col justify-between gap-2 ${user?.settings?.darkMode === false && 'text-black'}`}>
-          {!user?.comments?.length && 
+          {!user?.comments?.length ? 
           <li className={`text-center flex flex-col items-center gap-3 md:gap-6 md:text-xl mt-20 ${user?.settings?.darkMode === false && 'text-black'}`}>
             You haven't made any comments yet.
           <FontAwesomeIcon icon={faFaceMeh} className={`w-12 h-12 ${user?.settings?.darkMode === false && 'text-skin-base'}`}/> 
           </li> 
-          }
-          {
-            user?.comments?.length && 
+          :
             user?.comments?.sort((a:CommentType, b:CommentType) => Number(b.dateTimePosted) - Number(a.dateTimePosted)).map((comment:CommentType) => (
               <li key={Math.random()} className={`flex border-2 border-skin-dark items-center md:justify-between text-sm p-2 ${user?.settings?.darkMode === false && 'bg-white bg-opacity-70'}`}>
                 <DeleteItem id={comment.id} item={'comment'} darkMode={user?.settings?.darkMode}/>

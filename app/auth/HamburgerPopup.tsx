@@ -91,7 +91,7 @@ const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:HamburgerInterf
 
   async function updateDarkMode(id:string, data:boolean) {
     try{
-      await fetch(`http://localhost:3000/api/darkModeSwitch/${id}`, {
+      await fetch(`/api/darkModeSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -108,7 +108,7 @@ const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:HamburgerInterf
 
   async function updateView(id:string, data:string) {
     try{
-      await fetch(`http://localhost:3000/api/viewSwitch/${id}`, {
+      await fetch(`/api/viewSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
