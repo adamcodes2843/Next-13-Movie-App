@@ -44,7 +44,7 @@ Check screenshot folder
 
 ### My process
 
-Next 13 utilizes server and client components. My goal was to keep the pages on the server and use client components only when user interactivity was necessary. I wanted to recycle components, functions, and types as much as possible. The starting point was fetching the data from the movie database and mapping out the homepage. I used the data to create the cards and pass down props to dynamically generated movie pages. This is where the tutorial ended. When I took over, I switch the js files to ts. I always like to start by getting the components' jsx elements and styles worked out for all screen sizes until I need to start adding extra js functionality. I edited the global css and tailwind config for fonts, color theme changes, and animations as necessary additions to the basic inline styles became apparent. The first thing I did with state was the review form component. Early on I added the prisma orm for querying the postgress database. I needed nextauth so users could sign in and save their progress, so I checked their website for a provided starting point for the schema, which I edited to fit my needs as the project went on. I used next navigation features to keep the page current with database updates or to set and read params. Context was helpful for modal/popup boxes and disabling buttons, and you can keep wrapped components on the server as long as you don't import them directly into client components. 
+Next 13 utilizes server and client components. My goal was to keep the pages on the server and use client components only when user interactivity was necessary. I wanted to recycle components, functions, and types as much as possible. The starting point was fetching the data from the movie database and mapping out the homepage. I used the data to create cards and pass down props to dynamically generate movie pages. This is where the tutorial ended. When I took over, I switched the js files to ts. I always like to start by getting the components' jsx elements and styles worked out for all screen sizes until I need to start adding extra js functionality. I edited the global css and tailwind config for fonts, color theme changes, and animations as necessary additions to the basic inline styles became apparent. The first thing I did with state was the review form. Early on I added the prisma orm for querying the postgress database. I needed nextauth so users could sign in and save their progress, so I checked their website for a provided starting point for the schema, which I edited to fit my needs as the project went on. I used next navigation features to keep the page current with database updates or to set and read params. Context was helpful for modal/popup boxes and disabling buttons, and you can keep wrapped components on the server as long as you don't import them directly into client components. As I built the ui and determined the features I wanted, I would google or youtube anything I needed to learn. 
 
 ### Built with
 
@@ -67,7 +67,7 @@ I can't remember everything, and in the future I'll keep this section up to date
  - app router
  - building an api
  - crud operations
- - fetching and db queries in async client components
+ - fetching, revalidation and db queries in async client components
  - next navigation features like useRouter, usePathname, useSearchParams
  - next auth, sessions, and prisma functionality
  - customizing tailwind config
@@ -83,6 +83,7 @@ I can't remember everything, and in the future I'll keep this section up to date
 - I have projects in mind for other tools, languages, and frameworks such as Astro, Svelte, Vite, Python, Go, etc. 
 - API's and databases.
 - Styling
+- I'm going to adapt my skills to what I see on job postings from here on out.
 
 ### Author
 

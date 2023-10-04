@@ -8,16 +8,17 @@ import ClickLeft from "./auth/ClickLeft"
 import { monoton } from './auth/fonts'
 import { sessionUser } from "./auth/sessionUser"
 import { MovieType, ReviewType } from "./auth/PageTypes"
+import { movieArray } from "./auth/movieList"
 
 export default async function Home() {
-  const data = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`)
-  const res = await data.json()
   const user = await sessionUser()
+  const movieStuff = await movieArray()
+  const res = movieStuff?.res
+  const movieList = movieStuff?.movieList
   const reviews = user?.reviews.map((review:ReviewType) => {return review.movie})
-  const movieList = res.results.map((movie:MovieType)=> {return movie.title})
   const searchList = res.results.map((movie:MovieType) => {return {title: movie.title, id: movie.id}})
   const highlightedReviews = reviews?.filter((review:ReviewType) => {return movieList.indexOf(review) >= 0}).length
-  
+
   return (
     <main className={`max-w-[1600px] mx-auto`}>
       <div className={`mt-24 mb-6 rounded-lg  ${user?.settings?.darkMode !== false && 'lg:shadow-inner border-skin-light shadow-skin-base lg:border-4 lg:px-6 lg:py-6'} mx-auto w-full md:w-[30rem] lg:w-[40rem]`}>

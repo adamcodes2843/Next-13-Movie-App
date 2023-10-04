@@ -7,12 +7,13 @@ import NameButton from '../auth/NameButton'
 import { sessionUser } from '../auth/sessionUser'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../../pages/api/auth/[...nextauth]'
-import { MovieType, ReviewType, SessionType } from '../auth/PageTypes'
+import { ReviewType, SessionType } from '../auth/PageTypes'
+import { movieArray } from '../auth/movieList'
 
 export default async function Profile() {
     const session: SessionType | null = await getServerSession(authOptions)
-    const data = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`)
-    const res = await data.json()
+    const movieStuff = await movieArray()
+    const movieList = movieStuff?.movieList
     const user = await sessionUser()
 
     let questList = [{title: "1 Movie Review", xp: '150'}, {title: "Every 10 Karma", xp: '50'}, {title: "1 Comment on Review", xp: '10'}]
@@ -22,9 +23,8 @@ export default async function Profile() {
     let heighestRating = ratings ? Math.max(...ratings) : 0
     let lowestRating = ratings? Math.min(...ratings) : 0
     const reviews = user?.reviews.map((review: ReviewType) => {return review.movie})
-    const movieList = res.results.map((movie: MovieType)=> {return movie.title})
     const highlightedReviews = reviews?.filter((review: ReviewType)=> {return movieList.indexOf(review) >= 0}).length
-    
+    console.log(movieList)
     const karmaCounter = () => {
         if (user) {
             let reviewVotes = 0
