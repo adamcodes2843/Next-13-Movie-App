@@ -48,7 +48,7 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
 
     async function createUserReview(data: FormDataType) {
       try{
-        await fetch(`/api/createReview`, {
+        await fetch(`https://pizza-night-highlights.vercel.app/api/createReview`, {
           body: JSON.stringify(data),
           headers: {
             'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ const FormReview = ({res, userId, checkForReview, darkMode}:FormReviewProps) => 
 
     async function updateUserReview(data: FormDataType, id:string) {
       try {
-        await fetch(`/api/updateReview/${id}`, {
+        await fetch(`https://pizza-night-highlights.vercel.app/api/updateReview/${id}`, {
           body: JSON.stringify(data),
           headers: {
             'Content-Type': 'application/json'

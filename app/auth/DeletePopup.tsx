@@ -27,7 +27,7 @@ const DeletePopup = ({id, darkMode}:DeletePopupProps) => {
     }
     async function deleteAccount(id:string) {
         try {
-            fetch(`/api/deleteUser/${id}`, {
+            fetch(`https://pizza-night-highlights.vercel.app/api/deleteUser/${id}`, {
                 headers: {
                     'Content-Type': 'application/json'
                 },

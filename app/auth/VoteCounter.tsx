@@ -86,7 +86,7 @@ const VoteCounter = ({darkMode, userId, upVotes, downVotes, reviewId}:VoteCounte
 
     async function changeVote(id:string, data: VoteData) {
         try {
-            fetch(`/api/updateVote/${id}`, {
+            fetch(`https://pizza-night-highlights.vercel.app/api/updateVote/${id}`, {
               body: JSON.stringify(data),
               headers: {
                 'Content-Type': 'application/json'

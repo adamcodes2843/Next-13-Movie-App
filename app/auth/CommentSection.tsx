@@ -41,7 +41,7 @@ const CommentSection = ({reviewId, setShowComments, userId, comments, darkMode, 
     
     async function createUserComment(data: CommentDataType) {
         try {
-            await fetch(`/api/createComment`, {
+            await fetch(`https://pizza-night-highlights.vercel.app/api/createComment`, {
                 body: JSON.stringify(data),
                 headers: {
                     'Content-Type' : 'application/json'

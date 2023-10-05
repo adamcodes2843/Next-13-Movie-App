@@ -23,7 +23,7 @@ const DeleteItem = ({id, item, darkMode}:DeleteItemPorps) => {
 
     async function deleteItem (id:string, item:string) {
         try {
-            await fetch(`/api/deleteItem/${id}`, {
+            await fetch(`https://pizza-night-highlights.vercel.app/api/deleteItem/${id}`, {
                 body: JSON.stringify(item),
                 headers: {
                     'Content-Type': 'application/json'

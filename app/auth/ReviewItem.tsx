@@ -55,7 +55,7 @@ export default function ReviewItem({rating, movie, title, reviewText, reviewId, 
     }, [movieId])
 
     async function findCommentPreference(id:string) {
-            fetch(`/api/getCommentPreference/${id}`)
+            fetch(`https://pizza-night-highlights.vercel.app/api/getCommentPreference/${id}`)
             .then(response => {
                 if(!response.ok) {
                     throw Error('could not fetch the data for theat resource')

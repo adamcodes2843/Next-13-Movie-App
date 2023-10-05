@@ -28,7 +28,7 @@ const ColorSelection = ({showColors, id, setShowColors, setShowSaving}:ColorSele
 
   async function updateColor(id:string, data:string) {
     try{
-      await fetch(`/api/updateColorTheme/${id}`, {
+      await fetch(`https://pizza-night-highlights.vercel.app/api/updateColorTheme/${id}`, {
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json'

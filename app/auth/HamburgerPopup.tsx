@@ -91,7 +91,7 @@ const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:HamburgerInterf
 
   async function updateDarkMode(id:string, data:boolean) {
     try{
-      await fetch(`/api/darkModeSwitch/${id}`, {
+      await fetch(`https://pizza-night-highlights.vercel.app/api/darkModeSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -108,7 +108,7 @@ const HamburgerPopup = ({session, reviews, settings, dbDarkMode}:HamburgerInterf
 
   async function updateView(id:string, data:string) {
     try{
-      await fetch(`/api/viewSwitch/${id}`, {
+      await fetch(`https://pizza-night-highlights.vercel.app/api/viewSwitch/${id}`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'

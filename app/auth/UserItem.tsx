@@ -21,7 +21,7 @@ export default function UserItem({postDate, reviewUserId, movies, movie, darkMod
     }, [movieId])
 
     async function findReviewer(id:string) {
-        fetch(`/api/getReviewer/${id}`)
+        fetch(`https://pizza-night-highlights.vercel.app/api/getReviewer/${id}`)
         .then(response => {
             if(!response.ok) {
                 throw Error('could not fetch the data for that resource')
