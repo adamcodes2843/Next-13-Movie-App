@@ -40,7 +40,7 @@ Check screenshot folder
 ### Links
 
 - [Git Repo](https://github.com/adamcodes2843/Next-13-Movie-App)
-- [Live Site]()
+- [Live Site](https://pizza-night-highlights.vercel.app/)
 
 ### My process
 

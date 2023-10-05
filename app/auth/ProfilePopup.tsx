@@ -103,7 +103,7 @@ const ProfilePopup = ({session, reviews, comments, name, displayName, darkMode})
         </li>
         <li className="flex justify-between items-center hover:border-skin-base cursor-default py-1 px-2 border-l-2 border-transparent hover:bg-opacity-20 hover:bg-gray-600">
           <p>Average Rating</p>
-          <p className="text-skin-light">{reviews ? Math.round(reviews.reduce((acc:number, curr:ReviewType) => acc + curr.rating, 0) / reviews.length) : '0'}</p>
+          <p className="text-skin-light">{!reviews || reviews.length !== 0 ? Math.round(reviews.reduce((acc:number, curr:ReviewType) => acc + curr.rating, 0) / reviews.length) : '0'}</p>
         </li>
       </ul>
       </div>

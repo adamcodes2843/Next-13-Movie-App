@@ -29,7 +29,7 @@ export default async function ReviewHistory() {
           </li>
           <li className={`flex flex-col md:gap-2`}>
             <p>Average Rating</p>
-            <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user ? '0' : Math.round(averageRating / user?.reviews?.length)}</p>
+            <p className={`${user?.settings?.darkMode === false ? 'text-skin-base' : 'text-skin-light'}`}>{!user || user?.reviews?.length === 0 ? '0' : Math.round(averageRating / user?.reviews?.length)}</p>
           </li>
           <li className={`flex flex-col md:gap-2`}>
             <p>Most Upvoted</p>
