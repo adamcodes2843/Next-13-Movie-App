@@ -6,11 +6,13 @@ import Link from 'next/link'
 import { signIn, signOut } from "next-auth/react"
 import { useState, useContext } from 'react'
 import { AppContext, ContextInterface } from '../Context-Provider'
+import { useRouter } from 'next/navigation'
 import { ReviewType } from './PageTypes'
 
 const ProfilePopup = ({session, reviews, comments, name, displayName, darkMode}) => {
   const [showStats, setShowStats] = useState<boolean>(false)
   const {popup, setPopup }:ContextInterface = useContext(AppContext)
+  const router = useRouter()
 
   const karmaCounter = () => {
     if (session) {
@@ -46,6 +48,11 @@ const ProfilePopup = ({session, reviews, comments, name, displayName, darkMode})
       totalXP = reviewXP + commentXP + karmaXP
     }
     return Math.floor(totalXP / 150)
+  }
+
+  const handleSignout = () => {
+    router.push('/')
+    signOut()
   }
   
   return (
@@ -118,7 +125,7 @@ const ProfilePopup = ({session, reviews, comments, name, displayName, darkMode})
           <button type='button' onClick={() => signIn()} className={`${darkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40 p-2 my-4 text-3xl h-full text-center w-full`}>
             Sign In
           </button> :
-          <button type="button" onClick={() => signOut()} className={`${darkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40 p-2 text-left`}>
+          <button type="button" onClick={() => handleSignout()} className={`${darkMode === false ? 'hover:bg-white' : 'hover:bg-gray-600'} rounded-lg hover:bg-opacity-40 p-2 text-left`}>
           <FontAwesomeIcon icon={faRightFromBracket} className="mr-6 w-5" />Sign Out
           </button>
         }

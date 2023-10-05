@@ -37,19 +37,19 @@ const Highlights = ({reviews, darkMode, heighestRating, lowestRating, reviewed}:
               showRated === highest ?
               <div className={`w-full flex justify-center items-center text-center gap-3 mt-4 p-1 text-xl`}>
                 <p className={`text-xl`}>{reviews.length > 0 ? heighestReviews[0].movie : "No reviews"}</p>
-                <p className={`h-8 w-8 border-2 rounded-full ${darkMode === false ? 'border-skin-base' : 'border-skin-light'} `}>{reviews.length > 0 && heighestReviews[0].rating}</p>
+                <p className={`h-8 w-8 border-2 rounded-full ${reviews.length === 0 && 'hidden'} ${darkMode === false ? 'border-skin-base' : 'border-skin-light'} `}>{reviews.length > 0 && heighestReviews[0].rating}</p>
               </div>
               :
               <div className={`w-full flex justify-center items-center text-center gap-3 mt-4 p-1 text-xl`}>
                 <p className={`text-xl`}>{reviews.length > 0 ? lowestReviews[0].movie : "No reviews"}</p>
-                <p className={`h-8 w-8 border-2 rounded-full ${darkMode === false ? 'border-skin-base' : 'border-skin-light'} `}>{reviews.length > 0 && lowestReviews[0].rating}</p>
+                <p className={`h-8 w-8 border-2 rounded-full ${reviews.length === 0 && 'hidden'} ${darkMode === false ? 'border-skin-base' : 'border-skin-light'} `}>{reviews.length > 0 && lowestReviews[0].rating}</p>
               </div>
             }
               <div className="flex w-full gap-4 justify-around items-center mt-4">
-                <button type="button" onClick={() => setShowRated(showRated !== highest ? highest : off)} className={`${darkMode === false ? 'shadow hover:shadow-inner hover:shadow-black shadow-black bg-white bg-opacity-70' : 'bg-gray-600 shadow-inner hover:shadow-none bg-opacity-30'} text-center p-4 flex-grow shadow-gray-600`}>
+                <button type="button" disabled={Number.isNaN(reviews) || reviews === undefined} onClick={() => setShowRated(showRated !== highest ? highest : off)} className={`${darkMode === false ? 'shadow hover:shadow-inner hover:shadow-black shadow-black bg-white bg-opacity-70' : 'bg-gray-600 shadow-inner hover:shadow-none bg-opacity-30'} text-center p-4 flex-grow shadow-gray-600`}>
                     All Time<br />Highest Rated
                 </button>
-                <button type="button" onClick={() => setShowRated(showRated !== lowest ? lowest : off)} className={`${darkMode === false ? 'shadow hover:shadow-inner hover:shadow-black shadow-black bg-white bg-opacity-70' : 'bg-gray-600 shadow-inner hover:shadow-none bg-opacity-30'} text-center p-4 flex-grow shadow-gray-600`}>
+                <button type="button" disabled={Number.isNaN(reviews) || reviews === undefined} onClick={() => setShowRated(showRated !== lowest ? lowest : off)} className={`${darkMode === false ? 'shadow hover:shadow-inner hover:shadow-black shadow-black bg-white bg-opacity-70' : 'bg-gray-600 shadow-inner hover:shadow-none bg-opacity-30'} text-center p-4 flex-grow shadow-gray-600`}>
                     All Time<br />Lowest Rated
                 </button>
             </div>    
