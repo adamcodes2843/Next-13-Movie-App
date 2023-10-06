@@ -47,7 +47,7 @@ export default async function ReviewHistory() {
           <FontAwesomeIcon icon={faFaceMeh} className={`w-12 h-12`}/> 
           </li>
           }
-          {reviewHistory && 
+          {reviews && 
               reviewHistory.sort((a:ReviewType,b:ReviewType)=> Number(b.dateTimePosted) - Number(a.dateTimePosted)).map((review:ReviewType) => (
                   <ReviewItem
                     reviewText={review?.review}

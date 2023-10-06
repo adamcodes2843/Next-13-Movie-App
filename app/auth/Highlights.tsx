@@ -31,7 +31,7 @@ const Highlights = ({reviews, darkMode, heighestRating, lowestRating, reviewed}:
                   <div className={`h-full bg-skin-base rounded-2xl`} style={{width: reviewPercent}} />
                   <h2 className="absolute w-full text-center pb-[2px] left-0 bottom-0 mx-auto">{reviewPercent}</h2>
                 </div>
-                <h1 className="text-center">{quoteList[reviewed]}</h1>
+                <h1 className="text-center">{reviewed ? quoteList[reviewed] : 'Do You Even Pizza Night?'}</h1>
               </> 
               :
               showRated === highest ?
